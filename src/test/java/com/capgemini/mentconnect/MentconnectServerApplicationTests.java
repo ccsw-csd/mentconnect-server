@@ -1,4 +1,4 @@
-package com.capgemini.mentconnectserver;
+package com.capgemini.mentconnect;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
