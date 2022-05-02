@@ -20,8 +20,9 @@ public class RoleEntity {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private RoleTypeEnum type;
 
     public Long getId() {
         return id;
@@ -39,12 +40,12 @@ public class RoleEntity {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public RoleTypeEnum getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(RoleTypeEnum type) {
+        this.type = type;
     }
 
 

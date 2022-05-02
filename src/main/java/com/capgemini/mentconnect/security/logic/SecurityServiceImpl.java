@@ -1,18 +1,22 @@
 package com.capgemini.mentconnect.security.logic;
 
 import com.capgemini.mentconnect.config.security.JsonWebTokenUtility;
+import com.capgemini.mentconnect.role.model.RoleEntity;
+import com.capgemini.mentconnect.role.model.RoleTypeEnum;
 import com.capgemini.mentconnect.security.dto.LoginDto;
 import com.capgemini.mentconnect.security.dto.SecurityCredencialDto;
 import com.capgemini.mentconnect.security.dto.UserDetailsJWTDto;
 import com.capgemini.mentconnect.user.logic.UserService;
 import com.capgemini.mentconnect.user.model.UserEntity;
 import com.capgemini.mentconnect.userrole.logic.UserRoleService;
+import com.capgemini.mentconnect.userrole.model.UserRoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -57,9 +61,7 @@ public class SecurityServiceImpl implements SecurityService {
         userDetails.setName(user.getName());
         userDetails.setSurnames(user.getSurnames());
         userDetails.setEmail(user.getEmail());
-        userDetails.setUserType(user.getUserType());
-        userDetails.setAdmin(user.isAdmin());
-        userDetails.setRoles(userRoleService.findByUser(user.getId()).stream().map(elem -> elem.getRole().getCode()).collect(Collectors.toList()));
+        addRoles(userDetails);
 
         String accessToken = this.jsonWebTokenUtility.createJWT(userDetails, buildExpirationDate(EXPIRATION_TIME));
 
@@ -68,6 +70,15 @@ public class SecurityServiceImpl implements SecurityService {
         result.setExpireTime(EXPIRATION_TIME);
 
         return result;
+    }
+
+    private void addRoles(UserDetailsJWTDto userDetails){
+        List<UserRoleEntity> userRoles = userRoleService.findByUser(userDetails.getId());
+        userDetails.setRoles(userRoles.stream().map(elem -> elem.getRole().getCode()).collect(Collectors.toList()));
+
+        if(userDetails.getRoles().isEmpty() || userRoles.stream().anyMatch(elem -> RoleTypeEnum.EXT.equals(elem.getRole().getType()))){
+            userDetails.addRole("PAT_BACK");
+        }
     }
 
     private Date buildExpirationDate(long expirationSeconds) {

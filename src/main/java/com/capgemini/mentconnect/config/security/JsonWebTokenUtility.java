@@ -32,8 +32,6 @@ public class JsonWebTokenUtility {
 
     private static final String CLAIM_SURNAMES = "surnames";
 
-    private static final String CLAIM_IS_ADMIN = "isAdmin";
-
     private static final String CLAIM_EMAIL = "email";
 
     private static final String CLAIM_ROLES = "roleCode";
@@ -110,7 +108,6 @@ public class JsonWebTokenUtility {
         jBuilder.claim(CLAIM_USERNAME, userDetails.getUsername());
         jBuilder.claim(CLAIM_NAME, userDetails.getName());
         jBuilder.claim(CLAIM_SURNAMES, userDetails.getSurnames());
-        jBuilder.claim(CLAIM_IS_ADMIN, userDetails.isAdmin());
         jBuilder.claim(CLAIM_EMAIL, userDetails.getEmail());
     }
 
@@ -129,7 +126,6 @@ public class JsonWebTokenUtility {
         userDetails.setUsername((String) claims.get(CLAIM_USERNAME));
         userDetails.setName((String) claims.get(CLAIM_NAME));
         userDetails.setSurnames((String) claims.get(CLAIM_SURNAMES));
-        userDetails.setAdmin((Boolean) claims.get(CLAIM_IS_ADMIN));
         userDetails.setEmail((String) claims.get(CLAIM_EMAIL));
     }
 

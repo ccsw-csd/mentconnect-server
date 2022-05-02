@@ -32,12 +32,6 @@ public class UserEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "user_type", nullable = false)
-    private String userType;
-
-    @Column(name = "is_admin", nullable = false)
-    private Boolean admin;
-
     public Long getId() {
         return id;
     }
@@ -84,21 +78,5 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public Boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
     }
 }
