@@ -9,4 +9,5 @@ CREATE TABLE user (
   CONSTRAINT uc_username UNIQUE (username)
 );
 
-INSERT INTO user (username, password, name, surnames, email) VALUES ('admin', MD5('admin'), 'Admin', 'MentConnect', 'admin@mentconnect.com');
+INSERT INTO user (username, password, name, surnames, email) VALUES ('admin', MD5('pass'), 'Admin', 'MentConnect', 'admin@mentconnect.com');
+INSERT INTO user (username, password, name, surnames, email) VALUES ('staff', MD5('pass'), 'Staff', 'MentConnect', 'stuff@mentconnect.com');
