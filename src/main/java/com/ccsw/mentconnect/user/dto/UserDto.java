@@ -18,10 +18,6 @@ public class UserDto {
 
     private String email;
 
-    private String userType;
-
-    private Boolean admin;
-
     public Long getId() {
         return id;
     }
@@ -60,21 +56,5 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public Boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
     }
 }
