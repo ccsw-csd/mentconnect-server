@@ -47,5 +47,35 @@ public class UserController {
 
         return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
     }
+   
+   /* @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/save", method = RequestMethod.POST)
+    public void save (@RequestBody UserDto dto){
+    	this.userService.save(dto);
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/update{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable("id") Long id, @RequestBody UserDto dto) {
+    	this.userService.update(id, dto);
+    }*/
+/* 
+    @RequestMapping(path ="/find", method = RequestMethod.POST)
+    public Page<UserDto> find(@RequestParam(value="id", required = false)Long id, @RequestParam(value="name",required = false) String name,
+    @RequestParam(value="username", required = false) String username, @RequestParam(value="surnames", required = false)String surnames,
+    @RequestParam(value="email", required = false) String email, @RequestBody UserSearchDto dto){
+	
+    	Page<UserEntity> response = userService.find(id, username, surnames, email);
+        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
+    	
+    }*/
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/findFilterPage", method = RequestMethod.POST)
+    public Page<UserDto> findFilterPage(@RequestBody UserSearchDto dto) {
 
+        Page<UserEntity> response = userService.findFilterPage(dto);
+
+        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
+    }
 }

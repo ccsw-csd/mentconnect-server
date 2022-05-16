@@ -12,6 +12,12 @@ import javax.persistence.*;
 @Table(name = "user")
 public class UserEntity {
 
+	public static final String ATT_ID = "id";
+	public static final String ATT_NAME = "name";
+	public static final String ATT_SURNAMES = "surnames";
+	public static final String ATT_USERNAME = "username";
+	public static final String ATT_EMAIL = "email";
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
