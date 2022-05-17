@@ -30,10 +30,6 @@ public class UserDetailsJWTDto implements UserDetails {
 
     private String email;
 
-    private String userType;
-
-    private boolean isAdmin;
-
     /**
      * @return id
      */
@@ -158,22 +154,6 @@ public class UserDetailsJWTDto implements UserDetails {
     }
 
     /**
-     * @return isAdmin
-     */
-    public boolean isAdmin() {
-
-      return this.isAdmin;
-    }
-
-    /**
-     * @param isAdmin new value of {@link #isAdmin}.
-     */
-    public void setAdmin(boolean isAdmin) {
-
-      this.isAdmin = isAdmin;
-    }
-
-    /**
      * @return name
      */
     public String getName() {
@@ -227,19 +207,5 @@ public class UserDetailsJWTDto implements UserDetails {
     public void addRole(String role) {
 
       this.roles.add(role);
-    }
-
-    /**
-     * @return userType
-     */
-    public String getUserType() {
-      return userType;
-    }
-
-    /**
-     * @param userType new value of {@link #getName}.
-     */
-    public void setUserType(String userType) {
-      this.userType = userType;
     }
 }
