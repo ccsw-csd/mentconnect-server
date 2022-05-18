@@ -1,19 +1,24 @@
 package com.ccsw.mentconnect.user.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserService;
 import com.ccsw.mentconnect.user.model.UserEntity;
+
 import ma.glasnost.orika.MapperFacade;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 @RequestMapping(value = "/user")
 @RestController
@@ -45,37 +50,47 @@ public class UserController {
 
         Page<UserEntity> response = userService.findPage(dto);
 
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
+        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(),
+                response.getTotalElements());
     }
-   
-   /* @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/save", method = RequestMethod.POST)
-    public void save (@RequestBody UserDto dto){
-    	this.userService.save(dto);
-    }
-    
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/update{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable("id") Long id, @RequestBody UserDto dto) {
-    	this.userService.update(id, dto);
-    }*/
-/* 
-    @RequestMapping(path ="/find", method = RequestMethod.POST)
-    public Page<UserDto> find(@RequestParam(value="id", required = false)Long id, @RequestParam(value="name",required = false) String name,
-    @RequestParam(value="username", required = false) String username, @RequestParam(value="surnames", required = false)String surnames,
-    @RequestParam(value="email", required = false) String email, @RequestBody UserSearchDto dto){
-	
-    	Page<UserEntity> response = userService.find(id, username, surnames, email);
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
-    	
-    }*/
-    
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/findFilterPage", method = RequestMethod.POST)
-    public Page<UserDto> findFilterPage(@RequestBody UserSearchDto dto) {
 
-        Page<UserEntity> response = userService.findFilterPage(dto);
+    /*
+     * @PreAuthorize("hasAuthority('ADMIN')")
+     * 
+     * @RequestMapping(path = "/save", method = RequestMethod.POST) public void save
+     * (@RequestBody UserDto dto){ this.userService.save(dto); }
+     * 
+     * @PreAuthorize("hasAuthority('ADMIN')")
+     * 
+     * @RequestMapping(path = "/update{id}", method = RequestMethod.PUT) public void
+     * update(@PathVariable("id") Long id, @RequestBody UserDto dto) {
+     * this.userService.update(id, dto); }
+     */
+    /*
+     * @RequestMapping(path ="/find", method = RequestMethod.POST) public
+     * Page<UserDto> find(@RequestParam(value="id", required = false)Long
+     * id, @RequestParam(value="name",required = false) String name,
+     * 
+     * @RequestParam(value="username", required = false) String
+     * username, @RequestParam(value="surnames", required = false)String surnames,
+     * 
+     * @RequestParam(value="email", required = false) String email, @RequestBody
+     * UserSearchDto dto){
+     * 
+     * Page<UserEntity> response = userService.find(id, username, surnames, email);
+     * return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(),
+     * UserDto.class), response.getPageable(), response.getTotalElements());
+     * 
+     * }
+     */
 
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
-    }
+    // @PreAuthorize("hasAuthority('ADMIN')")
+    // @RequestMapping(path = "/findFilterPage", method = RequestMethod.POST)
+    // public Page<UserDto> findFilterPage(@RequestBody UserSearchDto dto) {
+
+    // Page<UserEntity> response = userService.findFilterPage(dto);
+
+    // return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(),
+    // UserDto.class), response.getPageable(), response.getTotalElements());
+    // }
 }

@@ -1,6 +1,11 @@
 package com.ccsw.mentconnect.user.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author amirzoya
@@ -12,16 +17,16 @@ import javax.persistence.*;
 @Table(name = "user")
 public class UserEntity {
 
-	public static final String ATT_ID = "id";
-	public static final String ATT_NAME = "name";
-	public static final String ATT_SURNAMES = "surnames";
-	public static final String ATT_USERNAME = "username";
-	public static final String ATT_EMAIL = "email";
-	
+    public static final String ATT_ID = "id";
+    public static final String ATT_NAME = "name";
+    public static final String ATT_SURNAMES = "surnames";
+    public static final String ATT_USERNAME = "username";
+    public static final String ATT_EMAIL = "email";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    public Long id;
 
     @Column(name = "username", nullable = false)
     private String username;
