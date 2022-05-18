@@ -17,5 +17,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     @Override
     List<UserEntity> findAll();
+    
+    boolean existsByUsername(String username);
 
 }

@@ -1,5 +1,6 @@
 package com.ccsw.mentconnect.user.controller;
 
+import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
@@ -46,6 +47,20 @@ public class UserController {
         Page<UserEntity> response = userService.findPage(dto);
 
         return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException{
+      
+      return this.mapperFacade.map(userService.saveUser(userDto), UserDto.class);
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "", method = RequestMethod.PUT)
+    public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException{
+      
+      return this.mapperFacade.map(userService.modifyUser(userDto), UserDto.class);
     }
 
 }
