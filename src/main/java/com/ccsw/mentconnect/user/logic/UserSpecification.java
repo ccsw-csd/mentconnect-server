@@ -27,16 +27,9 @@ public class UserSpecification implements Specification<UserEntity> {
 
         if (criteria.getOperation().equalsIgnoreCase("==")) {
             return builder.equal(root.<String>get(criteria.getFilterKey()), criteria.getDatos().toString());
-        } // else if (criteria.getOperation().equalsIgnoreCase(":")) {
-          // return builder.equal(root.get(criteria.getFilterKey()).as(String.class),
-          // (String) criteria.getDatos());
-
-        else if (criteria.getOperation().equalsIgnoreCase(":")) {
+        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
             return builder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
                     (Integer) criteria.getDatos());
-
-            // return builder.like(root.get(UserEntity.ATT_ID).as(String.class), "%" +
-            // criteria.getFilterKey() + "%");
 
         }
 

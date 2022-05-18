@@ -70,37 +70,4 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    // @Override
-    // public Page<UserEntity> findFilterPage(UserSearchDto dto) {
-    // return this.validate(dto);
-    // }
-    /*
-     * @Override public void save(UserDto dto) {
-     * 
-     * user = new UserEntity(); user.setUsername(dto.getUsername());
-     * user.setName(dto.getName()); user.setSurnames(dto.getSurnames());
-     * user.setEmail(dto.getEmail());
-     * 
-     * 
-     * this.userRepository.save(user);
-     * 
-     * }/*
-     * 
-     * /*@Override public void update(Long id, UserDto dto) {
-     * 
-     * user.getId(); user.setName(dto.getName());
-     * user.setSurnames(dto.getSurnames()); user.setEmail(dto.getEmail());
-     * 
-     * this.userRepository.save(user);
-     * 
-     * }
-     */
-
-    /*
-     * @Override public Page<UserEntity> find(Long id, String name, String surnames,
-     * String email) {
-     * 
-     * return this.userRepository.find(id, name, surnames, email); }
-     */
-
 }

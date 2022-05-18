@@ -24,10 +24,5 @@ public interface UserService {
     List<UserEntity> findAll();
 
     Page<UserEntity> findPage(UserSearchDto dto);
-    // Page<UserEntity> findFilterPage(UserSearchDto dto);
-
-    // void save (UserDto dto);
-
-    // void update (Long id, UserDto dto);
 
 }
