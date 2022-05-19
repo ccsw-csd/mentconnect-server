@@ -22,6 +22,62 @@ public class UserSpecification implements Specification<UserEntity> {
         this.criteria = searchCriteria;
     }
 
+    public static Specification<UserEntity> searchName(String name) {
+        if (name == null) {
+            return null;
+
+        } else {
+            return (root, query, cb) -> {
+                return cb.like(root.get(UserEntity.ATT_NAME), "%" + name + "%");
+            };
+        }
+    }
+
+    public static Specification<UserEntity> searchId(Long id) {
+        if (id == null) {
+            return null;
+
+        } else {
+            return (root, query, cb) -> {
+                return cb.equal(root.get(UserEntity.ATT_ID), id);
+            };
+        }
+    }
+
+    public static Specification<UserEntity> searchSurnames(String surnames) {
+        if (surnames == null) {
+            return null;
+
+        } else {
+            return (root, query, cb) -> {
+                return cb.like(root.get(UserEntity.ATT_SURNAMES), "%" + surnames + "%");
+            };
+        }
+    }
+
+    public static Specification<UserEntity> searchUsername(String username) {
+        if (username == null) {
+            return null;
+
+        } else {
+            return (root, query, cb) -> {
+                return cb.like(root.get(UserEntity.ATT_USERNAME), "%" + username + "%");
+            };
+        }
+    }
+
+    public static Specification<UserEntity> searchEmail(String email) {
+        if (email == null) {
+            return null;
+
+        } else {
+            return (root, query, cb) -> {
+                return cb.like(root.get(UserEntity.ATT_SURNAMES), "%" + email + "%");
+            };
+
+        }
+    }
+
     @Override
     public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 

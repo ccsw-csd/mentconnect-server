@@ -11,6 +11,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  *
  *         Repositorio que accede a la información de la tabla user en base de
  *         datos
+ * @param <UserDto>
  *
  */
 public interface UserRepository
@@ -18,13 +19,6 @@ public interface UserRepository
 
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);
 
-    // public Page<User> findAll(Specification<User> spec, Pageable pageable);
-    @Override
-    // public List<UserEntity> findAll(Specification<UserEntity> spec);
-
     List<UserEntity> findAll();
-
-    // void S(UserEntity dto);
-    // void update(Long id, UserEntity dto);
 
 }

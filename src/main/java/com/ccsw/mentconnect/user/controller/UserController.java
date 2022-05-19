@@ -50,8 +50,7 @@ public class UserController {
 
         Page<UserEntity> response = userService.findPage(dto);
 
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(),
-                response.getTotalElements());
+        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class));
     }
 
 }
