@@ -4,16 +4,16 @@ import java.util.Date;
 
 import com.ccsw.mentconnect.user.dto.UserDto;
 
-public class QuestionaryDto {
+public class QuestionnaireDto {
 	
 	private Long id;
 	
 	private String description;
 	
 	//preguntar
-	private int Nquestions;
+	private Integer questionsNumber;
 	//preguntar
-	private int Npatients;
+	private Integer patientsNumber;
 	
 	private UserDto user;
 	
@@ -37,20 +37,20 @@ public class QuestionaryDto {
 		this.description = description;
 	}
 
-	public int getNquestions() {
-		return Nquestions;
+	public Integer getQuestionsNumber() {
+		return questionsNumber;
 	}
 
-	public void setNquestions(int nquestions) {
-		Nquestions = nquestions;
+	public void setQuestionsNumber(Integer questionsNumber) {
+		this.questionsNumber = questionsNumber;
 	}
 
-	public int getNpatients() {
-		return Npatients;
+	public Integer getPatientsNumber() {
+		return patientsNumber;
 	}
 
-	public void setNpatients(int npatients) {
-		Npatients = npatients;
+	public void setPatientsNumber(Integer patientsNumber) {
+		this.patientsNumber = patientsNumber;
 	}
 
 	public UserDto getUser() {
@@ -77,8 +77,5 @@ public class QuestionaryDto {
 		this.lastEditDate = lastEditDate;
 	}
 
-	
-	
-	
 
 }

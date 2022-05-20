@@ -12,10 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
-@Table(name = "questionary")
-public class QuestionaryEntity {
+@Table(name = "questionnaire")
+public class QuestionnaireEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,20 +28,20 @@ public class QuestionaryEntity {
 
 	// preguntar
 	@Column(name = "questions", nullable = false)
-	private int Nquestions;
+	private Integer questionsNumber;
 	
 	// preguntar
 	@Column(name = "patients", nullable = false)
-	private int Npatients;
+	private Integer patientsNumber;
 
 	@ManyToOne
-	@JoinColumn(name = "username")
-	private UserDto user;
+	@JoinColumn(name = "user_id")
+	private UserEntity user;
 
-	@Column(name = "createDate", nullable = false)
+	@Column(name = "create_date", nullable = false)
 	private Date createDate;
 
-	@Column(name = "lastEditDate", nullable = false)
+	@Column(name = "last_edit_date", nullable = false)
 	private Date lastEditDate;
 
 	public Long getId() {
@@ -59,27 +60,27 @@ public class QuestionaryEntity {
 		this.description = description;
 	}
 
-	public int getNquestions() {
-		return Nquestions;
+	public Integer getQuestionsNumber() {
+		return questionsNumber;
 	}
 
-	public void setNquestions(int nquestions) {
-		Nquestions = nquestions;
+	public void setQuestionsNumber(Integer questionsNumber) {
+		this.questionsNumber = questionsNumber;
 	}
 
-	public int getNpatients() {
-		return Npatients;
+	public Integer getPatientsNumber() {
+		return patientsNumber;
 	}
 
-	public void setNpatients(int npatients) {
-		Npatients = npatients;
+	public void setPatientsNumber(Integer patientsNumber) {
+		this.patientsNumber = patientsNumber;
 	}
 
-	public UserDto getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
-	public void setUser(UserDto user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 
@@ -98,7 +99,6 @@ public class QuestionaryEntity {
 	public void setLastEditDate(Date lastEditDate) {
 		this.lastEditDate = lastEditDate;
 	}
-	
-	
+
 
 }
