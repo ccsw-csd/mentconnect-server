@@ -1,20 +1,26 @@
 package com.ccsw.mentconnect.user.controller;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserService;
 import com.ccsw.mentconnect.user.model.UserEntity;
+
 import ma.glasnost.orika.MapperFacade;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 @RequestMapping(value = "/user")
 @RestController
@@ -46,7 +52,8 @@ public class UserController {
 
         Page<UserEntity> response = userService.findPage(dto);
 
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(), response.getTotalElements());
+        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(),
+                response.getTotalElements());
     }
     
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -62,5 +69,8 @@ public class UserController {
       
       return this.mapperFacade.map(userService.modifyUser(userDto), UserDto.class);
     }
+    
+    
+    
 
 }

@@ -1,14 +1,15 @@
 package com.ccsw.mentconnect.user.logic;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
-import org.springframework.data.domain.Page;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * @author amirzoya
