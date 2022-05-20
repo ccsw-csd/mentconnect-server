@@ -62,8 +62,7 @@ public class UserServiceImpl implements UserService {
         UserSpecification surnameEqual = new UserSpecification(
                 new SearchCriteria(UserEntity.ATT_SURNAMES, "==", dto.getSurnames()));
 
-        users = userRepository.findAll(
-                Specification.where(idEqual).or(surnameEqual).or(emailEqual).or(nameEqual).or(usernameEqual),
+        users = userRepository.findAll(Specification.where(idEqual).and(surnameEqual).and(emailEqual).and(nameEqual),
                 dto.getPageable());
 
         return users;
