@@ -26,12 +26,6 @@ public class UserIT extends BaseITAbstract {
 
     public static final String SERVICE_PATH = "/user/";
     public static final int TOTAL_USER = 2;
-    public static final String PARAM_ID = "id";
-    public static final String PARAM_NAME = "name";
-    public static final String PARAM_SURNAME = "surnames";
-    public static final int TOTAL_USERS = 4;
-    public static final String PARAM_USERNAME = "username";
-    public static final String PARAM_EMAIL = "email";
     public static final String NOT_EXISTS_USERNAME_USER = "jopepe";
     public static final String EXISTS_USERNAME_USER = "admin";
     public static final Long EXISTS_ID_USER = 1L;
