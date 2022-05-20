@@ -22,5 +22,7 @@ public interface UserRepository
 //    Page<UserDto> findPage(Pageable pageable);
 
     List<UserEntity> findAll();
+    
+    boolean existsByUsername(String username);
 
 }

@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
+import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
+import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 /**
@@ -23,5 +25,10 @@ public interface UserService {
     List<UserEntity> findAll();
 
     Page<UserEntity> findPage(UserSearchDto dto);
+    
+    UserEntity saveUser (UserDto userDto) throws AlreadyExistsException;
+
+    UserEntity modifyUser(UserDto userDto) throws EntityNotFoundException;
+
 
 }

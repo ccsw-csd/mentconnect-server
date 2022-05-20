@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.user.dto.UserDto;
@@ -46,6 +47,20 @@ public class UserController {
     public Page<UserDto> findPage(@RequestBody UserSearchDto dto) {
 
         return this.beanMapper.mapPage(userService.findPage(dto), UserDto.class);
+    }
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException{
+
+      return this.beanMapper.map(userService.saveUser(userDto), UserDto.class);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "", method = RequestMethod.PUT)
+    public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException{
+
+      return this.beanMapper.map(userService.modifyUser(userDto), UserDto.class);
     }
 
 }
