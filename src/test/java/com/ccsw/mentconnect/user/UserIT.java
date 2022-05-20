@@ -67,6 +67,7 @@ public class UserIT extends BaseITAbstract {
                 HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
+
         assertEquals(1, response.getBody().getContent().size());
     }
 
