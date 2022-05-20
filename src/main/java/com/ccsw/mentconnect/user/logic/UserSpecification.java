@@ -80,7 +80,6 @@ public class UserSpecification implements Specification<UserEntity> {
 
     @Override
     public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
         if (criteria.getOperation().equalsIgnoreCase("==")) {
             return builder.equal(root.<String>get(criteria.getFilterKey()), criteria.getDatos().toString());
         } else if (criteria.getOperation().equalsIgnoreCase(":")) {
@@ -88,7 +87,23 @@ public class UserSpecification implements Specification<UserEntity> {
                     (Integer) criteria.getDatos());
 
         }
-
         return null;
     }
+
+    // @Override
+    // public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query,
+    // CriteriaBuilder builder) {
+
+    // if (criteria.getOperation().equalsIgnoreCase("==")) {
+    // return builder.equal(root.<String>get(criteria.getFilterKey()),
+    // criteria.getDatos().toString());
+    // } else if (criteria.getOperation().equalsIgnoreCase(":")) {
+    // return
+    // builder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
+    // (Integer) criteria.getDatos());
+
+    // }
+
+    // return null;
+    // }
 }

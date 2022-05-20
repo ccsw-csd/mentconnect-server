@@ -1,12 +1,8 @@
-package com.ccsw.mentconnect.user.dto;
+package com.ccsw.mentconnect.user.logic;
 
-/**
- * @author amirzoya
- *
- *         Clase DTO de la entidad UserEntity
- *
- */
-public class UserDto {
+import org.springframework.data.domain.Pageable;
+
+public class UserSearchDto {
 
     private Long id;
 
@@ -18,8 +14,14 @@ public class UserDto {
 
     private String email;
 
-    public UserDto() {
-        super();
+    private Pageable pageable;
+
+    public Pageable getPageable() {
+        return pageable;
+    }
+
+    public void setPageable(Pageable pageable) {
+        this.pageable = pageable;
     }
 
     public Long getId() {

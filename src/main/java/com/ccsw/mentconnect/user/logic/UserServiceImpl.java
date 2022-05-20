@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
 

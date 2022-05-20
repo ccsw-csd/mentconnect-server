@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 /**
