@@ -18,9 +18,9 @@ import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserService;
-import com.ccsw.mentconnect.user.model.UserEntity;
 
-import ma.glasnost.orika.MapperFacade;
+import com.ccsw.mentconnect.user.model.UserEntity;
+import com.devonfw.module.beanmapping.common.api.BeanMapper;
 
 @RequestMapping(value = "/user")
 @RestController
@@ -30,20 +30,20 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private MapperFacade mapperFacade;
+    BeanMapper beanMapper;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public UserDto get(@PathVariable Long id) throws EntityNotFoundException {
 
-        return this.mapperFacade.map(userService.get(id), UserDto.class);
+        return this.beanMapper.map(userService.get(id), UserDto.class);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<UserDto> findAll() {
 
-        return this.mapperFacade.mapAsList(userService.findAll(), UserDto.class);
+        return this.beanMapper.mapList(userService.findAll(), UserDto.class);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -52,7 +52,7 @@ public class UserController {
 
         Page<UserEntity> response = userService.findPage(dto);
 
-        return new PageImpl<>(this.mapperFacade.mapAsList(response.getContent(), UserDto.class), response.getPageable(),
+        return new PageImpl<>(this.beanMapper.mapList(response.getContent(), UserDto.class), response.getPageable(),
                 response.getTotalElements());
     }
     
@@ -60,14 +60,14 @@ public class UserController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException{
       
-      return this.mapperFacade.map(userService.saveUser(userDto), UserDto.class);
+      return this.beanMapper.map(userService.saveUser(userDto), UserDto.class);
     }
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.PUT)
     public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException{
       
-      return this.mapperFacade.map(userService.modifyUser(userDto), UserDto.class);
+      return this.beanMapper.map(userService.modifyUser(userDto), UserDto.class);
     }
     
     
