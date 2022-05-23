@@ -30,6 +30,16 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.devonfw.java.modules</groupId>
+			<artifactId>devon4j-beanmapping-orika</artifactId>
+			<version>2021.04.003</version>
+		</dependency>
+		<dependency>
+			<groupId>com.devonfw.java.modules</groupId>
+			<artifactId>devon4j-rest</artifactId>
+			<version>2021.04.003</version>
+		</dependency>
+		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 			<version>7.15.0</version>
@@ -53,11 +63,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
-			<version>1.5.4</version>
 		</dependency>
 	</dependencies>
 

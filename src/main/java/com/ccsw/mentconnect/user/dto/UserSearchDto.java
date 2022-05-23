@@ -1,6 +1,6 @@
 package com.ccsw.mentconnect.user.dto;
 
-import com.ccsw.mentconnect.common.pagination.PagingAndSorting;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author amirzoya
@@ -8,6 +8,15 @@ import com.ccsw.mentconnect.common.pagination.PagingAndSorting;
  *         Clase DTO de busqueda paginada de la entidad UserEntity
  *
  */
-public class UserSearchDto extends PagingAndSorting {
+public class UserSearchDto {
 
+    Pageable pageable;
+
+    public Pageable getPageable() {
+        return pageable;
+    }
+
+    public void setPageable(Pageable pageable) {
+        this.pageable = pageable;
+    }
 }
