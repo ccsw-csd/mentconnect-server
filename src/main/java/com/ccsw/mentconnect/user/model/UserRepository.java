@@ -1,26 +1,21 @@
 package com.ccsw.mentconnect.user.model;
 
+import org.springframework.data.repository.PagingAndSortingRepository;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * @author amirzoya
  *
- *         Repositorio que accede a la información de la tabla user en base de
- *         datos
- * @param <UserDto>
+ *         Repositorio que accede a la información de la tabla user en base de datos
  *
  */
-public interface UserRepository
-        extends PagingAndSortingRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
+public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);
 
-//    Page<UserDto> findPage(Pageable pageable);
-
+    @Override
     List<UserEntity> findAll();
     
     boolean existsByUsername(String username);
