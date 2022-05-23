@@ -1,8 +1,10 @@
 package com.ccsw.mentconnect.user;
 
-import com.ccsw.mentconnect.config.BaseITAbstract;
-import com.ccsw.mentconnect.user.dto.UserDto;
-import com.ccsw.mentconnect.user.dto.UserSearchDto;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,10 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.ccsw.mentconnect.config.BaseITAbstract;
+import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserSearchDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -31,12 +32,13 @@ public class UserIT extends BaseITAbstract {
     public static final Long EXISTS_ID_USER = 1L;
     public static final Long NOT_EXISTS_ID_USER = 0L;
 
-    ParameterizedTypeReference<List<UserDto>> responseTypeList = new ParameterizedTypeReference<List<UserDto>>(){};
+    ParameterizedTypeReference<List<UserDto>> responseTypeList = new ParameterizedTypeReference<List<UserDto>>() {
+    };
 
     ParameterizedTypeReference<Page<UserDto>> responseTypePage = new ParameterizedTypeReference<Page<UserDto>>() {
     };
-    
-    ParameterizedTypeReference<UserDto> responseType = new ParameterizedTypeReference<UserDto>(){
+
+    ParameterizedTypeReference<UserDto> responseType = new ParameterizedTypeReference<UserDto>() {
     };
 
     @Test
@@ -44,7 +46,8 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
 
-        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
+        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
+                HttpMethod.GET, httpEntity, responseTypeList);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER, response.getBody().size());
@@ -58,83 +61,92 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER, response.getBody().getContent().size());
     }
-    
+
     public void existsUsernameWhenSaveUserThrowException() {
 
-      UserDto dto = new UserDto();
-      dto.setUsername(EXISTS_USERNAME_USER);
-      dto.setName("");
-      dto.setSurnames("");
-      dto.setEmail("");
-      
-      HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+        UserDto dto = new UserDto();
+        dto.setUsername(EXISTS_USERNAME_USER);
+        dto.setName("");
+        dto.setSurnames("");
+        dto.setEmail("");
 
-      ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, responseType);
-      assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-      
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
+                responseType);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+
     }
-    
+
     @Test
     public void notExistsUsernameWhenSaveUser() {
 
-      int newUserSize = TOTAL_USER + 1;
-      HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+        int newUserSize = TOTAL_USER + 1;
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
 
-      UserDto dto = new UserDto();
-      dto.setUsername(NOT_EXISTS_USERNAME_USER);
-      dto.setName("");
-      dto.setSurnames("");
-      dto.setEmail("");
+        UserDto dto = new UserDto();
+        dto.setUsername(NOT_EXISTS_USERNAME_USER);
+        dto.setName("");
+        dto.setSurnames("");
+        dto.setEmail("");
 
-      ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(dto, getHeaders()), responseType);
-      assertEquals(dto.getUsername(), response.getBody().getUsername());
+        ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST,
+                new HttpEntity<>(dto, getHeaders()), responseType);
+        assertEquals(dto.getUsername(), response.getBody().getUsername());
 
-      ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
-      assertEquals(newUserSize, responseList.getBody().size());
+        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
+                HttpMethod.GET, httpEntity, responseTypeList);
+        assertEquals(newUserSize, responseList.getBody().size());
 
-      UserDto userDto = responseList.getBody().stream().filter(item -> item.getUsername().equals(NOT_EXISTS_USERNAME_USER)).findFirst().orElse(null);
-      assertNotNull(userDto);
-      assertEquals(userDto.getId(), response.getBody().getId());
+        UserDto userDto = responseList.getBody().stream()
+                .filter(item -> item.getUsername().equals(NOT_EXISTS_USERNAME_USER)).findFirst().orElse(null);
+        assertNotNull(userDto);
+        assertEquals(userDto.getId(), response.getBody().getId());
 
     }
 
     @Test
     public void modifyUserWhenNotExistIdThrowException() {
 
-      UserDto dto = new UserDto();
-      dto.setId(NOT_EXISTS_ID_USER);
-      HttpEntity<?> httpEntity = new HttpEntity<>(dto,getHeaders());
+        UserDto dto = new UserDto();
+        dto.setId(NOT_EXISTS_ID_USER);
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-      ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, responseType);
-      assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity,
+                responseType);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
     }
 
     @Test
     public void modifyUserWhenExistId() {
 
-      UserDto dto = new UserDto();
-      dto.setId(EXISTS_ID_USER);
-      dto.setName("Jopepe");
-      dto.setSurnames("");
-      dto.setEmail("");
-      HttpEntity<?> httpEntity = new HttpEntity<>(dto,getHeaders());
+        UserDto dto = new UserDto();
+        dto.setId(EXISTS_ID_USER);
+        dto.setName("Jopepe");
+        dto.setSurnames("");
+        dto.setEmail("");
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-      ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, responseType);
-      assertNotNull(response.getBody());
+        ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT,
+                httpEntity, responseType);
+        assertNotNull(response.getBody());
 
-      ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
-      assertEquals(TOTAL_USER, responseList.getBody().size());
+        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
+                HttpMethod.GET, httpEntity, responseTypeList);
+        assertEquals(TOTAL_USER, responseList.getBody().size());
 
-      UserDto userDto = responseList.getBody().stream().filter(item -> item.getId().equals(EXISTS_ID_USER)).findFirst().orElse(null);
-      assertNotNull(userDto);
-      assertEquals(response.getBody().getName(), userDto.getName());
+        UserDto userDto = responseList.getBody().stream().filter(item -> item.getId().equals(EXISTS_ID_USER))
+                .findFirst().orElse(null);
+        assertNotNull(userDto);
+        assertEquals(response.getBody().getName(), userDto.getName());
 
     }
-    
+
 }

@@ -12,18 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
-
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping(value = "/user")
 @RestController
@@ -55,19 +48,19 @@ public class UserController {
 
         return this.beanMapper.mapPage(userService.findPage(dto), UserDto.class);
     }
-    
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException{
+    public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException {
 
-      return this.beanMapper.map(userService.saveUser(userDto), UserDto.class);
+        return this.beanMapper.map(userService.saveUser(userDto), UserDto.class);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.PUT)
-    public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException{
+    public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException {
 
-      return this.beanMapper.map(userService.modifyUser(userDto), UserDto.class);
+        return this.beanMapper.map(userService.modifyUser(userDto), UserDto.class);
     }
 
 }

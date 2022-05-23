@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class RandomPassword {
 
-  @Value("${user.password.length}")
-  private static int length;
+    @Value("${user.password.length}")
+    private static int length;
 
-  public static String generatePasswordSha256() {
+    public static String generatePasswordSha256() {
 
-    final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    return org.apache.commons.codec.digest.DigestUtils.sha256Hex(RandomStringUtils.random(length, chars));
-  }
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return org.apache.commons.codec.digest.DigestUtils.sha256Hex(RandomStringUtils.random(length, chars));
+    }
 }
