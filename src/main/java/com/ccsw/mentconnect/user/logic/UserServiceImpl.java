@@ -72,9 +72,8 @@ public class UserServiceImpl implements UserService {
         String password = this.generatePassword();
         System.out.println("Contraseña generada: " + password); // TODO borrar cuando se envie el email.
         userEntity.setPassword(this.encryptSha256(password));
-        this.userRepository.save(userEntity);
 
-        return userEntity;
+        return this.userRepository.save(userEntity);
     }
 
     @Override
