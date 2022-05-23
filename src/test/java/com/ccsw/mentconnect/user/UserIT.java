@@ -26,7 +26,7 @@ public class UserIT extends BaseITAbstract {
 
     public static final String SERVICE_PATH = "/user/";
 
-    public static final int TOTAL_USER = 2;
+    public static final Integer TOTAL_USER = 2;
     public static final String NOT_EXISTS_USERNAME_USER = "jopepe";
     public static final String EXISTS_USERNAME_USER = "admin";
     public static final Long EXISTS_ID_USER = 1L;
@@ -68,6 +68,7 @@ public class UserIT extends BaseITAbstract {
         assertEquals(TOTAL_USER, response.getBody().getContent().size());
     }
 
+    @Test
     public void saveWithExistsUsernameShouldThrowException() {
 
         UserDto dto = new UserDto();
@@ -87,7 +88,7 @@ public class UserIT extends BaseITAbstract {
     @Test
     public void saveWithNotExistsUsernameShouldCreateNewUser() {
 
-        int newUserSize = TOTAL_USER + 1;
+        Integer newUserSize = TOTAL_USER + 1;
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
 
         UserDto dto = new UserDto();
@@ -129,7 +130,7 @@ public class UserIT extends BaseITAbstract {
 
         UserDto dto = new UserDto();
         dto.setId(EXISTS_ID_USER);
-        dto.setName("Jopepe");
+        dto.setName(NOT_EXISTS_USERNAME_USER);
         dto.setSurnames("");
         dto.setEmail("");
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());

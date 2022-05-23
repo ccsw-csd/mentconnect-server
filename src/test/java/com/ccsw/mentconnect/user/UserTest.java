@@ -16,6 +16,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
@@ -33,6 +34,8 @@ public class UserTest {
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
 
+    public static final String chars = "ABCDEFGHT";
+
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
@@ -47,7 +50,8 @@ public class UserTest {
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
         this.userDto.setSurnames("admin@meentconnect.com");
-
+        ReflectionTestUtils.setField(userServiceImpl, "length", 4);
+        ReflectionTestUtils.setField(userServiceImpl, "chars", chars);
     }
 
     @Test
