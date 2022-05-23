@@ -68,7 +68,7 @@ public class UserIT extends BaseITAbstract {
         assertEquals(TOTAL_USER, response.getBody().getContent().size());
     }
 
-    public void existsUsernameWhenSaveUserThrowException() {
+    public void saveWithExistsUsernameShouldThrowException() {
 
         UserDto dto = new UserDto();
         dto.setUsername(EXISTS_USERNAME_USER);
@@ -85,7 +85,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void notExistsUsernameWhenSaveUser() {
+    public void saveWithNotExistsUsernameShouldCreateNewUser() {
 
         int newUserSize = TOTAL_USER + 1;
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
@@ -112,7 +112,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void modifyUserWhenNotExistIdThrowException() {
+    public void modifyWithNotExistIdShouldThrowException() {
 
         UserDto dto = new UserDto();
         dto.setId(NOT_EXISTS_ID_USER);
@@ -125,7 +125,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void modifyUserWhenExistId() {
+    public void modifyWithExistIdShouldModifyUser() {
 
         UserDto dto = new UserDto();
         dto.setId(EXISTS_ID_USER);

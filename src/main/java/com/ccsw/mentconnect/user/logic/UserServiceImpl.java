@@ -54,12 +54,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity saveUser(UserDto userDto) throws AlreadyExistsException {
-        UserEntity userEntity = new UserEntity();
 
         if (this.userRepository.existsByUsername(userDto.getUsername())) {
             throw new AlreadyExistsException();
         }
 
+        UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userDto, userEntity);
         userEntity.setPassword(RandomPassword.generatePasswordSha256());
         this.userRepository.save(userEntity);
@@ -79,9 +79,8 @@ public class UserServiceImpl implements UserService {
         updateUser.setSurnames(userDto.getSurnames());
         updateUser.setEmail(userDto.getEmail());
 
-        this.userRepository.save(updateUser);
+        return this.userRepository.save(updateUser);
 
-        return updateUser;
     }
 
 }

@@ -51,7 +51,7 @@ public class UserTest {
     }
 
     @Test
-    public void existsUsernameWhenSaveUserThrowException() throws AlreadyExistsException {
+    public void saveWithExistsUsernameShouldThrowException() throws AlreadyExistsException {
 
         this.userDto.setUsername(EXISTS_USER_USERNAME);
         UserEntity userEntity = mock(UserEntity.class);
@@ -67,7 +67,7 @@ public class UserTest {
     }
 
     @Test
-    public void notExistsUsernameWhenSaveUser() throws AlreadyExistsException {
+    public void saveWithNotExistsUsernameShouldCreateNewUser() throws AlreadyExistsException {
 
         this.userDto.setUsername(NOT_EXISTS_USER_USERNAME);
         when(this.userRepository.existsByUsername(NOT_EXISTS_USER_USERNAME)).thenReturn(false);
@@ -81,7 +81,7 @@ public class UserTest {
     }
 
     @Test
-    public void modifyUserWhenExistId() throws EntityNotFoundException {
+    public void modifyWithExistIdShouldModifyUser() throws EntityNotFoundException {
 
         this.userDto.setId(EXISTS_USER_ID);
         UserEntity userEntity = mock(UserEntity.class);
@@ -94,7 +94,7 @@ public class UserTest {
     }
 
     @Test
-    public void modifyUserWhenNotExistId() throws EntityNotFoundException {
+    public void odifyWithNotExistIdShouldThrowException() throws EntityNotFoundException {
 
         this.userDto.setId(NOT_EXISTS_USER_ID);
         UserEntity userEntity = mock(UserEntity.class);
