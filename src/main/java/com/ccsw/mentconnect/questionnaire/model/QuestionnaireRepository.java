@@ -1,4 +1,4 @@
-package com.ccsw.mentconnect.questionary.model;
+package com.ccsw.mentconnect.questionnaire.model;
 
 import java.util.List;
 

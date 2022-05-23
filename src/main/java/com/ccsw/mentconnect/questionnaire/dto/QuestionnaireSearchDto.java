@@ -1,4 +1,4 @@
-package com.ccsw.mentconnect.questionary.dto;
+package com.ccsw.mentconnect.questionnaire.dto;
 
 import com.ccsw.mentconnect.common.pagination.PagingAndSorting;
 
