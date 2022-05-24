@@ -12,122 +12,23 @@ import com.ccsw.mentconnect.user.model.UserEntity;
 public class UserSpecification implements Specification<UserEntity> {
 
     private static final long serialVersionUID = 1L;
-    private static SearchCriteria criteria;
 
-    public UserSpecification(SearchCriteria searchCriteria) {
+    private SearchCriteria criteria;
 
-        UserSpecification.criteria = searchCriteria;
-    }
+    public UserSpecification(SearchCriteria criteria) {
 
-    public static Specification<UserEntity> getSpecName(String name) {
-
-        return (root, query, criteriaBuilder) -> {
-            if (name == null) {
-                return criteriaBuilder.conjunction();
-            }
-            // }
-            else {
-                return null;
-            }
-        };
-
-    }
-
-    public static Specification<UserEntity> getSpecId(Long id) {
-
-        return (root, query, criteriaBuilder) -> {
-            if (id == null) {
-                return criteriaBuilder.conjunction();
-            }
-            // else {
-            // String convertir = String.valueOf(id);
-            // return criteriaBuilder.equal(root.get(convertir), root);
-            // if (criteria.getOperation().equalsIgnoreCase(":")) {
-
-            // return
-            // criteriaBuilder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
-            // (Integer) criteria.getDatos());
-
-            // }
-            else {
-                return null;
-            }
-        };
-
-    }
-
-    public static Specification<UserEntity> getSpecUsername(String username) {
-
-        return (root, query, criteriaBuilder) -> {
-            if (username == null) {
-                return criteriaBuilder.conjunction();
-            }
-            // if (criteria.getOperation().equalsIgnoreCase("==")) {
-
-            // return
-            // criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()),
-            // criteria.getDatos());
-
-            // }
-            else {
-                return null;
-            }
-            // return null;
-        };
-
-    }
-
-    public static Specification<UserEntity> getSpecSurname(String surnames) {
-
-        return (root, query, criteriaBuilder) -> {
-            if (surnames == null) {
-                return criteriaBuilder.conjunction();
-            }
-            // if (criteria.getOperation().equalsIgnoreCase("==")) {
-
-            // return criteriaBuilder.disjunction();
-
-            // }
-            else {
-                return null;
-            }
-        };
-
-    }
-
-    public static Specification<UserEntity> getSpecEmail(String email) {
-
-        return (root, query, criteriaBuilder) -> {
-            if (email == null) {
-                return criteriaBuilder.conjunction();
-            }
-            // if (criteria.getOperation().equalsIgnoreCase("==")) {
-
-            // return
-            // criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()),
-            // criteria.getDatos());
-
-            // }
-
-            else {
-                return null;
-            }
-        };
-
+        this.criteria = criteria;
     }
 
     @Override
     public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-        if (criteria.getOperation().equalsIgnoreCase("==")) {
-
-            return builder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
-        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            return builder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
-                    (Integer) criteria.getDatos());
-
-        } else if (criteria.getOperation().equalsIgnoreCase("!=")) {
-            return builder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+            if (root.get(criteria.getKey()).getJavaType() == String.class) {
+                return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+            } else {
+                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+            }
         }
         return null;
     }

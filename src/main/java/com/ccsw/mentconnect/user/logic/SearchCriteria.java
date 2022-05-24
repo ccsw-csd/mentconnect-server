@@ -1,25 +1,23 @@
 package com.ccsw.mentconnect.user.logic;
 
 public class SearchCriteria {
+
+    private String key;
     private String operation;
-    private Object datos;
+    private Object value;
 
-    private String filterKey;
-
-    public SearchCriteria(String filterKey, String operation, Object datos) {
-
+    public SearchCriteria(String key, String operation, Object value) {
+        this.key = key;
         this.operation = operation;
-
-        this.datos = datos;
-        this.filterKey = filterKey;
+        this.value = value;
     }
 
-    public String getFilterKey() {
-        return filterKey;
+    public String getKey() {
+        return key;
     }
 
-    public void setFilterKey(String filterKey) {
-        this.filterKey = filterKey;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getOperation() {
@@ -30,12 +28,11 @@ public class SearchCriteria {
         this.operation = operation;
     }
 
-    public Object getDatos() {
-        return datos;
+    public Object getValue() {
+        return value;
     }
 
-    public void setDatos(Object datos) {
-        this.datos = datos;
+    public void setValue(Object value) {
+        this.value = value;
     }
-
 }
