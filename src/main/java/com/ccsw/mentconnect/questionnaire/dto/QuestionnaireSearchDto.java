@@ -1,7 +1,17 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
-import com.ccsw.mentconnect.common.pagination.PagingAndSorting;
+import org.springframework.data.domain.Pageable;
 
-public class QuestionnaireSearchDto extends PagingAndSorting{
+public class QuestionnaireSearchDto {
+
+    private Pageable pageable;
+
+    public Pageable getPageable() {
+        return pageable;
+    }
+
+    public void setPageable(Pageable pageable) {
+        this.pageable = pageable;
+    }
 
 }

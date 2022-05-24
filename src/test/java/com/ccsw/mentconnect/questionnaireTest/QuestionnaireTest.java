@@ -20,26 +20,26 @@ import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class QuestionnaireTest {
-	
-	@Mock
-	private QuestionnaireRepository questionnaireRepository;
-	
-	@InjectMocks
-	private QuestionnaireServiceImpl questionnaireService;
-	
-	@Test
-	public void findAllShouldReturnAllQuestionnaires() {
-		
-		List<QuestionnaireEntity> list = new ArrayList<>();
-		
-		list.add(mock(QuestionnaireEntity.class));
-		
-		when(questionnaireRepository.findAll()).thenReturn(list);
-		
-		List<QuestionnaireEntity> questionnaires = questionnaireService.findAll();
-		
-		assertNotNull(questionnaires);
-		assertEquals(1, questionnaires.size());
-	}
+
+    @Mock
+    private QuestionnaireRepository questionnaireRepository;
+
+    @InjectMocks
+    private QuestionnaireServiceImpl questionnaireService;
+
+    @Test
+    public void findAllShouldReturnAllQuestionnaires() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        list.add(mock(QuestionnaireEntity.class));
+
+        when(questionnaireRepository.findAll()).thenReturn(list);
+
+        List<QuestionnaireEntity> questionnaires = questionnaireService.findAll();
+
+        assertNotNull(questionnaires);
+        assertEquals(1, questionnaires.size());
+    }
 
 }

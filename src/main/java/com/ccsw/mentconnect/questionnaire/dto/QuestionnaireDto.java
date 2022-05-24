@@ -1,81 +1,80 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireDto {
-	
-	private Long id;
-	
-	private String description;
-	
-	//preguntar
-	private Integer questionsNumber;
-	//preguntar
-	private Integer patientsNumber;
-	
-	private UserDto user;
-	
-	private Date createDate;
-	
-	private Date lastEditDate;
 
-	public Long getId() {
-		return id;
-	}
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    // TO-DO Modificar cuanto este listo Preguntas
+    private Integer questionsNumber;
+    // TO-DO Modificar cuanto este listo Pacientes
+    private Integer patientsNumber;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private UserDto user;
 
-	public Integer getQuestionsNumber() {
-		return questionsNumber;
-	}
+    private LocalDate createDate;
 
-	public void setQuestionsNumber(Integer questionsNumber) {
-		this.questionsNumber = questionsNumber;
-	}
+    private LocalDate lastEditDate;
 
-	public Integer getPatientsNumber() {
-		return patientsNumber;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setPatientsNumber(Integer patientsNumber) {
-		this.patientsNumber = patientsNumber;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public UserDto getUser() {
-		return user;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setUser(UserDto user) {
-		this.user = user;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public Integer getQuestionsNumber() {
+        return questionsNumber;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setQuestionsNumber(Integer questionsNumber) {
+        this.questionsNumber = questionsNumber;
+    }
 
-	public Date getLastEditDate() {
-		return lastEditDate;
-	}
+    public Integer getPatientsNumber() {
+        return patientsNumber;
+    }
 
-	public void setLastEditDate(Date lastEditDate) {
-		this.lastEditDate = lastEditDate;
-	}
+    public void setPatientsNumber(Integer patientsNumber) {
+        this.patientsNumber = patientsNumber;
+    }
 
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDate getLastEditDate() {
+        return lastEditDate;
+    }
+
+    public void setLastEditDate(LocalDate lastEditDate) {
+        this.lastEditDate = lastEditDate;
+    }
 
 }
