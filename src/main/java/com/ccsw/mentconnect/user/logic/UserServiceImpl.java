@@ -49,30 +49,60 @@ public class UserServiceImpl implements UserService {
         UserSpecification idEqual = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId()));
 
         UserSpecification nameEqual = new UserSpecification(
-
                 new SearchCriteria(UserEntity.ATT_NAME, "==", dto.getName()));
 
         UserSpecification usernameEqual = new UserSpecification(
                 new SearchCriteria(UserEntity.ATT_USERNAME, "==", dto.getUsername()));
 
         // UserSpecification usernameEmpty = new UserSpecification(
-        // new SearchCriteria(UserEntity.ATT_USERNAME, "==",
+//         new SearchCriteria(UserEntity.ATT_USERNAME, "==",
         // dto.getUsername().isEmpty()));
         UserSpecification emailEqual = new UserSpecification(
                 new SearchCriteria(UserEntity.ATT_EMAIL, "==", dto.getEmail()));
 
         UserSpecification surnameEqual = new UserSpecification(
                 new SearchCriteria(UserEntity.ATT_SURNAMES, "==", dto.getSurnames()));
-        users = userRepository.findAll((UserSpecification.getSpecName(dto.getName()).and(null))
-                .and(UserSpecification.getSpecSurname(dto.getSurnames()).and(null))
-                .and(UserSpecification.getSpecId(dto.getId()).and(null))
-                .and(UserSpecification.getSpecEmail(dto.getEmail()).and(null))
-                .and(UserSpecification.getSpecUsername(dto.getUsername()).and(null))
-                // validar que sean validas
-                .or(idEqual).and(nameEqual).and(usernameEqual).and(surnameEqual).and(emailEqual)
-        // .or(idEqual).and(nameEqual).and(surnameEqual).and(usernameEqual).and(emailEqual),
-                , dto.getPageable());
 
+        // users = userRepository.findAll(
+        // (UserSpecification.getSpecSurname(dto.getSurnames()).or(null))
+        // .and(UserSpecification.getSpecId(dto.getId()).or(null))
+        // .and(UserSpecification.getSpecEmail(dto.getEmail()).or(null))
+        // .and(UserSpecification.getSpecUsername(dto.getUsername()).or(null)).and(nameEqual),
+        // dto.getPageable());
+        // }
+
+        if (idEqual != null && nameEqual != null && usernameEqual != null && surnameEqual != null
+                && emailEqual != null) {
+            users = userRepository.findAll((idEqual).and(nameEqual)//
+                    .and(usernameEqual).and(surnameEqual).and(emailEqual)
+            // .or(UserSpecification.getSpecName(dto.getName()).and(null))
+            // .and(UserSpecification.getSpecSurname(dto.getSurnames()).and(null))
+            // .and(UserSpecification.getSpecId(dto.getId()).and(null))
+            // .and(UserSpecification.getSpecEmail(dto.getEmail()).and(null))
+            // .and(UserSpecification.getSpecUsername(dto.getUsername()).and(null))
+            // validar que sean validas
+
+            // .and(nameEqual).and(usernameEqual).and(surnameEqual).and(emailEqual)
+            // .or(idEqual).and(nameEqual).and(surnameEqual).and(usernameEqual).and(emailEqual),
+                    , dto.getPageable());
+        }
+        if (idEqual.equals(null) && nameEqual.equals(null) && usernameEqual.equals(null) && surnameEqual.equals(null)
+                && emailEqual.equals(null)) {
+            users = userRepository.findAll((UserSpecification.getSpecName(dto.getName()).and(null))
+                    .and(UserSpecification.getSpecSurname(dto.getSurnames()).and(null))
+                    .and(UserSpecification.getSpecId(dto.getId()).and(null))
+                    .and(UserSpecification.getSpecEmail(dto.getEmail()).and(null))
+                    .and(UserSpecification.getSpecUsername(dto.getUsername()).and(null)), dto.getPageable());
+        }
+
+        if (idEqual != null && nameEqual.equals(null) && usernameEqual.equals(null) && surnameEqual.equals(null)
+                && emailEqual.equals(null)) {
+            users = userRepository.findAll((idEqual).and(UserSpecification.getSpecName(dto.getName()).and(null))
+                    .and(UserSpecification.getSpecSurname(dto.getSurnames()).and(null))
+                    // .and(UserSpecification.getSpecId(dto.getId()).and(null))
+                    .and(UserSpecification.getSpecEmail(dto.getEmail()).and(null))
+                    .and(UserSpecification.getSpecUsername(dto.getUsername()).and(null)), dto.getPageable());
+        }
         return users;
     }
 

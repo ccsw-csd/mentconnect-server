@@ -25,13 +25,10 @@ public class UserSpecification implements Specification<UserEntity> {
             if (name == null) {
                 return criteriaBuilder.conjunction();
             }
-            if (criteria.getOperation().equalsIgnoreCase("==")) {
-
-                return criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+            // }
+            else {
+                return null;
             }
-
-            return null;
-
         };
 
     }
@@ -45,13 +42,16 @@ public class UserSpecification implements Specification<UserEntity> {
             // else {
             // String convertir = String.valueOf(id);
             // return criteriaBuilder.equal(root.get(convertir), root);
-            if (criteria.getOperation().equalsIgnoreCase(":")) {
+            // if (criteria.getOperation().equalsIgnoreCase(":")) {
 
-                return criteriaBuilder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
-                        (Integer) criteria.getDatos());
+            // return
+            // criteriaBuilder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
+            // (Integer) criteria.getDatos());
 
+            // }
+            else {
+                return null;
             }
-            return null;
         };
 
     }
@@ -62,12 +62,17 @@ public class UserSpecification implements Specification<UserEntity> {
             if (username == null) {
                 return criteriaBuilder.conjunction();
             }
-            if (criteria.getOperation().equalsIgnoreCase("==")) {
+            // if (criteria.getOperation().equalsIgnoreCase("==")) {
 
-                return criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+            // return
+            // criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()),
+            // criteria.getDatos());
 
+            // }
+            else {
+                return null;
             }
-            return null;
+            // return null;
         };
 
     }
@@ -78,13 +83,14 @@ public class UserSpecification implements Specification<UserEntity> {
             if (surnames == null) {
                 return criteriaBuilder.conjunction();
             }
-            if (criteria.getOperation().equalsIgnoreCase("==")) {
+            // if (criteria.getOperation().equalsIgnoreCase("==")) {
 
-                return criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+            // return criteriaBuilder.disjunction();
 
+            // }
+            else {
+                return null;
             }
-            return null;
-
         };
 
     }
@@ -95,14 +101,17 @@ public class UserSpecification implements Specification<UserEntity> {
             if (email == null) {
                 return criteriaBuilder.conjunction();
             }
-            if (criteria.getOperation().equalsIgnoreCase("==")) {
+            // if (criteria.getOperation().equalsIgnoreCase("==")) {
 
-                return criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+            // return
+            // criteriaBuilder.equal(root.<String>get(criteria.getFilterKey().toString()),
+            // criteria.getDatos());
 
+            // }
+
+            else {
+                return null;
             }
-
-            return null;
-
         };
 
     }
@@ -110,16 +119,16 @@ public class UserSpecification implements Specification<UserEntity> {
     @Override
     public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-        // if (criteria.getOperation().equalsIgnoreCase("==")) {
+        if (criteria.getOperation().equalsIgnoreCase("==")) {
 
-        // return builder.equal(root.<String>get(criteria.getFilterKey().toString()),
-        // criteria.getDatos());
-        // } else if (criteria.getOperation().equalsIgnoreCase(":")) {
-        // return
-        // builder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
-        // (Integer) criteria.getDatos());
+            return builder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
+            return builder.equal(root.<Integer>get(criteria.getFilterKey()).as(Integer.class),
+                    (Integer) criteria.getDatos());
 
-        // }
+        } else if (criteria.getOperation().equalsIgnoreCase("!=")) {
+            return builder.equal(root.<String>get(criteria.getFilterKey().toString()), criteria.getDatos());
+        }
         return null;
     }
 
