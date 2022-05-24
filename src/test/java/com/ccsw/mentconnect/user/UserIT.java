@@ -26,6 +26,9 @@ public class UserIT extends BaseITAbstract {
     public static final String SERVICE_PATH = "/user/";
     public static final int TOTAL_USER = 2;
     public static final int TOTAL_USER_EMPTY = 0;
+    public static final int TOTAL_USER_FIND = 1;
+
+    UserSearchDto dto = new UserSearchDto();
 
     ParameterizedTypeReference<List<UserDto>> responseTypeList = new ParameterizedTypeReference<List<UserDto>>() {
     };
@@ -48,7 +51,6 @@ public class UserIT extends BaseITAbstract {
     @Test
     public void findPageExistName() {
 
-        UserSearchDto dto = new UserSearchDto();
         dto.setId(1L);
         dto.setName("Admin");
         dto.setUsername("admin");
@@ -62,13 +64,12 @@ public class UserIT extends BaseITAbstract {
                 HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(1, response.getBody().getContent().size());
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
     }
 
     @Test
     public void findPageNotExist() {
 
-        UserSearchDto dto = new UserSearchDto();
         dto.setId(0L);
         dto.setName("Maria");
         dto.setUsername("");
@@ -88,8 +89,7 @@ public class UserIT extends BaseITAbstract {
     @Test
     public void findExistNameAndUsername() {
 
-        UserSearchDto dto = new UserSearchDto();
-        dto.setId(0L);
+        dto.setId(null);
         dto.setName("Admin");
         dto.setUsername("admin");
         dto.setSurnames("");
@@ -102,17 +102,16 @@ public class UserIT extends BaseITAbstract {
                 HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
     }
 
     @Test
     public void findPageExistEmail() {
 
-        UserSearchDto dto = new UserSearchDto();
-        dto.setId(0L);
-        dto.setName("");
-        dto.setUsername("");
-        dto.setSurnames("");
+        dto.setId(null);
+        dto.setName(null);
+        dto.setUsername(null);
+        dto.setSurnames(null);
         dto.setEmail("admin@mentconnect.com");
         dto.setPageable(PageRequest.of(0, 10));
 
@@ -122,6 +121,6 @@ public class UserIT extends BaseITAbstract {
                 HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
     }
 }
