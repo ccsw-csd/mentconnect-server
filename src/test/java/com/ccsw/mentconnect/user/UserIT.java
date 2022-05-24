@@ -25,12 +25,7 @@ public class UserIT extends BaseITAbstract {
 
     public static final String SERVICE_PATH = "/user/";
     public static final int TOTAL_USER = 2;
-    public static final String PARAM_ID = "id";
-    public static final String PARAM_NAME = "name";
-    public static final String PARAM_SURNAME = "surnames";
-    public static final int TOTAL_USERS = 4;
-    public static final String PARAM_USERNAME = "username";
-    public static final String PARAM_EMAIL = "email";
+    public static final int TOTAL_USER_EMPTY = 0;
 
     ParameterizedTypeReference<List<UserDto>> responseTypeList = new ParameterizedTypeReference<List<UserDto>>() {
     };
@@ -87,6 +82,46 @@ public class UserIT extends BaseITAbstract {
                 HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(0, response.getBody().getContent().size());
+        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findExistNameAndUsername() {
+
+        UserSearchDto dto = new UserSearchDto();
+        dto.setId(0L);
+        dto.setName("Admin");
+        dto.setUsername("admin");
+        dto.setSurnames("");
+        dto.setEmail("");
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findPageExistEmail() {
+
+        UserSearchDto dto = new UserSearchDto();
+        dto.setId(0L);
+        dto.setName("");
+        dto.setUsername("");
+        dto.setSurnames("");
+        dto.setEmail("admin@mentconnect.com");
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
     }
 }

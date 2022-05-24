@@ -19,8 +19,6 @@ public interface UserRepository
 
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);
 
-//    Page<UserDto> findPage(Pageable pageable);
-
     List<UserEntity> findAll();
 
 }

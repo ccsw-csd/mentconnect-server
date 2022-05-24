@@ -51,7 +51,7 @@ public class UserTest {
     }
 
     @Test
-    void correct_specifications() {
+    void findAllPageUserCorrect() {
         UserEntity dto = mock(UserEntity.class);
 
         dto.setId(1L);
