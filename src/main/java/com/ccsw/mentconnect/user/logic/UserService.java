@@ -3,6 +3,7 @@ package com.ccsw.mentconnect.user.logic;
 import java.util.List;
 import java.util.Optional;
 
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.springframework.data.domain.Page;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
@@ -27,8 +28,8 @@ public interface UserService {
 
     Page<UserEntity> findPage(UserSearchDto dto);
 
-    UserEntity saveUser(UserDto userDto) throws AlreadyExistsException;
+    UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException;
 
-    UserEntity modifyUser(UserDto userDto) throws EntityNotFoundException;
+    UserEntity modifyUser(UserFullDto userDto) throws EntityNotFoundException;
 
 }

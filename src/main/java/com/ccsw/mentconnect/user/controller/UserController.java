@@ -2,6 +2,7 @@ package com.ccsw.mentconnect.user.controller;
 
 import java.util.List;
 
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,13 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/full/{id}", method = RequestMethod.GET)
+    public UserFullDto getFull(@PathVariable Long id) throws EntityNotFoundException {
+
+        return this.beanMapper.map(userService.get(id), UserFullDto.class);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<UserDto> findAll() {
 
@@ -51,16 +59,16 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public UserDto saveUser(@RequestBody UserDto userDto) throws AlreadyExistsException {
+    public UserFullDto saveUser(@RequestBody UserFullDto userDto) throws AlreadyExistsException {
 
-        return this.beanMapper.map(userService.saveUser(userDto), UserDto.class);
+        return this.beanMapper.map(userService.saveUser(userDto), UserFullDto.class);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.PUT)
-    public UserDto modifyUser(@RequestBody UserDto userDto) throws EntityNotFoundException {
+    public UserFullDto modifyUser(@RequestBody UserFullDto userDto) throws EntityNotFoundException {
 
-        return this.beanMapper.map(userService.modifyUser(userDto), UserDto.class);
+        return this.beanMapper.map(userService.modifyUser(userDto), UserFullDto.class);
     }
 
 }

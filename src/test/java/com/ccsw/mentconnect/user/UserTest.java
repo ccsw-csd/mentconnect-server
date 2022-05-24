@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +18,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
@@ -34,24 +37,25 @@ public class UserTest {
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
 
-    public static final String chars = "ABCDEFGHT";
-
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
     @Mock
     private UserRepository userRepository;
 
-    private UserDto userDto;
+    @Mock
+    BeanMapper beanMapper;
+
+    private UserFullDto userDto;
 
     @BeforeEach
     public void setUp() {
-        this.userDto = new UserDto();
+        this.userDto = new UserFullDto();
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
         this.userDto.setSurnames("admin@meentconnect.com");
         ReflectionTestUtils.setField(userServiceImpl, "length", 4);
-        ReflectionTestUtils.setField(userServiceImpl, "chars", chars);
+        ReflectionTestUtils.setField(userServiceImpl, "chars", "ABCDEFGHT");
     }
 
     @Test
@@ -63,11 +67,9 @@ public class UserTest {
 
         try {
             userServiceImpl.saveUser(userDto);
-        } catch (AlreadyExistsException e) {
-        }
+        } catch (AlreadyExistsException e) {}
 
         verify(this.userRepository, never()).save(userEntity);
-
     }
 
     @Test
@@ -75,13 +77,12 @@ public class UserTest {
 
         this.userDto.setUsername(NOT_EXISTS_USER_USERNAME);
         when(this.userRepository.existsByUsername(NOT_EXISTS_USER_USERNAME)).thenReturn(false);
-        ArgumentCaptor<UserEntity> userEntity = ArgumentCaptor.forClass(UserEntity.class);
+        UserEntity userEntity = mock(UserEntity.class); //TODO revisar, hacer con captor
+        when(this.beanMapper.map(this.userDto, UserEntity.class)).thenReturn(userEntity);
 
         userServiceImpl.saveUser(userDto);
 
-        verify(this.userRepository).save(userEntity.capture());
-        assertEquals(this.userDto.getUsername(), userEntity.getValue().getUsername());
-
+        verify(this.userRepository).save(userEntity);
     }
 
     @Test
@@ -94,11 +95,10 @@ public class UserTest {
         this.userServiceImpl.modifyUser(userDto);
 
         verify(this.userRepository).save(userEntity);
-
     }
 
     @Test
-    public void odifyWithNotExistIdShouldThrowException() throws EntityNotFoundException {
+    public void modifyWithNotExistIdShouldThrowException() throws EntityNotFoundException {
 
         this.userDto.setId(NOT_EXISTS_USER_ID);
         UserEntity userEntity = mock(UserEntity.class);
@@ -106,11 +106,9 @@ public class UserTest {
 
         try {
             this.userServiceImpl.modifyUser(userDto);
-        } catch (EntityNotFoundException e) {
-        }
+        } catch (EntityNotFoundException e) {}
 
         verify(this.userRepository, never()).save(userEntity);
-
     }
 
 }

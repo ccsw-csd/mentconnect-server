@@ -3,6 +3,10 @@ package com.ccsw.mentconnect.user.logic;
 import java.util.List;
 import java.util.Optional;
 
+import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.role.model.RoleEntity;
+import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
@@ -13,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
@@ -27,14 +30,18 @@ import com.ccsw.mentconnect.user.model.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
-
     @Value("${user.password.length}")
     private Integer length;
 
     @Value("${user.password.chars}")
     private String chars;
+
+    @Autowired
+    BeanMapper beanMapper;
+
+    @Autowired
+    UserRepository userRepository;
+
 
     @Override
     public Optional<UserEntity> autenticate(String username, String password) {
@@ -61,14 +68,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity saveUser(UserDto userDto) throws AlreadyExistsException {
+    public UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException {
 
         if (this.userRepository.existsByUsername(userDto.getUsername())) {
             throw new AlreadyExistsException();
         }
 
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(userDto, userEntity);
+        UserEntity userEntity = this.beanMapper.map(userDto, UserEntity.class);
         String password = this.generatePassword();
         System.out.println("Contraseña generada: " + password); // TODO borrar cuando se envie el email.
         userEntity.setPassword(this.encryptSha256(password));
@@ -77,7 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity modifyUser(UserDto userDto) throws EntityNotFoundException {
+    public UserEntity modifyUser(UserFullDto userDto) throws EntityNotFoundException {
 
         if (userDto.getId() == null) {
             throw new EntityNotFoundException();
@@ -87,9 +93,9 @@ public class UserServiceImpl implements UserService {
         updateUser.setName(userDto.getName());
         updateUser.setSurnames(userDto.getSurnames());
         updateUser.setEmail(userDto.getEmail());
+        updateUser.setRoles(this.beanMapper.mapList(userDto.getRoles(), RoleEntity.class));
 
         return this.userRepository.save(updateUser);
-
     }
 
     private String generatePassword() {
