@@ -13,7 +13,7 @@ public class UserSpecification implements Specification<UserEntity> {
 
     private static final long serialVersionUID = 1L;
 
-    private SearchCriteria criteria;
+    private final SearchCriteria criteria;
 
     public UserSpecification(SearchCriteria criteria) {
 
