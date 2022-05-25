@@ -33,7 +33,6 @@ public class UserIT extends BaseITAbstract {
     public static final String USERNAME = "admin";
     public static final String SURNAMES = "MentConnect";
     public static final String EMAIL = "admin@mentconnect.com";
-
     public static final String NAME_NOT_EXIST = "Maria";
 
     UserSearchDto dto = new UserSearchDto();
