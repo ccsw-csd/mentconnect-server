@@ -27,7 +27,6 @@ public class UserIT extends BaseITAbstract {
     public static final int TOTAL_USER = 2;
     public static final int TOTAL_USER_EMPTY = 0;
     public static final int TOTAL_USER_FIND = 1;
-
     public static final Long ID = 1L;
     public static final String NAME = "Admin";
     public static final String USERNAME = "admin";
