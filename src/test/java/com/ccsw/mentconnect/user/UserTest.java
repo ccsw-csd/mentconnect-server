@@ -34,8 +34,6 @@ public class UserTest {
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
 
-    public static final String chars = "ABCDEFGHT";
-
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
@@ -51,7 +49,7 @@ public class UserTest {
         this.userDto.setSurnames("Admin");
         this.userDto.setSurnames("admin@meentconnect.com");
         ReflectionTestUtils.setField(userServiceImpl, "length", 4);
-        ReflectionTestUtils.setField(userServiceImpl, "chars", chars);
+        ReflectionTestUtils.setField(userServiceImpl, "chars", "ABCDEFGHT");
     }
 
     @Test

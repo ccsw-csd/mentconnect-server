@@ -38,9 +38,6 @@ public class UserIT extends BaseITAbstract {
     ParameterizedTypeReference<Page<UserDto>> responseTypePage = new ParameterizedTypeReference<Page<UserDto>>() {
     };
 
-    ParameterizedTypeReference<UserDto> responseType = new ParameterizedTypeReference<UserDto>() {
-    };
-
     @Test
     public void findAllShouldReturnAllUser() {
 
@@ -80,7 +77,7 @@ public class UserIT extends BaseITAbstract {
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
-                responseType);
+                UserDto.class);
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 
     }
@@ -98,7 +95,7 @@ public class UserIT extends BaseITAbstract {
         dto.setEmail("");
 
         ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST,
-                new HttpEntity<>(dto, getHeaders()), responseType);
+                new HttpEntity<>(dto, getHeaders()), UserDto.class);
         assertEquals(dto.getUsername(), response.getBody().getUsername());
 
         ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
@@ -120,7 +117,7 @@ public class UserIT extends BaseITAbstract {
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity,
-                responseType);
+                UserDto.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
     }
@@ -136,7 +133,7 @@ public class UserIT extends BaseITAbstract {
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
         ResponseEntity<UserDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT,
-                httpEntity, responseType);
+                httpEntity, UserDto.class);
         assertNotNull(response.getBody());
 
         ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
