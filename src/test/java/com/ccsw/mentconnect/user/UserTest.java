@@ -2,7 +2,8 @@ package com.ccsw.mentconnect.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import com.ccsw.mentconnect.user.logic.UserSearchDto;
@@ -34,45 +36,32 @@ public class UserTest {
     public static final int TOTAL_USERS = 1;
 
     @Test
-    void findAllUsers() {
+    void findAllShouldReturnAllUsers() {
 
-        List<UserEntity> listUser = new ArrayList<>();
-        listUser.add(mock(UserEntity.class));
-        when(userRepository.findAll()).thenReturn(listUser);
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+        when(userRepository.findAll()).thenReturn(list);
+
         List<UserEntity> users = userServiceImpl.findAll();
+
         assertNotNull(users);
         assertEquals(TOTAL_USERS, users.size());
-
     }
 
     @Test
-    void findAllUserPage() {
-        List<UserEntity> listUser = new ArrayList<>();
-        listUser.add(mock(UserEntity.class));
+    void findPageShouldReturnUsersPage() {
 
-        UserEntity dto = new UserEntity();
-        UserSearchDto userPage = new UserSearchDto();
-        dto.setId(1L);
-        dto.setName("Admin");
-        dto.setUsername("admin");
-        dto.setSurnames("MentConnect");
-        dto.setEmail("admin@mentconnect.com");
-        listUser.add(dto);
+        UserSearchDto dto = new UserSearchDto();
+        dto.setPageable(PageRequest.of(0, 10));
 
-        userPage.setId(dto.getId());
-        userPage.setName(dto.getName());
-        userPage.setUsername(dto.getUsername());
-        userPage.setSurnames(dto.getSurnames());
-        userPage.setEmail(dto.getEmail());
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
 
-        when(userRepository.findAll()).thenReturn(listUser);
-        List<UserEntity> resultAll = userServiceImpl.findAll();
-        userPage.setPageable(PageRequest.of(0, 10));
+        when(userRepository.findAll(any(), eq(dto.getPageable()))).thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
 
-        assertNotNull(resultAll);
-        Page<UserEntity> resultPage = userRepository.findAll(userPage.getPageable());
-        assertEquals(userPage.getName(), dto.getName());
-        assertNull(resultPage);
+        Page<UserEntity> page = userServiceImpl.findPage(dto);
 
+        assertNotNull(page);
+        assertEquals(TOTAL_USERS, page.getContent().size());
     }
 }
