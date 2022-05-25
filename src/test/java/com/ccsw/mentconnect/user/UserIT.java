@@ -77,7 +77,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void UserNotExist() {
+    public void NotExistsUserShouldReturnEmpty() {
 
         dto.setName(NAME_NOT_EXIST);
 
@@ -93,7 +93,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findShouldNameAndUsernameExist() {
+    public void findPageExistsNameAndUsernameShouldReturnUsers() {
 
         dto.setName(NAME);
         dto.setUsername(USERNAME);
@@ -110,7 +110,7 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findShouldPageEmailExist() {
+    public void findPageExistsEmailShouldReturnUsers() {
 
         dto.setEmail(EMAIL);
         dto.setPageable(PageRequest.of(0, 10));

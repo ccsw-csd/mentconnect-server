@@ -34,7 +34,7 @@ public class UserTest {
     public static final int TOTAL_USERS = 1;
 
     @Test
-    void findAllUsers() {
+    void findAllShouldReturnUsers() {
 
         List<UserEntity> listUser = new ArrayList<>();
         listUser.add(mock(UserEntity.class));
@@ -46,7 +46,7 @@ public class UserTest {
     }
 
     @Test
-    void findAllUserPage() {
+    void findAllShouldReturnUsersPage() {
         List<UserEntity> listUser = new ArrayList<>();
         listUser.add(mock(UserEntity.class));
 
