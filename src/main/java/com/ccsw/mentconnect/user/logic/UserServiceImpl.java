@@ -24,8 +24,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    Page<UserEntity> users;
-
     @Override
     public Optional<UserEntity> autenticate(String username, String password) {
 
@@ -48,9 +46,11 @@ public class UserServiceImpl implements UserService {
     public Page<UserEntity> findPage(UserSearchDto dto) {
 
         UserSpecification id = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId()));
-        UserSpecification username = new UserSpecification(new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
+        UserSpecification username = new UserSpecification(
+                new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
         UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", dto.getName()));
-        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
+        UserSpecification surnames = new UserSpecification(
+                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
         UserSpecification email = new UserSpecification(new SearchCriteria(UserEntity.ATT_EMAIL, ":", dto.getEmail()));
 
         Specification<UserEntity> spec = Specification.where(id).and(username).and(name).and(surnames).and(email);

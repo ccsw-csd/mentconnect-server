@@ -28,6 +28,14 @@ public class UserIT extends BaseITAbstract {
     public static final int TOTAL_USER_EMPTY = 0;
     public static final int TOTAL_USER_FIND = 1;
 
+    public static final Long ID = 1L;
+    public static final String NAME = "Admin";
+    public static final String USERNAME = "admin";
+    public static final String SURNAMES = "MentConnect";
+    public static final String EMAIL = "admin@mentconnect.com";
+
+    public static final String NAME_NOT_EXIST = "Maria";
+
     UserSearchDto dto = new UserSearchDto();
 
     ParameterizedTypeReference<List<UserDto>> responseTypeList = new ParameterizedTypeReference<List<UserDto>>() {
@@ -49,13 +57,14 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findPageExistName() {
+    public void findPageShouldFilteredUser() {
 
-        dto.setId(1L);
-        dto.setName("Admin");
-        dto.setUsername("admin");
-        dto.setSurnames("MentConnect");
-        dto.setEmail("admin@mentconnect.com");
+        dto.setId(ID);
+        dto.setName(NAME);
+        dto.setUsername(USERNAME);
+        dto.setSurnames(SURNAMES);
+        dto.setEmail(EMAIL);
+
         dto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -68,13 +77,10 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findPageNotExist() {
+    public void UserNotExist() {
 
-        dto.setId(0L);
-        dto.setName("Maria");
-        dto.setUsername("");
-        dto.setSurnames("");
-        dto.setEmail("");
+        dto.setName(NAME_NOT_EXIST);
+
         dto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -87,13 +93,11 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findExistNameAndUsername() {
+    public void findShouldNameAndUsernameExist() {
 
-        dto.setId(null);
-        dto.setName("Admin");
-        dto.setUsername("admin");
-        dto.setSurnames("");
-        dto.setEmail("");
+        dto.setName(NAME);
+        dto.setUsername(USERNAME);
+
         dto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -106,13 +110,9 @@ public class UserIT extends BaseITAbstract {
     }
 
     @Test
-    public void findPageExistEmail() {
+    public void findShouldPageEmailExist() {
 
-        dto.setId(null);
-        dto.setName(null);
-        dto.setUsername(null);
-        dto.setSurnames(null);
-        dto.setEmail("admin@mentconnect.com");
+        dto.setEmail(EMAIL);
         dto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
