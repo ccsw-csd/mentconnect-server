@@ -1,11 +1,9 @@
 package com.ccsw.mentconnect.user.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.ccsw.mentconnect.role.model.RoleEntity;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author amirzoya
@@ -17,16 +15,10 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class UserEntity {
 
-    public static final String ATT_ID = "id";
-    public static final String ATT_NAME = "name";
-    public static final String ATT_SURNAMES = "surnames";
-    public static final String ATT_USERNAME = "username";
-    public static final String ATT_EMAIL = "email";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public Long id;
+    private Long id;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -42,6 +34,14 @@ public class UserEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="user_role",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    public List<RoleEntity> roles;
 
     public Long getId() {
         return id;
@@ -89,5 +89,13 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
