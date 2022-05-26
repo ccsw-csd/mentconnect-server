@@ -3,12 +3,11 @@ package com.ccsw.mentconnect.user.logic;
 import java.util.List;
 import java.util.Optional;
 
-import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.springframework.data.domain.Page;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
@@ -24,12 +23,12 @@ public interface UserService {
 
     UserEntity get(Long id) throws EntityNotFoundException;
 
-    List<UserEntity> findAll();
-
-    Page<UserEntity> findPage(UserSearchDto dto);
-
     UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException;
 
     UserEntity modifyUser(UserFullDto userDto) throws EntityNotFoundException;
+
+    List<UserEntity> findAll();
+
+    Page<UserEntity> findPage(UserSearchDto dto);
 
 }
