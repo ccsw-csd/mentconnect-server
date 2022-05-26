@@ -23,12 +23,12 @@ public interface UserService {
 
     UserEntity get(Long id) throws EntityNotFoundException;
 
-    List<UserEntity> findAll();
-
-    Page<UserEntity> findPage(UserSearchDto dto);
-
     UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException;
 
     UserEntity modifyUser(UserFullDto userDto) throws EntityNotFoundException;
+
+    List<UserEntity> findAll();
+
+    Page<UserEntity> findPage(UserSearchDto dto);
 
 }

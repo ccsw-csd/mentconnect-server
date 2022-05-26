@@ -1,4 +1,4 @@
-package com.ccsw.mentconnect.user.logic;
+package com.ccsw.mentconnect.common.criteria;
 
 public class SearchCriteria {
 

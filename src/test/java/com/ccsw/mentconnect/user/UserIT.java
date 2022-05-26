@@ -51,101 +51,6 @@ public class UserIT extends BaseITAbstract {
     };
 
     @Test
-    public void findAllShouldReturnAllUser() {
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
-
-        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
-                HttpMethod.GET, httpEntity, responseTypeList);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER, response.getBody().size());
-    }
-
-    @Test
-    public void findPageShouldReturnPageUser() {
-
-        UserSearchDto dto = new UserSearchDto();
-        dto.setPageable(PageRequest.of(0, 10));
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER, response.getBody().getContent().size());
-    }
-
-    @Test
-    public void findPageShouldFilteredUser() {
-
-        dto.setId(ID);
-        dto.setName(NAME);
-        dto.setUsername(USERNAME);
-        dto.setSurnames(SURNAMES);
-        dto.setEmail(EMAIL);
-
-        dto.setPageable(PageRequest.of(0, 10));
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
-    }
-
-    @Test
-    public void NotExistsUserShouldReturnEmpty() {
-
-        dto.setName(NAME_NOT_EXIST);
-
-        dto.setPageable(PageRequest.of(0, 10));
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
-    }
-
-    @Test
-    public void findPageExistsNameAndUsernameShouldReturnUsers() {
-
-        dto.setName(NAME);
-        dto.setUsername(USERNAME);
-
-        dto.setPageable(PageRequest.of(0, 10));
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
-    }
-
-    @Test
-    public void findPageExistsEmailShouldReturnUsers() {
-
-        dto.setEmail(EMAIL);
-        dto.setPageable(PageRequest.of(0, 10));
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
-    }
-
-    @Test
     public void saveWithExistsUsernameShouldThrowException() {
 
         UserFullDto dto = new UserFullDto();
@@ -230,6 +135,101 @@ public class UserIT extends BaseITAbstract {
 
         assertNotNull(userDto);
         assertEquals(response.getBody().getName(), userDto.getName());
+    }
+
+    @Test
+    public void findAllShouldReturnAllUser() {
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+
+        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
+                HttpMethod.GET, httpEntity, responseTypeList);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER, response.getBody().size());
+    }
+
+    @Test
+    public void findPageShouldReturnPageUser() {
+
+        UserSearchDto dto = new UserSearchDto();
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findPageShouldFilteredUser() {
+
+        dto.setId(ID);
+        dto.setName(NAME);
+        dto.setUsername(USERNAME);
+        dto.setSurnames(SURNAMES);
+        dto.setEmail(EMAIL);
+
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findPageNotExistsUserShouldReturnEmpty() {
+
+        dto.setName(NAME_NOT_EXIST);
+
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findPageExistsNameAndUsernameShouldReturnUsers() {
+
+        dto.setName(NAME);
+        dto.setUsername(USERNAME);
+
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
+    }
+
+    @Test
+    public void findPageExistsEmailShouldReturnUsers() {
+
+        dto.setEmail(EMAIL);
+        dto.setPageable(PageRequest.of(0, 10));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
     }
 
 }

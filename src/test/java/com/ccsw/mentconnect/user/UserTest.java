@@ -121,7 +121,7 @@ public class UserTest {
     }
 
     @Test
-    void findAllShouldReturnAllUsers() {
+    public void findAllShouldReturnAllUsers() {
 
         List<UserEntity> list = new ArrayList<>();
         list.add(mock(UserEntity.class));
@@ -134,7 +134,7 @@ public class UserTest {
     }
 
     @Test
-    void findPageShouldReturnUsersPage() {
+    public void findPageShouldReturnUsersPage() {
 
         UserSearchDto dto = new UserSearchDto();
         dto.setPageable(PageRequest.of(0, 10));

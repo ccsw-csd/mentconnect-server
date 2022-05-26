@@ -44,20 +44,6 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
-    public List<UserDto> findAll() {
-
-        return this.beanMapper.mapList(userService.findAll(), UserDto.class);
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/findPage", method = RequestMethod.POST)
-    public Page<UserDto> findPage(@RequestBody UserSearchDto dto) {
-
-        return this.beanMapper.mapPage(userService.findPage(dto), UserDto.class);
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public UserFullDto saveUser(@RequestBody UserFullDto userDto) throws AlreadyExistsException {
 
@@ -69,6 +55,20 @@ public class UserController {
     public UserFullDto modifyUser(@RequestBody UserFullDto userDto) throws EntityNotFoundException {
 
         return this.beanMapper.map(userService.modifyUser(userDto), UserFullDto.class);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
+    public List<UserDto> findAll() {
+
+        return this.beanMapper.mapList(userService.findAll(), UserDto.class);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/findPage", method = RequestMethod.POST)
+    public Page<UserDto> findPage(@RequestBody UserSearchDto dto) {
+
+        return this.beanMapper.mapPage(userService.findPage(dto), UserDto.class);
     }
 
 }
