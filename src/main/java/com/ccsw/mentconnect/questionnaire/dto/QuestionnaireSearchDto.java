@@ -1,10 +1,7 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
-import java.time.LocalDate;
-
+import com.ccsw.mentconnect.user.dto.UserDto;
 import org.springframework.data.domain.Pageable;
-
-import com.ccsw.mentconnect.user.model.UserEntity;
 
 public class QuestionnaireSearchDto {
 
@@ -12,16 +9,11 @@ public class QuestionnaireSearchDto {
 
     private String description;
 
-    // TO-DO Modificar cuanto este listo Preguntas
     private Integer questionsNumber;
-    // TO-DO Modificar cuanto este listo Pacientes
+
     private Integer patientsNumber;
 
-    private UserEntity user;
-
-    private LocalDate createDate;
-
-    private LocalDate lastEditDate;
+    private UserDto user;
 
     private Pageable pageable;
 
@@ -65,28 +57,12 @@ public class QuestionnaireSearchDto {
         this.patientsNumber = patientsNumber;
     }
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(UserDto user) {
         this.user = user;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDate createDate) {
-        this.createDate = createDate;
-    }
-
-    public LocalDate getLastEditDate() {
-        return lastEditDate;
-    }
-
-    public void setLastEditDate(LocalDate lastEditDate) {
-        this.lastEditDate = lastEditDate;
     }
 
 }

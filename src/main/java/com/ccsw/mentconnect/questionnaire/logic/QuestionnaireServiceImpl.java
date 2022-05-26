@@ -2,6 +2,8 @@ package com.ccsw.mentconnect.questionnaire.logic;
 
 import java.util.List;
 
+import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.user.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,17 +17,20 @@ import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Autowired
+    BeanMapper beanMapper;
+
+    @Autowired
     QuestionnaireRepository questionnaireRepository;
+
 
     @Override
     public List<QuestionnaireEntity> findAll() {
-        // TODO Auto-generated method stub
+
         return questionnaireRepository.findAll();
     }
 
     @Override
     public Page<QuestionnaireEntity> findPage(QuestionnaireSearchDto dto) {
-        // TODO Auto-generated method stub
 
         QuestionnaireSpecification id = new QuestionnaireSpecification(
                 new SearchCriteria(QuestionnaireEntity.ATT_ID, ":", dto.getId()));
@@ -36,14 +41,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         QuestionnaireSpecification questionsNumber = new QuestionnaireSpecification(
                 new SearchCriteria(QuestionnaireEntity.ATT_QUESTIONS_NUMBER, ":", dto.getQuestionsNumber()));
 
-        QuestionnaireSpecification patiensNumber = new QuestionnaireSpecification(
+        QuestionnaireSpecification patientsNumber = new QuestionnaireSpecification(
                 new SearchCriteria(QuestionnaireEntity.ATT_PATIENTS_NUMBER, ":", dto.getPatientsNumber()));
 
         QuestionnaireSpecification user = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_USER, ":", dto.getUser().getName()));
+                new SearchCriteria(QuestionnaireEntity.ATT_USER, ":", dto.getUser() != null && dto.getUser().getId() != null ? beanMapper.map(dto.getUser(), UserEntity.class) : null));
 
-        Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(questionsNumber)
-                .and(patiensNumber).and(user);
+        Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(questionsNumber).and(patientsNumber).and(user);
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
     }

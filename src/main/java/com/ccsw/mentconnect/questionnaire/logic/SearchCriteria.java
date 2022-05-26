@@ -2,24 +2,22 @@ package com.ccsw.mentconnect.questionnaire.logic;
 
 public class SearchCriteria {
 
-    private String Key;
-
+    private String key;
     private String operation;
-
     private Object value;
 
     public SearchCriteria(String key, String operation, Object value) {
-        Key = key;
+        this.key = key;
         this.operation = operation;
         this.value = value;
     }
 
     public String getKey() {
-        return Key;
+        return key;
     }
 
     public void setKey(String key) {
-        Key = key;
+        this.key = key;
     }
 
     public String getOperation() {

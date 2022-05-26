@@ -21,9 +21,7 @@ public class QuestionnaireEntity {
     public static final String ATT_DESCRIPTION = "description";
     public static final String ATT_QUESTIONS_NUMBER = "questionsNumber";
     public static final String ATT_PATIENTS_NUMBER = "patientsNumber";
-    public static final String ATT_USER = "user.name";
-    public static final String ATT_CREATE_DATE = "createDate";
-    public static final String ATT_LAST_EDIT_DATE = "lastEditDate";
+    public static final String ATT_USER = "user";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +31,11 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    // TO-DO Modificar cuanto este listo Preguntas
+    //TODO Modificar cuanto este listo Preguntas
     @Column(name = "questions", nullable = false)
     private Integer questionsNumber;
 
-    // TO-DO Modificar cuanto este listo Pacientes
+    //TODO Modificar cuanto este listo Pacientes
     @Column(name = "patients", nullable = false)
     private Integer patientsNumber;
 

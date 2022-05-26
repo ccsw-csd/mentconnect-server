@@ -2,7 +2,7 @@ package com.ccsw.mentconnect.questionnaire.dto;
 
 import java.time.LocalDate;
 
-import com.ccsw.mentconnect.user.model.UserEntity;
+import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireDto {
 
@@ -10,21 +10,16 @@ public class QuestionnaireDto {
 
     private String description;
 
-    // TO-DO Modificar cuanto este listo Preguntas
+    //TODO Modificar cuanto este listo Preguntas
     private Integer questionsNumber;
-    // TO-DO Modificar cuanto este listo Pacientes
+    //TODO Modificar cuanto este listo Pacientes
     private Integer patientsNumber;
 
-    private UserEntity user;
+    private UserDto user;
 
     private LocalDate createDate;
 
     private LocalDate lastEditDate;
-
-    public QuestionnaireDto() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
     public Long getId() {
         return id;
@@ -58,11 +53,11 @@ public class QuestionnaireDto {
         this.patientsNumber = patientsNumber;
     }
 
-    public UserEntity getUser() {
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
