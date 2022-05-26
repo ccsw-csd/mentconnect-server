@@ -55,37 +55,6 @@ public class UserTest {
 
     private UserFullDto userDto;
 
-    @Test
-    void findAllShouldReturnAllUsers() {
-
-        List<UserEntity> list = new ArrayList<>();
-        list.add(mock(UserEntity.class));
-        when(userRepository.findAll()).thenReturn(list);
-
-        List<UserEntity> users = userServiceImpl.findAll();
-
-        assertNotNull(users);
-        assertEquals(TOTAL_USERS, users.size());
-    }
-
-    @Test
-    void findPageShouldReturnUsersPage() {
-
-        UserSearchDto dto = new UserSearchDto();
-        dto.setPageable(PageRequest.of(0, 10));
-
-        List<UserEntity> list = new ArrayList<>();
-        list.add(mock(UserEntity.class));
-
-        when(userRepository.findAll(any(), eq(dto.getPageable())))
-                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
-
-        Page<UserEntity> page = userServiceImpl.findPage(dto);
-
-        assertNotNull(page);
-        assertEquals(TOTAL_USERS, page.getContent().size());
-    }
-
     @BeforeEach
     public void setUp() {
         this.userDto = new UserFullDto();
@@ -149,6 +118,37 @@ public class UserTest {
         }
 
         verify(this.userRepository, never()).save(userEntity);
+    }
+
+    @Test
+    void findAllShouldReturnAllUsers() {
+
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+        when(userRepository.findAll()).thenReturn(list);
+
+        List<UserEntity> users = userServiceImpl.findAll();
+
+        assertNotNull(users);
+        assertEquals(TOTAL_USERS, users.size());
+    }
+
+    @Test
+    void findPageShouldReturnUsersPage() {
+
+        UserSearchDto dto = new UserSearchDto();
+        dto.setPageable(PageRequest.of(0, 10));
+
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+
+        when(userRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<UserEntity> page = userServiceImpl.findPage(dto);
+
+        assertNotNull(page);
+        assertEquals(TOTAL_USERS, page.getContent().size());
     }
 
 }
