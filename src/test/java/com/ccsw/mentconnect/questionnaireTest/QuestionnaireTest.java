@@ -2,6 +2,8 @@ package com.ccsw.mentconnect.questionnaireTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +26,8 @@ import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class QuestionnaireTest {
+
+    public static final String EXISTS_DESCRIPTION = "staff";
 
     @Mock
     private QuestionnaireRepository questionnaireRepository;
@@ -57,13 +61,63 @@ public class QuestionnaireTest {
 
         dto.setPageable(PageRequest.of(0, 10));
 
-        when(questionnaireRepository.findAll(dto.getPageable()))
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
                 .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
 
         Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
 
         assertNotNull(questionnaire);
         assertEquals(1, questionnaire.getContent().size());
+
+    }
+
+    @Test
+    public void findPageWithNullValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        list.add(mock(QuestionnaireEntity.class));
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setPatientsNumber(null);
+        dto.setQuestionsNumber(null);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(1, questionnaire.getContent().size());
+
+    }
+
+    @Test
+    public void findPageWithExistsDescriptionValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        list.add(mock(QuestionnaireEntity.class));
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(EXISTS_DESCRIPTION);
+        dto.setPatientsNumber(null);
+        dto.setQuestionsNumber(null);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(1, questionnaire.getTotalElements());
 
     }
 
