@@ -20,7 +20,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.logic.UserServiceImpl;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
@@ -40,14 +41,23 @@ public class UserTest {
     @Mock
     private UserRepository userRepository;
 
-    private UserDto userDto;
+    @Mock
+    BeanMapper beanMapper;
+
+    private UserFullDto userDto;
+
+    private UserEntity userEntityData;
 
     @BeforeEach
     public void setUp() {
-        this.userDto = new UserDto();
+        this.userDto = new UserFullDto();
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
-        this.userDto.setSurnames("admin@meentconnect.com");
+        this.userDto.setEmail("admin@meentconnect.com");
+        userEntityData = new UserEntity();
+        this.userEntityData.setName("Admin");
+        this.userEntityData.setSurnames("Admin");
+        this.userEntityData.setEmail("admin@meentconnect.com");
         ReflectionTestUtils.setField(userServiceImpl, "length", 4);
         ReflectionTestUtils.setField(userServiceImpl, "chars", "ABCDEFGHT");
     }
@@ -65,21 +75,21 @@ public class UserTest {
         }
 
         verify(this.userRepository, never()).save(userEntity);
-
     }
 
     @Test
     public void saveWithNotExistsUsernameShouldCreateNewUser() throws AlreadyExistsException {
 
         this.userDto.setUsername(NOT_EXISTS_USER_USERNAME);
+        this.userEntityData.setUsername(NOT_EXISTS_USER_USERNAME);
         when(this.userRepository.existsByUsername(NOT_EXISTS_USER_USERNAME)).thenReturn(false);
+        when(this.beanMapper.map(userDto, UserEntity.class)).thenReturn(userEntityData);
         ArgumentCaptor<UserEntity> userEntity = ArgumentCaptor.forClass(UserEntity.class);
 
         userServiceImpl.saveUser(userDto);
 
         verify(this.userRepository).save(userEntity.capture());
-        assertEquals(this.userDto.getUsername(), userEntity.getValue().getUsername());
-
+        assertEquals(userDto.getUsername(), userEntity.getValue().getUsername());
     }
 
     @Test
@@ -92,11 +102,10 @@ public class UserTest {
         this.userServiceImpl.modifyUser(userDto);
 
         verify(this.userRepository).save(userEntity);
-
     }
 
     @Test
-    public void odifyWithNotExistIdShouldThrowException() throws EntityNotFoundException {
+    public void modifyWithNotExistIdShouldThrowException() throws EntityNotFoundException {
 
         this.userDto.setId(NOT_EXISTS_USER_ID);
         UserEntity userEntity = mock(UserEntity.class);
@@ -108,7 +117,6 @@ public class UserTest {
         }
 
         verify(this.userRepository, never()).save(userEntity);
-
     }
 
 }

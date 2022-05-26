@@ -1,6 +1,9 @@
 package com.ccsw.mentconnect.user.model;
 
+import com.ccsw.mentconnect.role.model.RoleEntity;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author amirzoya
@@ -31,6 +34,14 @@ public class UserEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="user_role",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
+    public List<RoleEntity> roles;
 
     public Long getId() {
         return id;
@@ -78,5 +89,13 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
