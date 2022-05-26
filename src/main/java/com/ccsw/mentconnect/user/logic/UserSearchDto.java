@@ -1,16 +1,8 @@
-package com.ccsw.mentconnect.user.dto;
+package com.ccsw.mentconnect.user.logic;
 
-import com.ccsw.mentconnect.role.dto.RoleDto;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
-/**
- * @author amirzoya
- *
- *         Clase DTO de la entidad UserEntity
- *
- */
-public class UserFullDto {
+public class UserSearchDto {
 
     private Long id;
 
@@ -22,7 +14,15 @@ public class UserFullDto {
 
     private String email;
 
-    private List<RoleDto> roles;
+    private Pageable pageable;
+
+    public Pageable getPageable() {
+        return pageable;
+    }
+
+    public void setPageable(Pageable pageable) {
+        this.pageable = pageable;
+    }
 
     public Long getId() {
         return id;
@@ -62,13 +62,5 @@ public class UserFullDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<RoleDto> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<RoleDto> roles) {
-        this.roles = roles;
     }
 }

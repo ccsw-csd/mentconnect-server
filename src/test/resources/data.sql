@@ -11,32 +11,3 @@ CREATE TABLE user (
 
 INSERT INTO user (username, password, name, surnames, email) VALUES ('admin', 'pass', 'Admin', 'MentConnect', 'admin@mentconnect.com');
 INSERT INTO user (username, password, name, surnames, email) VALUES ('staff', 'pass', 'Staff', 'MentConnect', 'stuff@mentconnect.com');
-
-CREATE TABLE role (
-  id bigint(20) NOT NULL AUTO_INCREMENT,
-  code varchar(20) NOT NULL,
-  type varchar(3) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT uc_code UNIQUE (code)
-);
-
-INSERT INTO role (code, type) VALUES ('ADMIN', 'INT');
-INSERT INTO role (code, type) VALUES ('STAFF', 'INT');
-INSERT INTO role (code, type) VALUES ('PAT_INFO', 'EXT');
-INSERT INTO role (code, type) VALUES ('PAT_PHOTO', 'EXT');
-INSERT INTO role (code, type) VALUES ('PAT_FORUM_REED', 'EXT');
-INSERT INTO role (code, type) VALUES ('PAT_FORUM_WRITE', 'EXT');
-INSERT INTO role (code, type) VALUES ('PAT_FORUM_ANSWER', 'EXT');
-INSERT INTO role (code, type) VALUES ('PAT_DAILY', 'EXT');
-
-CREATE TABLE user_role (
-  id bigint(20) NOT NULL AUTO_INCREMENT,
-  user_id bigint(20) NOT NULL,
-  role_id bigint(20) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT user_role_user_fk FOREIGN KEY (user_id) REFERENCES user(id),
-  CONSTRAINT user_role_role_fk FOREIGN KEY (role_id) REFERENCES role(id)
-);
-
-INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'admin'), (SELECT id FROM role WHERE code = 'ADMIN'));
-INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'staff'), (SELECT id FROM role WHERE code = 'STAFF'));

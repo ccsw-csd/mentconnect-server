@@ -18,6 +18,10 @@ public class UserDto {
 
     private String email;
 
+    public UserDto() {
+        super();
+    }
+
     public Long getId() {
         return id;
     }
