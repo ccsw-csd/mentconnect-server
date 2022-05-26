@@ -17,6 +17,14 @@ import com.ccsw.mentconnect.user.model.UserEntity;
 @Table(name = "questionnaire")
 public class QuestionnaireEntity {
 
+    public static final String ATT_ID = "id";
+    public static final String ATT_DESCRIPTION = "description";
+    public static final String ATT_QUESTIONS_NUMBER = "questionsNumber";
+    public static final String ATT_PATIENTS_NUMBER = "patientsNumber";
+    public static final String ATT_USER = "user.name";
+    public static final String ATT_CREATE_DATE = "createDate";
+    public static final String ATT_LAST_EDIT_DATE = "lastEditDate";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
