@@ -25,14 +25,14 @@ public class QuestionnaireController {
     @Autowired
     BeanMapper beanMapper;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<QuestionnaireDto> findAll() {
 
         return this.beanMapper.mapList(questionnaireService.findAll(), QuestionnaireDto.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findPage", method = RequestMethod.POST)
     public Page<QuestionnaireDto> findPage(@RequestBody QuestionnaireSearchDto dto) {
 
