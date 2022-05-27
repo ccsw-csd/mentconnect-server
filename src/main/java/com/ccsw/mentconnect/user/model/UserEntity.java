@@ -1,9 +1,19 @@
 package com.ccsw.mentconnect.user.model;
 
-import com.ccsw.mentconnect.role.model.RoleEntity;
-
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.ccsw.mentconnect.role.model.RoleEntity;
 
 /**
  * @author amirzoya
@@ -36,11 +46,7 @@ public class UserEntity {
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name="user_role",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id")
-    )
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public List<RoleEntity> roles;
 
     public Long getId() {
