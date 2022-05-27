@@ -7,5 +7,5 @@ CREATE TABLE questionnaire (
   create_date DATE NOT NULL,
   last_edit_date DATE NULL,
   PRIMARY KEY (id),
-  CONSTRAINT questionary_user_fk FOREIGN KEY (user_id) REFERENCES user(id)
+  CONSTRAINT questionnaire_user_fk FOREIGN KEY (user_id) REFERENCES user(id)
   );
