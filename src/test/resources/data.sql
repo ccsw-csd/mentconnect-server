@@ -40,3 +40,19 @@ CREATE TABLE user_role (
 
 INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'admin'), (SELECT id FROM role WHERE code = 'ADMIN'));
 INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'staff'), (SELECT id FROM role WHERE code = 'STAFF'));
+
+CREATE TABLE questionnaire (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  description VARCHAR(45) NOT NULL,
+  questions INT NOT NULL DEFAULT 0,
+  patients INT NOT NULL DEFAULT 0,
+  user_id BIGINT NOT NULL,
+  create_date DATE NOT NULL,
+  last_edit_date DATE NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT questionnaire_user_fk FOREIGN KEY (user_id) REFERENCES user(id)
+  );
+  
+ INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion admin ', '1' ,'2022-05-23', '2022-05-23');
+ INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion staff ', '1' ,'2022-05-23', '2022-05-23'); 
+  
