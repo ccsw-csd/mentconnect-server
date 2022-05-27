@@ -7,6 +7,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
 public class QuestionnaireSpecification implements Specification<QuestionnaireEntity> {
@@ -21,7 +22,8 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
     }
 
     @Override
-    public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query,
+            CriteriaBuilder criteriaBuilder) {
 
         if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
