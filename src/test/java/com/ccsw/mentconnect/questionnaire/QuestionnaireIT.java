@@ -1,4 +1,4 @@
-package com.ccsw.mentconnect.questionnaireTest;
+package com.ccsw.mentconnect.questionnaire;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
