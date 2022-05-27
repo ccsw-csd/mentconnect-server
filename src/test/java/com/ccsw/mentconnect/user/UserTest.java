@@ -1,29 +1,35 @@
 package com.ccsw.mentconnect.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import com.ccsw.mentconnect.common.mapper.BeanMapper;
-import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
+import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserServiceImpl;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
@@ -33,6 +39,7 @@ public class UserTest {
 
     public static final Long EXISTS_USER_ID = 1L;
     public static final Long NOT_EXISTS_USER_ID = 0L;
+    public static final int TOTAL_USERS = 1;
 
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
@@ -67,7 +74,8 @@ public class UserTest {
 
         try {
             userServiceImpl.saveUser(userDto);
-        } catch (AlreadyExistsException e) {}
+        } catch (AlreadyExistsException e) {
+        }
 
         verify(this.userRepository, never()).save(userEntity);
     }
@@ -77,7 +85,7 @@ public class UserTest {
 
         this.userDto.setUsername(NOT_EXISTS_USER_USERNAME);
         when(this.userRepository.existsByUsername(NOT_EXISTS_USER_USERNAME)).thenReturn(false);
-        UserEntity userEntity = mock(UserEntity.class); //TODO revisar, hacer con captor
+        UserEntity userEntity = mock(UserEntity.class); // TODO revisar, hacer con captor
         when(this.beanMapper.map(this.userDto, UserEntity.class)).thenReturn(userEntity);
 
         userServiceImpl.saveUser(userDto);
@@ -106,9 +114,41 @@ public class UserTest {
 
         try {
             this.userServiceImpl.modifyUser(userDto);
-        } catch (EntityNotFoundException e) {}
+        } catch (EntityNotFoundException e) {
+        }
 
         verify(this.userRepository, never()).save(userEntity);
+    }
+
+    @Test
+    public void findAllShouldReturnAllUsers() {
+
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+        when(userRepository.findAll()).thenReturn(list);
+
+        List<UserEntity> users = userServiceImpl.findAll();
+
+        assertNotNull(users);
+        assertEquals(TOTAL_USERS, users.size());
+    }
+
+    @Test
+    public void findPageShouldReturnUsersPage() {
+
+        UserSearchDto dto = new UserSearchDto();
+        dto.setPageable(PageRequest.of(0, 10));
+
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+
+        when(userRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<UserEntity> page = userServiceImpl.findPage(dto);
+
+        assertNotNull(page);
+        assertEquals(TOTAL_USERS, page.getContent().size());
     }
 
 }
