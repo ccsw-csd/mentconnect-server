@@ -1,7 +1,5 @@
 package com.ccsw.mentconnect.role;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -25,9 +23,6 @@ import com.ccsw.mentconnect.role.model.RoleTypeEnum;
 @ExtendWith(MockitoExtension.class)
 public class RoleTest {
 
-    public static final String VALID_TYPE_1 = "EXT";
-    public static final String VALID_TYPE = "INT";
-    public static final String NOT_VALID_TYPE = "UNK";
     public static final int TOTAL_ROLES = 1;
 
     @InjectMocks
@@ -38,12 +33,6 @@ public class RoleTest {
 
     @Mock
     private RoleRepository roleRepository;
-
-    @Test
-    public void should() {
-        assertThat(RoleTypeEnum.valueOf(VALID_TYPE).name(), is("INT"));
-        assertThat(RoleTypeEnum.valueOf(VALID_TYPE_1).name(), is("EXT"));
-    }
 
     @Test
     public void findAllShouldReturnAllRoles() {
@@ -64,10 +53,9 @@ public class RoleTest {
         List<RoleEntity> list = new ArrayList<>();
 
         list.add(mock(RoleEntity.class));
-        RoleTypeEnum type = RoleTypeEnum.EXT;
 
-        when(roleRepository.findByType(type)).thenReturn(list);
-        List<RoleEntity> roles = roleServiceImpl.findByType(type);
+        when(roleRepository.findByType(RoleTypeEnum.EXT)).thenReturn(list);
+        List<RoleEntity> roles = roleServiceImpl.findByType(RoleTypeEnum.EXT);
 
         assertNotNull(roles);
         assertEquals(1, roles.size());
