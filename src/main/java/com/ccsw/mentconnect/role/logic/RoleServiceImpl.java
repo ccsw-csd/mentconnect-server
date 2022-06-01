@@ -25,13 +25,13 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleRepository roleRepository;
 
-    public List<RoleEntity> findByType(RoleTypeEnum type) {
-        return this.roleRepository.findByType(type);
-    }
-
     public List<RoleEntity> findAll() {
         return roleRepository.findAll();
 
+    }
+
+    public List<RoleEntity> findByType(RoleTypeEnum type) {
+        return this.roleRepository.findByType(type);
     }
 
 }

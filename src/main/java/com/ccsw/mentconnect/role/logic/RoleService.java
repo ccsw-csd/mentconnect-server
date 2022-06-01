@@ -12,6 +12,7 @@ import com.ccsw.mentconnect.role.model.RoleTypeEnum;
  *
  */
 public interface RoleService {
+
     List<RoleEntity> findAll();
 
     List<RoleEntity> findByType(RoleTypeEnum type);
