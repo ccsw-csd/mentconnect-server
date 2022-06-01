@@ -24,14 +24,14 @@ public class RoleController {
     @Autowired
     BeanMapper beanMapper;
 
-    @PreAuthorize("hasAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<RoleDto> findAll() {
 
         return this.beanMapper.mapList(roleService.findAll(), RoleDto.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findByType/{type}", method = RequestMethod.GET)
     public List<RoleDto> findByType(@PathVariable RoleTypeEnum type) {
 

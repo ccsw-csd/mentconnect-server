@@ -24,9 +24,6 @@ public class RoleTestIT extends BaseITAbstract {
     public static final Integer TOTAL_ROLE = 8;
     public static final Integer TOTAL_ROLE_TYPE = 2;
     public static final String LOCALHOST = "http://localhost:";
-    public RoleDto newRole = new RoleDto();
-
-    public static final String TYPE = "EXT";
 
     ParameterizedTypeReference<List<RoleDto>> responseTypeList = new ParameterizedTypeReference<List<RoleDto>>() {
     };
