@@ -48,17 +48,17 @@ public class RoleTest {
     }
 
     @Test
-    public void findTypeShouldReturnAllRoles() {
+    public void findByTypeShouldReturnFilteredRole() {
 
         List<RoleEntity> list = new ArrayList<>();
 
         list.add(mock(RoleEntity.class));
-
         when(roleRepository.findByType(RoleTypeEnum.EXT)).thenReturn(list);
+
         List<RoleEntity> roles = roleServiceImpl.findByType(RoleTypeEnum.EXT);
 
         assertNotNull(roles);
-        assertEquals(1, roles.size());
+        assertEquals(TOTAL_ROLES, roles.size());
     }
 
 }

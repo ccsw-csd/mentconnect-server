@@ -36,6 +36,5 @@ public class RoleController {
     public List<RoleDto> findByType(@PathVariable RoleTypeEnum type) {
 
         return this.beanMapper.mapList(roleService.findByType(type), RoleDto.class);
-
     }
 }
