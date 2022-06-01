@@ -27,11 +27,8 @@ public class RoleEntity {
     @Column(name = "code", nullable = false)
     private String code;
 
-    // @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    // @Convert(converter = StringToEnumConverter.class)
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    // @JsonValue
     private RoleTypeEnum type;
 
     public Long getId() {

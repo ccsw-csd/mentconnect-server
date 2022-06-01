@@ -33,7 +33,6 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/findByType/{type}", method = RequestMethod.GET)
-
     public List<RoleDto> findByType(@PathVariable RoleTypeEnum type) {
 
         return this.beanMapper.mapList(roleService.findByType(type), RoleDto.class);
