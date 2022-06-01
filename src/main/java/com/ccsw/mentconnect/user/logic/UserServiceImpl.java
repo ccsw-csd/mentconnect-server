@@ -3,7 +3,6 @@ package com.ccsw.mentconnect.user.logic;
 import java.util.List;
 import java.util.Optional;
 
-import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

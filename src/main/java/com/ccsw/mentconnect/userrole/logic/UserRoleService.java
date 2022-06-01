@@ -1,8 +1,8 @@
 package com.ccsw.mentconnect.userrole.logic;
 
-import com.ccsw.mentconnect.userrole.model.UserRoleEntity;
-
 import java.util.List;
+
+import com.ccsw.mentconnect.userrole.model.UserRoleEntity;
 
 /**
  * @author amirzoya

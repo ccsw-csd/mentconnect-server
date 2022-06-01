@@ -5,7 +5,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.ccsw.mentconnect.user.model.UserEntity;

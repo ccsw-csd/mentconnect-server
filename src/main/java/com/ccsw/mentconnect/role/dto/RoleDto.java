@@ -1,14 +1,20 @@
 package com.ccsw.mentconnect.role.dto;
 
+import java.io.Serializable;
+
 import com.ccsw.mentconnect.role.model.RoleTypeEnum;
 
-public class RoleDto {
+public class RoleDto implements Serializable {
 
     private Long id;
 
     private String code;
 
     private RoleTypeEnum type;
+
+    public RoleTypeEnum getType() {
+        return type;
+    }
 
     public Long getId() {
         return id;
@@ -24,10 +30,6 @@ public class RoleDto {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public RoleTypeEnum getType() {
-        return type;
     }
 
     public void setType(RoleTypeEnum type) {

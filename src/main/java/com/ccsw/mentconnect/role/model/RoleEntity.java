@@ -1,6 +1,17 @@
 package com.ccsw.mentconnect.role.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * @author amirzoya
@@ -9,6 +20,7 @@ import javax.persistence.*;
  *
  */
 @Entity
+
 @Table(name = "role")
 public class RoleEntity {
 
@@ -21,7 +33,11 @@ public class RoleEntity {
     private String code;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+
+    @Column(name = "type")
+    @Convert(converter = StringToEnumConverter.class)
+    @JsonValue
     private RoleTypeEnum type;
 
     public Long getId() {
@@ -47,7 +63,5 @@ public class RoleEntity {
     public void setType(RoleTypeEnum type) {
         this.type = type;
     }
-
-
 
 }
