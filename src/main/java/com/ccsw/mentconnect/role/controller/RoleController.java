@@ -24,7 +24,7 @@ public class RoleController {
     @Autowired
     BeanMapper beanMapper;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<RoleDto> findAll() {
 
