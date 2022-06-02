@@ -8,8 +8,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
@@ -53,18 +55,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findAll() {
-
-        return userRepository.findAll();
-    }
-
-    @Override
-    public Page<UserEntity> findPage(UserSearchDto dto) {
-
-        return userRepository.findAll(dto.getPageable());
-    }
-
-    @Override
     public UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException {
 
         if (this.userRepository.existsByUsername(userDto.getUsername())) {
@@ -93,6 +83,28 @@ public class UserServiceImpl implements UserService {
         updateUser.setRoles(this.beanMapper.mapList(userDto.getRoles(), RoleEntity.class));
 
         return this.userRepository.save(updateUser);
+    }
+
+    @Override
+    public List<UserEntity> findAll() {
+
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Page<UserEntity> findPage(UserSearchDto dto) {
+
+        UserSpecification id = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId()));
+        UserSpecification username = new UserSpecification(
+                new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
+        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", dto.getName()));
+        UserSpecification surnames = new UserSpecification(
+                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
+        UserSpecification email = new UserSpecification(new SearchCriteria(UserEntity.ATT_EMAIL, ":", dto.getEmail()));
+
+        Specification<UserEntity> spec = Specification.where(id).and(username).and(name).and(surnames).and(email);
+
+        return userRepository.findAll(spec, dto.getPageable());
     }
 
     private String generatePassword() {

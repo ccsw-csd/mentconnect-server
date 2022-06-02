@@ -40,3 +40,36 @@ CREATE TABLE user_role (
 
 INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'admin'), (SELECT id FROM role WHERE code = 'ADMIN'));
 INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'staff'), (SELECT id FROM role WHERE code = 'STAFF'));
+
+CREATE TABLE questionnaire (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  description VARCHAR(45) NOT NULL,
+  questions INT NOT NULL DEFAULT 0,
+  patients INT NOT NULL DEFAULT 0,
+  user_id BIGINT NOT NULL,
+  create_date DATE NOT NULL,
+  last_edit_date DATE NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT questionnaire_user_fk FOREIGN KEY (user_id) REFERENCES user(id)
+  );
+  
+ INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion admin ', '1' ,'2022-05-23', '2022-05-23');
+ INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion staff ', '1' ,'2022-05-23', '2022-05-23');
+ 
+ CREATE TABLE patient (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  user_id bigint(20) NOT NULL,
+  nif varchar(9) NOT NULL,
+  gender char(1),
+  date_birth date,
+  phone varchar(9) NOT NULL,
+  sip varchar(30),
+  medical_history varchar(50),
+  PRIMARY KEY (id),
+  CONSTRAINT uc_nif UNIQUE (nif),
+  CONSTRAINT user_patient_fk FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'admin'), '12345678Y', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'staff'), '12345678X', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+ 
