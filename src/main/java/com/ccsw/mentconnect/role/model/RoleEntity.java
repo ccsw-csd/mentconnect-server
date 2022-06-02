@@ -1,6 +1,13 @@
 package com.ccsw.mentconnect.role.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author amirzoya
@@ -47,7 +54,5 @@ public class RoleEntity {
     public void setType(RoleTypeEnum type) {
         this.type = type;
     }
-
-
 
 }
