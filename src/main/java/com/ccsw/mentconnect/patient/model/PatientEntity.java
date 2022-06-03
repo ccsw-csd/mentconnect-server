@@ -1,6 +1,6 @@
 package com.ccsw.mentconnect.patient.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,10 +31,10 @@ public class PatientEntity {
     private String nif;
 
     @Column(name = "gender")
-    private Character gender;
+    private String gender;
 
     @Column(name = "date_birth")
-    private Date date_birth;
+    private LocalDate dateBirth;
 
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -43,7 +43,7 @@ public class PatientEntity {
     private String sip;
 
     @Column(name = "medical_history")
-    private String medical_history;
+    private String medicalHistory;
 
     public Long getId() {
         return id;
@@ -69,20 +69,20 @@ public class PatientEntity {
         this.nif = nif;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Date getDate_birth() {
-        return date_birth;
+    public LocalDate getDateBirth() {
+        return dateBirth;
     }
 
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
+    public void setDateBirth(LocalDate dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
     public String getPhone() {
@@ -101,12 +101,12 @@ public class PatientEntity {
         this.sip = sip;
     }
 
-    public String getMedical_history() {
-        return medical_history;
+    public String getMedicalHistory() {
+        return medicalHistory;
     }
 
-    public void setMedical_history(String medical_history) {
-        this.medical_history = medical_history;
+    public void setMedicalHistory(String medicalHistory) {
+        this.medicalHistory = medicalHistory;
     }
 
 }

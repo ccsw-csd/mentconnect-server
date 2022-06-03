@@ -60,7 +60,7 @@ public class PatientTest {
         this.userFullDto.setEmail("admin@meentconnect.com");
         this.patientDto.setUser(userFullDto);
         this.patientDto.setNif("12345678P");
-        this.patientDto.setGender('H');
+        this.patientDto.setGender("H");
         this.patientDto.setPhone("123456789");
     }
 

@@ -2,6 +2,7 @@ package com.ccsw.mentconnect.patient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -26,6 +27,7 @@ public class PatientIT extends BaseITAbstract {
     private PatientDto patientDto;
     private UserFullDto userFullDto;
 
+    @BeforeEach
     public void setUp() {
         patientDto = new PatientDto();
         userFullDto = new UserFullDto();
@@ -35,14 +37,13 @@ public class PatientIT extends BaseITAbstract {
         this.userFullDto.setEmail("admin@meentconnect.com");
         this.patientDto.setUser(userFullDto);
         this.patientDto.setNif("12345678P");
-        this.patientDto.setGender('H');
+        this.patientDto.setGender("H");
         this.patientDto.setPhone("123456789");
     }
 
     @Test
     public void saveWithExistsUsernameShouldThrowException() {
 
-        this.setUp();
         patientDto.getUser().setUsername(EXISTS_USERNAME_USER);
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
@@ -56,7 +57,6 @@ public class PatientIT extends BaseITAbstract {
     @Test
     public void saveWithNotExistsUsernameShouldCreateNewPatient() {
 
-        this.setUp();
         patientDto.getUser().setUsername(NOT_EXISTS_USERNAME_USER);
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 

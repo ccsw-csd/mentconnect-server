@@ -59,10 +59,10 @@ CREATE TABLE questionnaire (
  CREATE TABLE patient (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   user_id bigint(20) NOT NULL,
-  nif varchar(9) NOT NULL,
+  nif varchar(20) NOT NULL,
   gender char(1),
   date_birth date,
-  phone varchar(9) NOT NULL,
+  phone varchar(20) NOT NULL,
   sip varchar(30),
   medical_history varchar(50),
   PRIMARY KEY (id),

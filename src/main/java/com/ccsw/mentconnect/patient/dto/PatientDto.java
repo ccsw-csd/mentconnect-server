@@ -1,6 +1,6 @@
 package com.ccsw.mentconnect.patient.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
@@ -12,15 +12,15 @@ public class PatientDto {
 
     private String nif;
 
-    private Character gender;
+    private String gender;
 
-    private Date date_birth;
+    private LocalDate dateBirth;
 
     private String phone;
 
     private String sip;
 
-    private String medical_history;
+    private String medicalHistory;
 
     public Long getId() {
         return id;
@@ -46,20 +46,20 @@ public class PatientDto {
         this.nif = nif;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Date getDate_birth() {
-        return date_birth;
+    public LocalDate getDateBirth() {
+        return dateBirth;
     }
 
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
+    public void setDateBirth(LocalDate dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
     public String getPhone() {
@@ -78,12 +78,12 @@ public class PatientDto {
         this.sip = sip;
     }
 
-    public String getMedical_history() {
-        return medical_history;
+    public String getMedicalHistory() {
+        return medicalHistory;
     }
 
-    public void setMedical_history(String medical_history) {
-        this.medical_history = medical_history;
+    public void setMedicalHistory(String medicalHistory) {
+        this.medicalHistory = medicalHistory;
     }
 
 }
