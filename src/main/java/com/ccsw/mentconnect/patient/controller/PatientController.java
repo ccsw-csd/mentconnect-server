@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
-import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.patient.dto.PatientDtoFull;
 import com.ccsw.mentconnect.patient.logic.PatientService;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 
@@ -25,16 +25,16 @@ public class PatientController {
     BeanMapper beanMapper;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public PatientDto savePatient(@RequestBody PatientDto patientDto) throws AlreadyExistsException {
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    public PatientDtoFull getPatient(@PathVariable Long id) throws EntityNotFoundException {
 
-        return this.beanMapper.map(this.patientService.savePatient(patientDto), PatientDto.class);
+        return this.beanMapper.map(this.patientService.getPatient(id), PatientDtoFull.class);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public PatientDto getPatient(@PathVariable Long id) throws EntityNotFoundException {
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public PatientDtoFull savePatient(@RequestBody PatientDtoFull patientDtoFull) throws AlreadyExistsException {
 
-        return this.beanMapper.map(this.patientService.getPatient(id), PatientDto.class);
+        return this.beanMapper.map(this.patientService.savePatient(patientDtoFull), PatientDtoFull.class);
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.ccsw.mentconnect.config.BaseITAbstract;
-import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.patient.dto.PatientDtoFull;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -24,50 +24,69 @@ public class PatientIT extends BaseITAbstract {
     public static final String NOT_EXISTS_USERNAME_USER = "jopepe";
     public static final String EXISTS_USERNAME_USER = "admin";
 
-    private PatientDto patientDto;
+    public static final String EXISTS_USER_NIF = "12345678Y";
+    public static final String NOT_EXISTS_USER_NIF = "12345678B";
+
+    private PatientDtoFull patientDtoFull;
     private UserFullDto userFullDto;
 
     @BeforeEach
     public void setUp() {
-        patientDto = new PatientDto();
+        patientDtoFull = new PatientDtoFull();
         userFullDto = new UserFullDto();
 
         this.userFullDto.setName("Admin");
         this.userFullDto.setSurnames("Admin");
         this.userFullDto.setEmail("admin@meentconnect.com");
-        this.patientDto.setUser(userFullDto);
-        this.patientDto.setNif("12345678P");
-        this.patientDto.setGender("H");
-        this.patientDto.setPhone("123456789");
+        this.patientDtoFull.setUser(userFullDto);
+        this.patientDtoFull.setNif("12345678P");
+        this.patientDtoFull.setGender("H");
+        this.patientDtoFull.setPhone("123456789");
     }
 
     @Test
-    public void saveWithExistsUsernameShouldThrowException() {
+    public void saveWithExistsUsernameAndNotExistNifShouldThrowException() {
 
-        patientDto.getUser().setUsername(EXISTS_USERNAME_USER);
-        HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
+        patientDtoFull.getUser().setUsername(EXISTS_USERNAME_USER);
+        patientDtoFull.setNif(NOT_EXISTS_USER_NIF);
+        HttpEntity<?> httpEntity = new HttpEntity<>(patientDtoFull, getHeaders());
 
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
-                PatientDto.class);
+                PatientDtoFull.class);
 
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 
     }
 
     @Test
-    public void saveWithNotExistsUsernameShouldCreateNewPatient() {
+    public void saveWithNotExistsUsernameAndExistsNifShouldThrowException() {
 
-        patientDto.getUser().setUsername(NOT_EXISTS_USERNAME_USER);
-        HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
+        patientDtoFull.getUser().setUsername(NOT_EXISTS_USERNAME_USER);
+        patientDtoFull.setNif(EXISTS_USER_NIF);
+        HttpEntity<?> httpEntity = new HttpEntity<>(patientDtoFull, getHeaders());
 
-        ResponseEntity<PatientDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH,
-                HttpMethod.POST, httpEntity, PatientDto.class);
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
+                PatientDtoFull.class);
 
-        assertEquals(patientDto.getUser().getUsername(), responseSave.getBody().getUser().getUsername());
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 
-        ResponseEntity<PatientDto> responseGetPatient = restTemplate.exchange(
+    }
+
+    @Test
+    public void saveWithNotExistsUsernameAndNifShouldCreateNewPatient() {
+
+        patientDtoFull.getUser().setUsername(NOT_EXISTS_USERNAME_USER);
+        patientDtoFull.setNif(NOT_EXISTS_USER_NIF);
+        HttpEntity<?> httpEntity = new HttpEntity<>(patientDtoFull, getHeaders());
+
+        ResponseEntity<PatientDtoFull> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH,
+                HttpMethod.POST, httpEntity, PatientDtoFull.class);
+
+        assertEquals(patientDtoFull.getUser().getUsername(), responseSave.getBody().getUser().getUsername());
+
+        ResponseEntity<PatientDtoFull> responseGetPatient = restTemplate.exchange(
                 LOCALHOST + port + SERVICE_PATH + responseSave.getBody().getId(), HttpMethod.GET,
-                new HttpEntity<>(getHeaders()), PatientDto.class);
+                new HttpEntity<>(getHeaders()), PatientDtoFull.class);
 
         assertEquals(responseGetPatient.getBody().getUser().getId(), responseSave.getBody().getUser().getId());
     }

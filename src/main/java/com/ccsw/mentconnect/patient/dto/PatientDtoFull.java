@@ -2,13 +2,13 @@ package com.ccsw.mentconnect.patient.dto;
 
 import java.time.LocalDate;
 
-import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 
-public class PatientDto {
+public class PatientDtoFull {
 
     private Long id;
 
-    private UserDto user;
+    private UserFullDto user;
 
     private String nif;
 
@@ -30,11 +30,11 @@ public class PatientDto {
         this.id = id;
     }
 
-    public UserDto getUser() {
+    public UserFullDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public void setUser(UserFullDto user) {
         this.user = user;
     }
 
@@ -85,4 +85,5 @@ public class PatientDto {
     public void setMedicalHistory(String medicalHistory) {
         this.medicalHistory = medicalHistory;
     }
+
 }
