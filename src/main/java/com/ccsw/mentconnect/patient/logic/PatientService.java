@@ -7,7 +7,9 @@ import com.ccsw.mentconnect.patient.model.PatientEntity;
 
 public interface PatientService {
 
-    PatientEntity savePatient(PatientDtoFull patientDtoFull) throws AlreadyExistsException;
 
     PatientEntity getPatient(Long id) throws EntityNotFoundException;
+
+    PatientEntity savePatient(PatientDtoFull patientDtoFull) throws AlreadyExistsException;
+
 }
