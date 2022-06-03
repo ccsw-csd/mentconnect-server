@@ -1,4 +1,4 @@
-package com.ccsw.mentconnect.patient.Controller;
+package com.ccsw.mentconnect.patient.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
