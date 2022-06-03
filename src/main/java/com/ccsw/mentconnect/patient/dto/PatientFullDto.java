@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
-public class PatientDtoFull {
+public class PatientFullDto {
 
     private Long id;
 

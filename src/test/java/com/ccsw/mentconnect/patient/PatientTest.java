@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
-import com.ccsw.mentconnect.patient.dto.PatientDtoFull;
+import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.logic.PatientServiceImpl;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
@@ -45,35 +45,35 @@ public class PatientTest {
     @Mock
     private BeanMapper beanMapper;
 
-    private PatientDtoFull patientDtoFull;
+    private PatientFullDto patientFullDto;
 
     private UserFullDto userFullDto;
 
     @BeforeEach
     public void setUp() {
 
-        patientDtoFull = new PatientDtoFull();
+        patientFullDto = new PatientFullDto();
         userFullDto = new UserFullDto();
 
         this.userFullDto.setName("Admin");
         this.userFullDto.setSurnames("Admin");
         this.userFullDto.setEmail("admin@meentconnect.com");
-        this.patientDtoFull.setUser(userFullDto);
-        this.patientDtoFull.setNif("12345678P");
-        this.patientDtoFull.setGender("H");
-        this.patientDtoFull.setPhone("123456789");
+        this.patientFullDto.setUser(userFullDto);
+        this.patientFullDto.setNif("12345678P");
+        this.patientFullDto.setGender("H");
+        this.patientFullDto.setPhone("123456789");
     }
 
     @Test
     public void saveWithExistsUsernameAndNotExistNifShouldThrowException() throws AlreadyExistsException {
 
         PatientEntity patientEntity = mock(PatientEntity.class);
-        patientDtoFull.getUser().setUsername(EXISTS_USER_USERNAME);
-        patientDtoFull.setNif(NOT_EXISTS_USER_NIF);
+        patientFullDto.getUser().setUsername(EXISTS_USER_USERNAME);
+        patientFullDto.setNif(NOT_EXISTS_USER_NIF);
         when(this.patientUserRepository.existsByNif(NOT_EXISTS_USER_NIF)).thenReturn(false);
-        doThrow(new AlreadyExistsException()).when(this.userService).saveUser(patientDtoFull.getUser());
+        doThrow(new AlreadyExistsException()).when(this.userService).saveUser(patientFullDto.getUser());
 
-        assertThrows(AlreadyExistsException.class, () -> patientServiceImpl.savePatient(patientDtoFull));
+        assertThrows(AlreadyExistsException.class, () -> patientServiceImpl.savePatient(patientFullDto));
         verify(this.patientUserRepository, never()).save(patientEntity);
 
     }
@@ -81,12 +81,12 @@ public class PatientTest {
     @Test
     public void saveWithNotExistsUsernameAndExistsNifShouldThrowException() {
 
-        patientDtoFull.getUser().setUsername(NOT_EXISTS_USER_USERNAME);
-        patientDtoFull.setNif(EXISTS_USER_NIF);
+        patientFullDto.getUser().setUsername(NOT_EXISTS_USER_USERNAME);
+        patientFullDto.setNif(EXISTS_USER_NIF);
         PatientEntity patientEntity = mock(PatientEntity.class);
         when(this.patientUserRepository.existsByNif(EXISTS_USER_NIF)).thenReturn(true);
 
-        assertThrows(AlreadyExistsException.class, () -> patientServiceImpl.savePatient(patientDtoFull));
+        assertThrows(AlreadyExistsException.class, () -> patientServiceImpl.savePatient(patientFullDto));
         verify(this.patientUserRepository, never()).save(patientEntity);
 
     }
@@ -96,13 +96,13 @@ public class PatientTest {
 
         UserEntity userEntity = mock(UserEntity.class);
         PatientEntity patientEntity = mock(PatientEntity.class);
-        patientDtoFull.getUser().setUsername(NOT_EXISTS_USER_USERNAME);
-        patientDtoFull.setNif(NOT_EXISTS_USER_NIF);
+        patientFullDto.getUser().setUsername(NOT_EXISTS_USER_USERNAME);
+        patientFullDto.setNif(NOT_EXISTS_USER_NIF);
         when(this.patientUserRepository.existsByNif(NOT_EXISTS_USER_NIF)).thenReturn(false);
-        when(this.beanMapper.map(patientDtoFull, PatientEntity.class)).thenReturn(patientEntity);
-        when(this.userService.saveUser(patientDtoFull.getUser())).thenReturn(userEntity);
+        when(this.beanMapper.map(patientFullDto, PatientEntity.class)).thenReturn(patientEntity);
+        when(this.userService.saveUser(patientFullDto.getUser())).thenReturn(userEntity);
 
-        this.patientServiceImpl.savePatient(patientDtoFull);
+        this.patientServiceImpl.savePatient(patientFullDto);
 
         verify(this.patientUserRepository).save(patientEntity);
 
