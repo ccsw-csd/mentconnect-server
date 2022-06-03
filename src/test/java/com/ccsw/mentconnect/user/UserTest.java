@@ -23,11 +23,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserServiceImpl;
@@ -43,6 +45,11 @@ public class UserTest {
 
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
+    public static final String EXIST_NAME = "Pablo";
+    public static final String NOT_EXIST_NAME = "Ana";
+    public static final String EXIST_SURNAMES = "El Moussaoui";
+    public static final String NOT_EXIST_SURNAMES = "Casa";
+    public static final int TOTAL_USERS_FILTER = 2;
 
     @InjectMocks
     private UserServiceImpl userServiceImpl;
@@ -151,4 +158,20 @@ public class UserTest {
         assertEquals(TOTAL_USERS, page.getContent().size());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void findExistsNameOrSurnamesShouldReturnUserFilter() {
+        UserDto user = mock(UserDto.class);
+        user.setName(EXIST_NAME);
+        user.setSurnames(EXIST_SURNAMES);
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+
+        when(userRepository.findAll(any(Specification.class))).thenReturn(list);
+        List<UserEntity> users = userServiceImpl.findByNameOrSurnames(EXIST_NAME, EXIST_SURNAMES);
+
+        assertNotNull(users);
+        assertEquals(TOTAL_USERS, users.size());
+
+    }
 }

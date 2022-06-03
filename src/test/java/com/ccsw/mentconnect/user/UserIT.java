@@ -232,4 +232,16 @@ public class UserIT extends BaseITAbstract {
         assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
     }
 
+    @Test
+    public void findExistsNameOrSurnamesShouldReturnUserFilter() {
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+        ResponseEntity<List<UserDto>> response = restTemplate.exchange(
+                LOCALHOST + port + SERVICE_PATH + "findFilter/" + NAME + "/" + SURNAMES, HttpMethod.GET, httpEntity,
+                responseTypeList);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_USER, response.getBody().size());
+    }
+
 }

@@ -3,7 +3,6 @@ package com.ccsw.mentconnect.user.logic;
 import java.util.List;
 import java.util.Optional;
 
-import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
@@ -113,6 +113,19 @@ public class UserServiceImpl implements UserService {
 
     private String encryptSha256(String password) {
         return DigestUtils.sha256Hex(password);
+    }
+
+    public List<UserEntity> findByNameOrSurnames(String name, String surnames) {
+
+        UserSpecification nameSpec = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", name));
+
+        UserSpecification surnamesSpec = new UserSpecification(
+                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", surnames));
+
+        Specification<UserEntity> spec = Specification.where(nameSpec).or(surnamesSpec);
+
+        return userRepository.findAll(spec);
+
     }
 
 }

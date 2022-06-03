@@ -1,8 +1,8 @@
 package com.ccsw.mentconnect.user.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import com.ccsw.mentconnect.user.dto.UserFullDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +16,7 @@ import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserService;
 
@@ -69,6 +70,16 @@ public class UserController {
     public Page<UserDto> findPage(@RequestBody UserSearchDto dto) {
 
         return this.beanMapper.mapPage(userService.findPage(dto), UserDto.class);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "/findFilter/{name}/{surnames}", method = RequestMethod.GET)
+    public List<UserDto> findFilter(@PathVariable Map<String, String> pathVars) {
+
+        String name = String.valueOf(pathVars.get("name"));
+        String surnames = String.valueOf(pathVars.get("surnames"));
+        return this.beanMapper.mapList(userService.findByNameOrSurnames(name, surnames), UserDto.class);
+
     }
 
 }

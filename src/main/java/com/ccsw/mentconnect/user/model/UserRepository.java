@@ -22,4 +22,6 @@ public interface UserRepository
 
     Boolean existsByUsername(String username);
 
+    List<UserEntity> findByNameOrSurnames(String name, String surnames);
+
 }
