@@ -10,4 +10,5 @@ public interface PatientService {
     PatientEntity savePatient(PatientFullDto patientFullDto) throws AlreadyExistsException;
 
     PatientEntity getPatient(Long id) throws EntityNotFoundException;
+
 }
