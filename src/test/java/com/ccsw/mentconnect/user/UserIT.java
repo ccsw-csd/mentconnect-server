@@ -62,7 +62,7 @@ public class UserIT extends BaseITAbstract {
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
-                UserDto.class);
+                UserFullDto.class);
 
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
@@ -106,7 +106,6 @@ public class UserIT extends BaseITAbstract {
 
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity,
                 UserFullDto.class);
-
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -122,7 +121,6 @@ public class UserIT extends BaseITAbstract {
 
         ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT,
                 httpEntity, UserFullDto.class);
-
         assertNotNull(response.getBody());
 
         ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",

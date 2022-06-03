@@ -54,5 +54,22 @@ CREATE TABLE questionnaire (
   );
   
  INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion admin ', '1' ,'2022-05-23', '2022-05-23');
- INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion staff ', '1' ,'2022-05-23', '2022-05-23'); 
-  
+ INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion staff ', '1' ,'2022-05-23', '2022-05-23');
+ 
+ CREATE TABLE patient (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  user_id bigint(20) NOT NULL,
+  nif varchar(20) NOT NULL,
+  gender char(1),
+  date_birth date,
+  phone varchar(20) NOT NULL,
+  sip varchar(30),
+  medical_history varchar(50),
+  PRIMARY KEY (id),
+  CONSTRAINT uc_nif UNIQUE (nif),
+  CONSTRAINT user_patient_fk FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'admin'), '12345678Y', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'staff'), '12345678X', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+ 

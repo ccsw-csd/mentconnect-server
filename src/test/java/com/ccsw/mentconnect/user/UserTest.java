@@ -55,12 +55,18 @@ public class UserTest {
 
     private UserFullDto userDto;
 
+    private UserEntity userEntityData;
+
     @BeforeEach
     public void setUp() {
         this.userDto = new UserFullDto();
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
-        this.userDto.setSurnames("admin@meentconnect.com");
+        this.userDto.setEmail("admin@meentconnect.com");
+        userEntityData = new UserEntity();
+        this.userEntityData.setName("Admin");
+        this.userEntityData.setSurnames("Admin");
+        this.userEntityData.setEmail("admin@meentconnect.com");
         ReflectionTestUtils.setField(userServiceImpl, "length", 4);
         ReflectionTestUtils.setField(userServiceImpl, "chars", "ABCDEFGHT");
     }
@@ -83,14 +89,15 @@ public class UserTest {
     @Test
     public void saveWithNotExistsUsernameShouldCreateNewUser() throws AlreadyExistsException {
 
+        UserEntity userEntity = mock(UserEntity.class);
         this.userDto.setUsername(NOT_EXISTS_USER_USERNAME);
         when(this.userRepository.existsByUsername(NOT_EXISTS_USER_USERNAME)).thenReturn(false);
-        UserEntity userEntity = mock(UserEntity.class); // TODO revisar, hacer con captor
-        when(this.beanMapper.map(this.userDto, UserEntity.class)).thenReturn(userEntity);
+        when(this.beanMapper.map(userDto, UserEntity.class)).thenReturn(userEntity);
 
         userServiceImpl.saveUser(userDto);
 
         verify(this.userRepository).save(userEntity);
+
     }
 
     @Test
