@@ -41,14 +41,8 @@ public class UserTest {
     public static final Long EXISTS_USER_ID = 1L;
     public static final Long NOT_EXISTS_USER_ID = 0L;
     public static final int TOTAL_USERS = 1;
-
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
-    public static final String EXIST_NAME = "Pablo";
-    public static final String NOT_EXIST_NAME = "Ana";
-    public static final String EXIST_SURNAMES = "El Moussaoui";
-    public static final String NOT_EXIST_SURNAMES = "Casa";
-    public static final int TOTAL_USERS_FILTER = 2;
 
     @InjectMocks
     private UserServiceImpl userServiceImpl;
