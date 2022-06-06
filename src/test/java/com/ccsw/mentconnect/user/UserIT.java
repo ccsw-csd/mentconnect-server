@@ -237,7 +237,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
         ResponseEntity<List<UserDto>> response = restTemplate.exchange(
-                LOCALHOST + port + SERVICE_PATH + "findFilter/" + NAME + "/" + SURNAMES, HttpMethod.GET, httpEntity,
+                LOCALHOST + port + SERVICE_PATH + "findFilter/" + SURNAMES, HttpMethod.GET, httpEntity,
                 responseTypeList);
 
         assertNotNull(response);

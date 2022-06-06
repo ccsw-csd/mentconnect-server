@@ -163,12 +163,12 @@ public class UserTest {
     public void findExistsNameOrSurnamesShouldReturnUserFilter() {
         UserDto user = mock(UserDto.class);
         user.setName(EXIST_NAME);
-        user.setSurnames(EXIST_SURNAMES);
+
         List<UserEntity> list = new ArrayList<>();
         list.add(mock(UserEntity.class));
 
         when(userRepository.findAll(any(Specification.class))).thenReturn(list);
-        List<UserEntity> users = userServiceImpl.findByNameOrSurnames(EXIST_NAME, EXIST_SURNAMES);
+        List<UserEntity> users = userServiceImpl.findByNameOrSurnames(EXIST_NAME, EXIST_NAME);
 
         assertNotNull(users);
         assertEquals(TOTAL_USERS, users.size());

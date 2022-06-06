@@ -1,7 +1,6 @@
 package com.ccsw.mentconnect.user.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -73,12 +72,10 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "/findFilter/{name}/{surnames}", method = RequestMethod.GET)
-    public List<UserDto> findFilter(@PathVariable Map<String, String> pathVars) {
+    @RequestMapping(path = "/findFilter/{filter}", method = RequestMethod.GET)
+    public List<UserDto> findFilter(@PathVariable String filter) {
 
-        String name = String.valueOf(pathVars.get("name"));
-        String surnames = String.valueOf(pathVars.get("surnames"));
-        return this.beanMapper.mapList(userService.findByNameOrSurnames(name, surnames), UserDto.class);
+        return this.beanMapper.mapList(userService.findByNameOrSurnames(filter, filter), UserDto.class);
 
     }
 
