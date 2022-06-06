@@ -75,7 +75,7 @@ public class UserController {
     @RequestMapping(path = "/findFilter/{filter}", method = RequestMethod.GET)
     public List<UserDto> findFilter(@PathVariable String filter) {
 
-        return this.beanMapper.mapList(userService.findByNameOrSurnames(filter, filter), UserDto.class);
+        return this.beanMapper.mapList(userService.findFilter(filter), UserDto.class);
 
     }
 

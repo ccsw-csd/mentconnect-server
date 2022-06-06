@@ -29,7 +29,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
-import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.logic.UserServiceImpl;
@@ -161,14 +160,12 @@ public class UserTest {
     @SuppressWarnings("unchecked")
     @Test
     public void findExistsNameOrSurnamesShouldReturnUserFilter() {
-        UserDto user = mock(UserDto.class);
-        user.setName(EXIST_NAME);
 
         List<UserEntity> list = new ArrayList<>();
         list.add(mock(UserEntity.class));
 
         when(userRepository.findAll(any(Specification.class))).thenReturn(list);
-        List<UserEntity> users = userServiceImpl.findByNameOrSurnames(EXIST_NAME, EXIST_NAME);
+        List<UserEntity> users = userServiceImpl.findFilter(EXISTS_USER_USERNAME);
 
         assertNotNull(users);
         assertEquals(TOTAL_USERS, users.size());

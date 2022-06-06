@@ -115,12 +115,12 @@ public class UserServiceImpl implements UserService {
         return DigestUtils.sha256Hex(password);
     }
 
-    public List<UserEntity> findByNameOrSurnames(String name, String surnames) {
+    public List<UserEntity> findFilter(String filter) {
 
-        UserSpecification nameSpec = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", name));
+        UserSpecification nameSpec = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter));
 
         UserSpecification surnamesSpec = new UserSpecification(
-                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", surnames));
+                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", filter));
 
         Specification<UserEntity> spec = Specification.where(nameSpec).or(surnamesSpec);
 

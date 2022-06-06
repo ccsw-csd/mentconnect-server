@@ -31,5 +31,6 @@ public interface UserService {
 
     Page<UserEntity> findPage(UserSearchDto dto);
 
-    List<UserEntity> findByNameOrSurnames(String name, String surnames);
+    List<UserEntity> findFilter(String filter);
+
 }
