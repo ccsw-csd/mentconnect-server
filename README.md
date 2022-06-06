@@ -78,7 +78,7 @@ Para arrancar la aplicación navegar hasta la calase anotada como @SpringBootApp
 
 ## Seguridad
 La seguridad esta basada el Token JWT, para generar un token valido se debe realizar una llamada POST donde
-la contraseña debe estar encriptada con MD5.
+la contraseña debe estar encriptada con SHA256.
 
 * URL: http://localhost:8080/security/login
 
