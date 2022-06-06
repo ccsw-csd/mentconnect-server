@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
@@ -40,7 +41,6 @@ public class UserTest {
     public static final Long EXISTS_USER_ID = 1L;
     public static final Long NOT_EXISTS_USER_ID = 0L;
     public static final int TOTAL_USERS = 1;
-
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
 
@@ -158,4 +158,18 @@ public class UserTest {
         assertEquals(TOTAL_USERS, page.getContent().size());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void findExistsNameOrSurnamesShouldReturnUserFilter() {
+
+        List<UserEntity> list = new ArrayList<>();
+        list.add(mock(UserEntity.class));
+
+        when(userRepository.findAll(any(Specification.class))).thenReturn(list);
+        List<UserEntity> users = userServiceImpl.findFilter(EXISTS_USER_USERNAME);
+
+        assertNotNull(users);
+        assertEquals(TOTAL_USERS, users.size());
+
+    }
 }
