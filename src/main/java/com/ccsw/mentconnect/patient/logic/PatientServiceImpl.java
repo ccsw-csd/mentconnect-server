@@ -10,6 +10,7 @@ import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
 import com.ccsw.mentconnect.user.logic.UserService;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -29,6 +30,7 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    @Transactional
     @Override
     public PatientEntity savePatient(PatientFullDto patientFullDto) throws AlreadyExistsException {
 

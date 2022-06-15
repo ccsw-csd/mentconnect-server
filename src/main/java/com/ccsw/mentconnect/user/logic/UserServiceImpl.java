@@ -20,6 +20,7 @@ import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author amirzoya
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    @Transactional
     @Override
     public UserEntity saveUser(UserFullDto userDto) throws AlreadyExistsException {
 
