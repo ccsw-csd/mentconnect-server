@@ -76,7 +76,6 @@ public class UserController {
     public List<UserDto> findFilter(@PathVariable String filter) {
 
         return this.beanMapper.mapList(userService.findFilter(filter), UserDto.class);
-
     }
 
 }

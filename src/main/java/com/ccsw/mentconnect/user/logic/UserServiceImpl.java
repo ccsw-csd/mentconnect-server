@@ -109,14 +109,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(spec, dto.getPageable());
     }
 
-    private String generatePassword() {
-        return RandomStringUtils.random(length, chars);
-    }
-
-    private String encryptSha256(String password) {
-        return DigestUtils.sha256Hex(password);
-    }
-
     public List<UserEntity> findFilter(String filter) {
 
         UserSpecification nameSpec = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter));
@@ -127,7 +119,13 @@ public class UserServiceImpl implements UserService {
         Specification<UserEntity> spec = Specification.where(nameSpec).or(surnamesSpec);
 
         return userRepository.findAll(spec);
-
     }
 
+    private String generatePassword() {
+        return RandomStringUtils.random(length, chars);
+    }
+
+    private String encryptSha256(String password) {
+        return DigestUtils.sha256Hex(password);
+    }
 }
