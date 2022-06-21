@@ -57,7 +57,7 @@ public class UserController {
         return this.beanMapper.map(userService.modifyUser(userDto), UserFullDto.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
     public List<UserDto> findAll() {
 
