@@ -17,6 +17,15 @@ import com.ccsw.mentconnect.user.model.UserEntity;
 @Entity
 @Table(name = "patient")
 public class PatientEntity {
+	
+	public static final String ATT_ID = "id";
+    public static final String ATT_USER = "user";
+    public static final String ATT_NIF = "nif";
+    public static final String ATT_GENDER = "gender";
+    public static final String ATT_DATE = "date_birth";
+    public static final String ATT_PHONE = "phone";
+    public static final String ATT_SIP = "sip";
+    public static final String ATT_MEDICAL = "medical_history";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
