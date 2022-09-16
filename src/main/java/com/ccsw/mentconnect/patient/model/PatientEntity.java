@@ -19,7 +19,7 @@ import com.ccsw.mentconnect.user.model.UserEntity;
 public class PatientEntity {
 	
 	public static final String ATT_ID = "id";
-    public static final String ATT_USER = "user";
+    public static final String ATT_USER = "user_id";
     public static final String ATT_NIF = "nif";
     public static final String ATT_GENDER = "gender";
     public static final String ATT_DATE = "date_birth";

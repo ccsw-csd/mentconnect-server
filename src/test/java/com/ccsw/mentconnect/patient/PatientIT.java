@@ -198,10 +198,10 @@ public class PatientIT extends BaseITAbstract {
     }
     
     @Test
-    public void findExistsNifShouldReturnPatientFilter() {
+    public void findExistsNameShouldReturnPatientFilter() {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
-        ResponseEntity<List<PatientFullDto>> response = restTemplate.exchange(
+		ResponseEntity<List<PatientFullDto>> response = restTemplate.exchange(
                 LOCALHOST + port + SERVICE_PATH + "findFilter/" + NAME, HttpMethod.GET, httpEntity,
                 responseTypeFullList);
 

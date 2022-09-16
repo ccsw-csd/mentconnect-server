@@ -16,7 +16,6 @@ import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.logic.PatientService;
-import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 
 
@@ -61,9 +60,7 @@ public class PatientController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/findFilter/{filter}", method = RequestMethod.GET)
     public List<PatientFullDto> findFilter(@PathVariable String filter) {
-    	
-    	List<PatientEntity> resume = patientService.findFilter(filter);
-    	
-        return this.beanMapper.mapList(resume, PatientFullDto.class);
+    	    	
+        return this.beanMapper.mapList(patientService.findFilter(filter), PatientFullDto.class);
     }
 }

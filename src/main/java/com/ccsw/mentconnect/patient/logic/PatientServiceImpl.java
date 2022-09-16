@@ -73,12 +73,11 @@ public class PatientServiceImpl implements PatientService {
     public List<PatientEntity> findFilter(String filter) {
 
         PatientSpecification nifSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", filter));
-        PatientSpecification userSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ":", filter));
+        PatientSpecification userSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", filter));
 
         Specification<PatientEntity> spec = Specification.where(nifSpec).or(userSpec);
 
-        List<PatientEntity> response = patientRepository.findAll(spec);
-        return response;
+        return patientRepository.findAll(spec);
     }
 
 }
