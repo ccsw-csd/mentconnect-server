@@ -10,9 +10,8 @@ public class QuestionnaireDto {
 
     private String description;
 
-    //TODO Modificar cuanto este listo Preguntas
     private Integer questionsNumber;
-    //TODO Modificar cuanto este listo Pacientes
+
     private Integer patientsNumber;
 
     private UserDto user;
@@ -37,20 +36,20 @@ public class QuestionnaireDto {
         this.description = description;
     }
 
-    public Integer getQuestionsNumber() {
+    public Integer getQuestions() {
         return questionsNumber;
     }
 
-    public void setQuestionsNumber(Integer questionsNumber) {
-        this.questionsNumber = questionsNumber;
+    public void setQuestions(Integer questions) {
+        this.questionsNumber = questions;
     }
 
-    public Integer getPatientsNumber() {
+    public Integer getPatients() {
         return patientsNumber;
     }
 
-    public void setPatientsNumber(Integer patientsNumber) {
-        this.patientsNumber = patientsNumber;
+    public void setPatients(Integer patients) {
+        this.patientsNumber = patients;
     }
 
     public UserDto getUser() {

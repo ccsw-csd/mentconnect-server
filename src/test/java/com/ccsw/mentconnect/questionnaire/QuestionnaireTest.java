@@ -29,6 +29,12 @@ public class QuestionnaireTest {
 
     public static final String EXISTS_DESCRIPTION = "staff";
 
+    private static final Integer NOT_EXISTS_QUESTIONS_NUMBER = 20;
+    private static final Integer EXISTS_QUESTIONS_NUMBER = 2;
+
+    private static final Integer NOT_EXISTS_PATIENTS_NUMBER = 20;
+    private static final Integer EXISTS_PATIENTS_NUMBER = 2;
+
     @Mock
     private QuestionnaireRepository questionnaireRepository;
 
@@ -118,6 +124,102 @@ public class QuestionnaireTest {
 
         assertNotNull(questionnaire);
         assertEquals(1, questionnaire.getTotalElements());
+
+    }
+
+    @Test
+    public void findPageWithExistsPatientsNumberValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        list.add(mock(QuestionnaireEntity.class));
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setPatientsNumber(EXISTS_PATIENTS_NUMBER);
+        dto.setQuestionsNumber(null);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(1, questionnaire.getTotalElements());
+
+    }
+
+    @Test
+    public void findPageWithNotExistsPatientsNumberValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setPatientsNumber(NOT_EXISTS_PATIENTS_NUMBER);
+        dto.setQuestionsNumber(null);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(0, questionnaire.getTotalElements());
+
+    }
+
+    @Test
+    public void findPageWithExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        list.add(mock(QuestionnaireEntity.class));
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setPatientsNumber(null);
+        dto.setQuestionsNumber(EXISTS_QUESTIONS_NUMBER);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(1, questionnaire.getTotalElements());
+
+    }
+
+    @Test
+    public void findPageWithNotExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
+
+        List<QuestionnaireEntity> list = new ArrayList<>();
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setPatientsNumber(null);
+        dto.setQuestionsNumber(NOT_EXISTS_QUESTIONS_NUMBER);
+        dto.setUser(null);
+
+        when(questionnaireRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<QuestionnaireEntity> questionnaire = questionnaireServiceImpl.findPage(dto);
+
+        assertNotNull(questionnaire);
+        assertEquals(0, questionnaire.getTotalElements());
 
     }
 

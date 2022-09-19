@@ -28,13 +28,19 @@ public class QuestionnaireIT extends BaseITAbstract {
 
     public static final int TOTAL_QUESTIONNAIRE = 2;
 
-    public static final String EXISTS_DESCRIPTION = "staff";
+    public static final String EXISTS_DESCRIPTION = "Prueba de descripcion admin ";
 
     public static final String NOT_EXISTS_DESCRIPTION = "x";
 
     public static final Long EXISTS_USER_ID = 1L;
 
     public static final Long NOT_EXISTS_USER_ID = 0L;
+
+    private static final Integer NOT_EXISTS_QUESTIONS_NUMBER = 20;
+    private static final Integer EXISTS_QUESTIONS_NUMBER = 2;
+
+    private static final Integer NOT_EXISTS_PATIENTS_NUMBER = 20;
+    private static final Integer EXISTS_PATIENTS_NUMBER = 1;
 
     ParameterizedTypeReference<List<QuestionnaireDto>> responseTypeList = new ParameterizedTypeReference<List<QuestionnaireDto>>() {
     };
@@ -152,7 +158,7 @@ public class QuestionnaireIT extends BaseITAbstract {
                 .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(2, response.getBody().getTotalElements());
+        assertEquals(1, response.getBody().getTotalElements());
     }
 
     @Test
@@ -179,4 +185,131 @@ public class QuestionnaireIT extends BaseITAbstract {
         assertEquals(0, response.getBody().getTotalElements());
     }
 
+    @Test
+    public void findPageWithExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setQuestionsNumber(EXISTS_QUESTIONS_NUMBER);
+        dto.setPatientsNumber(null);
+        dto.setUser(null);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void findPageWithNotExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setQuestionsNumber(NOT_EXISTS_QUESTIONS_NUMBER);
+        dto.setPatientsNumber(null);
+        dto.setUser(null);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void findPageWithExistsPatientsNumberValueShouldReturnPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setQuestionsNumber(null);
+        dto.setPatientsNumber(EXISTS_PATIENTS_NUMBER);
+        dto.setUser(null);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void findPageWithNotExistsPatientsNumberValueShouldReturnEmptyPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(null);
+        dto.setQuestionsNumber(null);
+        dto.setPatientsNumber(NOT_EXISTS_PATIENTS_NUMBER);
+        dto.setUser(null);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void findPageWithAllExistsFiltersShouldReturnPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(EXISTS_DESCRIPTION);
+        dto.setQuestionsNumber(EXISTS_QUESTIONS_NUMBER);
+        dto.setPatientsNumber(EXISTS_PATIENTS_NUMBER);
+
+        UserDto user = new UserDto();
+        user.setId(EXISTS_USER_ID);
+
+        dto.setUser(user);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void findPageWithAllNotExistsFiltersShouldReturnEmptyPageQuestionnaire() {
+
+        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
+
+        dto.setPageable(PageRequest.of(0, 10));
+        dto.setDescription(NOT_EXISTS_DESCRIPTION);
+        dto.setQuestionsNumber(NOT_EXISTS_QUESTIONS_NUMBER);
+        dto.setPatientsNumber(NOT_EXISTS_PATIENTS_NUMBER);
+
+        UserDto user = new UserDto();
+        user.setId(NOT_EXISTS_USER_ID);
+
+        dto.setUser(user);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
+
+        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
+                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getTotalElements());
+    }
 }

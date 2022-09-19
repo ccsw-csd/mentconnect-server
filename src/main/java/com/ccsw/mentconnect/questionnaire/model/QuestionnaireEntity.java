@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
@@ -31,13 +33,17 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    //TODO Modificar cuanto este listo Preguntas
-    @Column(name = "questions", nullable = false)
-    private Integer questionsNumber;
+    // @OneToMany(fetch = FetchType.LAZY)
+    // @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name =
+    // "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM questionnaire_question q WHERE q.questionnaire_id = id GROUP BY q.questionnaire_id)")
+    public Integer questionsNumber;
 
-    //TODO Modificar cuanto este listo Pacientes
-    @Column(name = "patients", nullable = false)
-    private Integer patientsNumber;
+    // @OneToMany(fetch = FetchType.LAZY)
+    // @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name =
+    // "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM questionnaire_patient q WHERE q.questionnaire_id = id GROUP BY q.questionnaire_id)")
+    public Integer patientsNumber;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -65,20 +71,20 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public Integer getQuestionsNumber() {
+    public Integer getQuestions() {
         return questionsNumber;
     }
 
-    public void setQuestionsNumber(Integer questionsNumber) {
-        this.questionsNumber = questionsNumber;
+    public void setQuestions(Integer questions) {
+        this.questionsNumber = questions;
     }
 
-    public Integer getPatientsNumber() {
+    public Integer getPatients() {
         return patientsNumber;
     }
 
-    public void setPatientsNumber(Integer patientsNumber) {
-        this.patientsNumber = patientsNumber;
+    public void setPatients(Integer patients) {
+        this.patientsNumber = patients;
     }
 
     public UserEntity getUser() {
