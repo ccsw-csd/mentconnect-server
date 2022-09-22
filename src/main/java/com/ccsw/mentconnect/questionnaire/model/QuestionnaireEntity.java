@@ -1,18 +1,21 @@
 package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Formula;
-
+import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
@@ -33,17 +36,19 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    // @OneToMany(fetch = FetchType.LAZY)
-    // @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name =
-    // "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM questionnaire_question q WHERE q.questionnaire_id = id GROUP BY q.questionnaire_id)")
-    public Integer questionsNumber;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    // @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM
+    // questionnaire_question q WHERE q.questionnaire_id = id GROUP BY
+    // q.questionnaire_id)")
+    public List<QuestionEntity> questions;
 
-    // @OneToMany(fetch = FetchType.LAZY)
-    // @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name =
-    // "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
-    @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM questionnaire_patient q WHERE q.questionnaire_id = id GROUP BY q.questionnaire_id)")
-    public Integer patientsNumber;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    // @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM
+    // questionnaire_patient q WHERE q.questionnaire_id = id GROUP BY
+    // q.questionnaire_id)")
+    public List<QuestionEntity> patients;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -71,20 +76,20 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public Integer getQuestions() {
-        return questionsNumber;
+    public List<QuestionEntity> getQuestions() {
+        return questions;
     }
 
-    public void setQuestions(Integer questions) {
-        this.questionsNumber = questions;
+    public void setQuestions(List<QuestionEntity> questions) {
+        this.questions = questions;
     }
 
-    public Integer getPatients() {
-        return patientsNumber;
+    public List<QuestionEntity> getPatients() {
+        return patients;
     }
 
-    public void setPatients(Integer patients) {
-        this.patientsNumber = patients;
+    public void setPatients(List<QuestionEntity> patients) {
+        this.patients = patients;
     }
 
     public UserEntity getUser() {

@@ -30,7 +30,6 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
 
                 return criteriaBuilder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
             } else {
-
                 return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
         }
