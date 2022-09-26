@@ -15,6 +15,7 @@ import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
 import com.ccsw.mentconnect.user.logic.UserService;
+import com.ccsw.mentconnect.user.model.UserEntity;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +60,8 @@ public class PatientServiceImpl implements PatientService {
     public Page<PatientEntity> findPage(PatientSearchDto dto) {
 
         PatientSpecification nif = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", dto.getNif()));
-        PatientSpecification user = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ":", dto.getUser()));
+        PatientSpecification user = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ":", dto.getUser() != null && dto.getUser().getId() != null
+                ? beanMapper.map(dto.getUser(), UserEntity.class): null));
         PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
         PatientSpecification date = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
         PatientSpecification sip = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_SIP, ":", dto.getSip()));
@@ -73,9 +75,11 @@ public class PatientServiceImpl implements PatientService {
     public List<PatientEntity> findFilter(String filter) {
 
         PatientSpecification nifSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", filter));
-        PatientSpecification userSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", filter));
+        PatientSpecification nameSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", filter));
+        PatientSpecification surnamesSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ",", filter));
 
-        Specification<PatientEntity> spec = Specification.where(nifSpec).or(userSpec);
+
+        Specification<PatientEntity> spec = Specification.where(nifSpec).or(nameSpec).or(surnamesSpec);
 
         return patientRepository.findAll(spec);
     }

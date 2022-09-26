@@ -32,9 +32,13 @@ public class PatientSpecification implements Specification<PatientEntity> {
             } else {
                 return builder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
-        }else if(criteria.getOperation().equalsIgnoreCase(";") && criteria.getValue() != null) {
+        } else if(criteria.getOperation().equalsIgnoreCase(";") && criteria.getValue() != null) {
         	        Join<UserEntity, PatientEntity> user = root.join("user");
         	        return builder.equal(user.get("name"), criteria.getValue());
+        	        
+        } else if(criteria.getOperation().equalsIgnoreCase(",") && criteria.getValue() != null) {
+	        Join<UserEntity, PatientEntity> user = root.join("user");
+	        return builder.equal(user.get("surnames"), criteria.getValue());
         }
         return null;
     }
