@@ -186,94 +186,13 @@ public class QuestionnaireIT extends BaseITAbstract {
     }
 
     @Test
-    public void findPageWithExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
-
-        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
-
-        dto.setPageable(PageRequest.of(0, 10));
-        dto.setDescription(null);
-        dto.setQuestionsNumber(EXISTS_QUESTIONS_NUMBER);
-        dto.setPatientsNumber(null);
-        dto.setUser(null);
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
-                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(1, response.getBody().getTotalElements());
-    }
-
-    @Test
-    public void findPageWithNotExistsQuestionsNumberValueShouldReturnPageQuestionnaire() {
-
-        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
-
-        dto.setPageable(PageRequest.of(0, 10));
-        dto.setDescription(null);
-        dto.setQuestionsNumber(NOT_EXISTS_QUESTIONS_NUMBER);
-        dto.setPatientsNumber(null);
-        dto.setUser(null);
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
-                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(0, response.getBody().getTotalElements());
-    }
-
-    @Test
-    public void findPageWithExistsPatientsNumberValueShouldReturnPageQuestionnaire() {
-
-        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
-
-        dto.setPageable(PageRequest.of(0, 10));
-        dto.setDescription(null);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(EXISTS_PATIENTS_NUMBER);
-        dto.setUser(null);
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
-                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(1, response.getBody().getTotalElements());
-    }
-
-    @Test
-    public void findPageWithNotExistsPatientsNumberValueShouldReturnEmptyPageQuestionnaire() {
-
-        QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
-
-        dto.setPageable(PageRequest.of(0, 10));
-        dto.setDescription(null);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(NOT_EXISTS_PATIENTS_NUMBER);
-        dto.setUser(null);
-
-        HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
-
-        ResponseEntity<Page<QuestionnaireDto>> response = restTemplate
-                .exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
-
-        assertNotNull(response);
-        assertEquals(0, response.getBody().getTotalElements());
-    }
-
-    @Test
     public void findPageWithAllExistsFiltersShouldReturnPageQuestionnaire() {
 
         QuestionnaireSearchDto dto = new QuestionnaireSearchDto();
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(EXISTS_DESCRIPTION);
-        dto.setQuestionsNumber(EXISTS_QUESTIONS_NUMBER);
-        dto.setPatientsNumber(EXISTS_PATIENTS_NUMBER);
+
 
         UserDto user = new UserDto();
         user.setId(EXISTS_USER_ID);
@@ -296,8 +215,6 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(NOT_EXISTS_DESCRIPTION);
-        dto.setQuestionsNumber(NOT_EXISTS_QUESTIONS_NUMBER);
-        dto.setPatientsNumber(NOT_EXISTS_PATIENTS_NUMBER);
 
         UserDto user = new UserDto();
         user.setId(NOT_EXISTS_USER_ID);

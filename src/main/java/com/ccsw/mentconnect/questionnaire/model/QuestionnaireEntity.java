@@ -2,6 +2,7 @@ package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
@@ -38,17 +40,11 @@ public class QuestionnaireEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    // @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM
-    // questionnaire_question q WHERE q.questionnaire_id = id GROUP BY
-    // q.questionnaire_id)")
-    public List<QuestionEntity> questions;
+    public Set<QuestionEntity> questions;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
-    // @Formula(value = "(SELECT COUNT(q.questionnaire_id) FROM
-    // questionnaire_patient q WHERE q.questionnaire_id = id GROUP BY
-    // q.questionnaire_id)")
-    public List<QuestionEntity> patients;
+    public Set<PatientEntity> patients;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -76,19 +72,19 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public List<QuestionEntity> getQuestions() {
+    public Set<QuestionEntity> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionEntity> questions) {
+    public void setQuestions(Set<QuestionEntity> questions) {
         this.questions = questions;
     }
 
-    public List<QuestionEntity> getPatients() {
+    public Set<PatientEntity> getPatients() {
         return patients;
     }
 
-    public void setPatients(List<QuestionEntity> patients) {
+    public void setPatients(Set<PatientEntity> patients) {
         this.patients = patients;
     }
 
