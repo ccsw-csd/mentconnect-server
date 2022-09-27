@@ -22,10 +22,10 @@ public class PatientEntity {
     public static final String ATT_USER = "user";
     public static final String ATT_NIF = "nif";
     public static final String ATT_GENDER = "gender";
-    public static final String ATT_DATE = "date_birth";
+    public static final String ATT_DATE = "dateBirth";
     public static final String ATT_PHONE = "phone";
     public static final String ATT_SIP = "sip";
-    public static final String ATT_MEDICAL = "medical_history";
+    public static final String ATT_MEDICAL = "medicalHistory";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -59,15 +59,17 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Page<PatientEntity> findPage(PatientSearchDto dto) {
 
+        PatientSpecification id = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_ID, ":", dto.getId()));
         PatientSpecification nif = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", dto.getNif()));
         PatientSpecification user = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ":", dto.getUser() != null && dto.getUser().getId() != null
                 ? beanMapper.map(dto.getUser(), UserEntity.class): null));
         PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
         PatientSpecification date = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
+        PatientSpecification phone = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_PHONE, ":", dto.getPhone()));
         PatientSpecification sip = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_SIP, ":", dto.getSip()));
         PatientSpecification medical = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_MEDICAL, ":", dto.getMedicalHistory()));
 
-        Specification<PatientEntity> spec = Specification.where(nif).and(user).and(gender).and(date).and(sip).and(medical);
+        Specification<PatientEntity> spec = Specification.where(id).and(nif).and(user).and(gender).and(date).and(phone).and(sip).and(medical);
 
         return patientRepository.findAll(spec, dto.getPageable());
     }
