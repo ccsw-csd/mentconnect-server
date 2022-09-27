@@ -50,14 +50,14 @@ public class PatientController {
         return this.beanMapper.mapList(this.patientService.findAll(), PatientFullDto.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN', 'STAFF')")
     @RequestMapping(path = "/findPage", method = RequestMethod.POST)
     public Page<PatientFullDto> findPage(@RequestBody PatientSearchDto dto) {
 
         return this.beanMapper.mapPage(patientService.findPage(dto), PatientFullDto.class);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN', 'STAFF')")
     @RequestMapping(path = "/findFilter/{filter}", method = RequestMethod.GET)
     public List<PatientFullDto> findFilter(@PathVariable String filter) {
     	    	
