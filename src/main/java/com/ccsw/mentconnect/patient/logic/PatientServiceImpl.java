@@ -1,14 +1,21 @@
 package com.ccsw.mentconnect.patient.logic;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
 import com.ccsw.mentconnect.user.logic.UserService;
+import com.ccsw.mentconnect.user.model.UserEntity;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +48,42 @@ public class PatientServiceImpl implements PatientService {
         patientEntity.setUser(this.userService.saveUser(patientFullDto.getUser()));
 
         return this.patientRepository.save(patientEntity);
+    }
+    
+    @Override
+    public List<PatientEntity> findAll() {
+
+        return patientRepository.findAll();
+    }
+
+    @Override
+    public Page<PatientEntity> findPage(PatientSearchDto dto) {
+
+        PatientSpecification id = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_ID, ":", dto.getId()));
+        PatientSpecification nif = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", dto.getNif()));
+        PatientSpecification user = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ":", dto.getUser() != null && dto.getUser().getId() != null
+                ? beanMapper.map(dto.getUser(), UserEntity.class): null));
+        PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
+        PatientSpecification date = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
+        PatientSpecification phone = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_PHONE, ":", dto.getPhone()));
+        PatientSpecification sip = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_SIP, ":", dto.getSip()));
+        PatientSpecification medical = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_MEDICAL, ":", dto.getMedicalHistory()));
+
+        Specification<PatientEntity> spec = Specification.where(id).and(nif).and(user).and(gender).and(date).and(phone).and(sip).and(medical);
+
+        return patientRepository.findAll(spec, dto.getPageable());
+    }
+
+    public List<PatientEntity> findFilter(String filter) {
+
+        PatientSpecification nifSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", filter));
+        PatientSpecification nameSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", filter));
+        PatientSpecification surnamesSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ",", filter));
+
+
+        Specification<PatientEntity> spec = Specification.where(nifSpec).or(nameSpec).or(surnamesSpec);
+
+        return patientRepository.findAll(spec);
     }
 
 }

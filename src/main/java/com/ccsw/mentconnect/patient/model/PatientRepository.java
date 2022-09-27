@@ -1,8 +1,13 @@
 package com.ccsw.mentconnect.patient.model;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface PatientRepository extends CrudRepository<PatientEntity, Long> {
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface PatientRepository extends PagingAndSortingRepository<PatientEntity, Long>, JpaSpecificationExecutor<PatientEntity>{
+	
+	List<PatientEntity> findAll();
 
     boolean existsByNif(String nif);
 
