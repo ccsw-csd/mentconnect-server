@@ -46,7 +46,6 @@ public class PatientIT extends BaseITAbstract {
 
     private PatientFullDto patientFullDto;
     private UserFullDto userFullDto;
-    
     PatientSearchDto patientDto = new PatientSearchDto();
     
     ParameterizedTypeReference<List<PatientDto>> responseTypeList = new ParameterizedTypeReference<List<PatientDto>>() {
@@ -123,7 +122,7 @@ public class PatientIT extends BaseITAbstract {
     @Test
     public void findPageShouldReturnPagePatient() {
 
-        patientDto.setPageable(PageRequest.of(0, 10));
+		patientDto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
