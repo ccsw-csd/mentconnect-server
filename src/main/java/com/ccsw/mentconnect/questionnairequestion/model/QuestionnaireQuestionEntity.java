@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
-@Entity
-@Table(name = "questionnaire_question")
 public class QuestionnaireQuestionEntity {
 
     @Id
@@ -43,14 +41,6 @@ public class QuestionnaireQuestionEntity {
 
     public void setQuestionnaire(QuestionnaireEntity questionnaire) {
         this.questionnaire = questionnaire;
-    }
-
-    public QuestionEntity getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(QuestionEntity question) {
-        this.question = question;
     }
 
 }

@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
-@Entity
-@Table(name = "questionnaire_question")
 public class QuestionnairePatientEntity {
 
     @Id

@@ -36,12 +36,6 @@ public class QuestionnaireIT extends BaseITAbstract {
 
     public static final Long NOT_EXISTS_USER_ID = 0L;
 
-    private static final Integer NOT_EXISTS_QUESTIONS_NUMBER = 20;
-    private static final Integer EXISTS_QUESTIONS_NUMBER = 2;
-
-    private static final Integer NOT_EXISTS_PATIENTS_NUMBER = 20;
-    private static final Integer EXISTS_PATIENTS_NUMBER = 1;
-
     ParameterizedTypeReference<List<QuestionnaireDto>> responseTypeList = new ParameterizedTypeReference<List<QuestionnaireDto>>() {
     };
 
@@ -84,8 +78,6 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(null);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(null);
         dto.setUser(null);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -104,8 +96,6 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(EXISTS_DESCRIPTION);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(null);
         dto.setUser(null);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -124,8 +114,6 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(NOT_EXISTS_DESCRIPTION);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(null);
         dto.setUser(null);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
@@ -144,8 +132,7 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(null);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(null);
+
 
         UserDto user = new UserDto();
         user.setId(EXISTS_USER_ID);
@@ -168,8 +155,7 @@ public class QuestionnaireIT extends BaseITAbstract {
 
         dto.setPageable(PageRequest.of(0, 10));
         dto.setDescription(null);
-        dto.setQuestionsNumber(null);
-        dto.setPatientsNumber(null);
+
 
         UserDto user = new UserDto();
         user.setId(NOT_EXISTS_USER_ID);

@@ -10,10 +10,6 @@ public class QuestionnaireSearchDto {
 
     private String description;
 
-    private Integer questionsNumber;
-
-    private Integer patientsNumber;
-
     private UserDto user;
 
     private Pageable pageable;
@@ -41,23 +37,7 @@ public class QuestionnaireSearchDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Integer getQuestionsNumber() {
-        return questionsNumber;
-    }
-
-    public void setQuestionsNumber(Integer questions) {
-        this.questionsNumber = questions;
-    }
-
-    public Integer getPatientsNumber() {
-        return patientsNumber;
-    }
-
-    public void setPatientsNumber(Integer patients) {
-        this.patientsNumber = patients;
-    }
-
+    
     public UserDto getUser() {
         return user;
     }
