@@ -1,11 +1,18 @@
 package com.ccsw.mentconnect.patient;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +20,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.logic.PatientServiceImpl;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
@@ -105,6 +117,39 @@ public class PatientTest {
         this.patientServiceImpl.savePatient(patientFullDto);
 
         verify(this.patientUserRepository).save(patientEntity);
+
+    }
+    
+    @Test
+    public void findPageShouldReturnPatientPage() {
+
+        PatientSearchDto dto = new PatientSearchDto();
+        dto.setPageable(PageRequest.of(0, 10));
+
+        List<PatientEntity> list = new ArrayList<>();
+        list.add(mock(PatientEntity.class));
+
+        when(patientUserRepository.findAll(any(), eq(dto.getPageable())))
+                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
+
+        Page<PatientEntity> page = patientServiceImpl.findPage(dto);
+
+        assertNotNull(page);
+        assertEquals(1, page.getContent().size());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void findExistsNIFShouldReturnPatientFilter() {
+
+        List<PatientEntity> list = new ArrayList<>();
+        list.add(mock(PatientEntity.class));
+
+        when(patientUserRepository.findAll(any(Specification.class))).thenReturn(list);
+        List<PatientEntity> patients = patientServiceImpl.findFilter(EXISTS_USER_NIF);
+
+        assertNotNull(patients);
+        assertEquals(1, patients.size());
 
     }
 
