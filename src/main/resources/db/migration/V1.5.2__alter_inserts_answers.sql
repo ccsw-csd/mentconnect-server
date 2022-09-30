@@ -11,13 +11,13 @@ DELETE
 FROM answer_type;
 
 INSERT INTO answer_type (id, description)
-VALUES (1, 'answer.type_1.description');
+VALUES (1, 'answer.dichotomic.description');
 INSERT INTO answer_type (id, description)
-VALUES (2, 'answer.type_2.description');
+VALUES (2, 'answer.polytomousqualitative.description');
 INSERT INTO answer_type (id, description)
-VALUES (3, 'answer.type_3.description');
+VALUES (3, 'answer.polytomousquantitative.description');
 INSERT INTO answer_type (id, description)
-VALUES (4, 'answer.type_4.description');
+VALUES (4, 'answer.numeric.description');
 
 
 INSERT INTO question (id, question, answer_type_id)
@@ -76,26 +76,26 @@ VALUES (25, 'question_25.description', 4);
 
 
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (1, 'answer.type_1.value_1.description', 1);
+VALUES (1, 'answer.dichotomic.yes', 1);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (2, 'answer.type_1.value_2.description', 1);
+VALUES (2, 'answer.dichotomic.no', 1);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (3, 'answer.type_2.value_1.description', 2);
+VALUES (3, 'answer.polytomousqualitative.verybad', 2);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (4, 'answer.type_2.value_2.description', 2);
+VALUES (4, 'answer.polytomousqualitative.bad', 2);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (5, 'answer.type_2.value_3.description', 2);
+VALUES (5, 'answer.polytomousqualitative.normal', 2);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (6, 'answer.type_2.value_4.description', 2);
+VALUES (6, 'answer.polytomousqualitative.good', 2);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (7, 'answer.type_2.value_5.description', 2);
+VALUES (7, 'answer.polytomousqualitative.verygood', 2);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (8, 'answer.type_3.value_1.description', 3);
+VALUES (8, 'answer.polytomousquantitative.nothing', 3);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (9, 'answer.type_3.value_2.description', 3);
+VALUES (9, 'answer.polytomousquantitative.alittlebit', 3);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (10, 'answer.type_3.value_3.description', 3);
+VALUES (10, 'answer.polytomousquantitative.moderate', 3);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (11, 'answer.type_3.value_4.description', 3);
+VALUES (11, 'answer.polytomousquantitative.prettymuch', 3);
 INSERT INTO answer_type_value (id, value, answer_type_id)
-VALUES (12, 'answer.type_3.value_5.description', 3);
+VALUES (12, 'answer.polytomousquantitative.alot', 3);

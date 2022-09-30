@@ -32,10 +32,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Autowired
     BeanMapper beanMapper;
-
-    @Autowired
-    EntityManager em;
-
+    
     @Autowired
     QuestionnaireRepository questionnaireRepository;
 
