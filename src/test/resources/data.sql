@@ -9,8 +9,8 @@ CREATE TABLE user (
   CONSTRAINT uc_username UNIQUE (username)
 );
 
-INSERT INTO user (username, password, name, surnames, email) VALUES ('admin', 'pass', 'Admin', 'MentConnect', 'admin@mentconnect.com');
-INSERT INTO user (username, password, name, surnames, email) VALUES ('staff', 'pass', 'Staff', 'MentConnect', 'stuff@mentconnect.com');
+INSERT INTO user (id, username, password, name, surnames, email) VALUES (1, 'admin', 'pass', 'Admin', 'MentConnect', 'admin@mentconnect.com');
+INSERT INTO user (id, username, password, name, surnames, email) VALUES (2, 'staff', 'pass', 'Staff', 'MentConnect', 'stuff@mentconnect.com');
 
 CREATE TABLE role (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -38,14 +38,12 @@ CREATE TABLE user_role (
   CONSTRAINT user_role_role_fk FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
-INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'admin'), (SELECT id FROM role WHERE code = 'ADMIN'));
-INSERT INTO user_role (user_id, role_id) VALUES ((SELECT id FROM user WHERE username = 'staff'), (SELECT id FROM role WHERE code = 'STAFF'));
+INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'ADMIN'));
+INSERT INTO user_role (user_id, role_id) VALUES (2, (SELECT id FROM role WHERE code = 'STAFF'));
 
 CREATE TABLE questionnaire (
   id BIGINT NOT NULL AUTO_INCREMENT,
   description VARCHAR(45) NOT NULL,
-  questions INT NOT NULL DEFAULT 0,
-  patients INT NOT NULL DEFAULT 0,
   user_id BIGINT NOT NULL,
   create_date DATE NOT NULL,
   last_edit_date DATE NULL,
@@ -53,8 +51,8 @@ CREATE TABLE questionnaire (
   CONSTRAINT questionnaire_user_fk FOREIGN KEY (user_id) REFERENCES user(id)
   );
   
- INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion admin ', '1' ,'2022-05-23', '2022-05-23');
- INSERT INTO questionnaire (description, user_id ,create_date, last_edit_date) VALUES ('Prueba de descripcion staff ', '1' ,'2022-05-23', '2022-05-23');
+ INSERT INTO questionnaire (id, description, user_id ,create_date, last_edit_date) VALUES (1, 'Prueba de descripcion admin ', 1 ,'2022-05-23', '2022-05-23');
+ INSERT INTO questionnaire (id, description, user_id ,create_date, last_edit_date) VALUES (2, 'Prueba de descripcion staff ', 2 ,'2022-05-23', '2022-05-23');
  
  CREATE TABLE patient (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -70,6 +68,62 @@ CREATE TABLE questionnaire (
   CONSTRAINT user_patient_fk FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'admin'), '12345678Y', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
-INSERT INTO patient (user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES ((SELECT id FROM user WHERE username = 'staff'), '12345678X', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
- 
+INSERT INTO patient (id, user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES (1, (SELECT id FROM user WHERE username = 'admin'), '12345678Y', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+INSERT INTO patient (id, user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES (2, (SELECT id FROM user WHERE username = 'staff'), '12345678X', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
+
+
+CREATE TABLE answer_type (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  description varchar(300) NOT NULL,
+  PRIMARY KEY (id)
+);
+INSERT INTO answer_type (id, description) VALUES (1, 'Dicotomica');
+INSERT INTO answer_type (id, description) VALUES (2, 'Poli');
+
+
+
+CREATE TABLE question (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  question varchar(300) NOT NULL,
+  answer_type_id bigint(20) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT question_answer_type_id_fk FOREIGN KEY (answer_type_id) REFERENCES answer_type(id)
+);
+INSERT INTO question (id, question, answer_type_id) VALUES (1, 'Pregunta 1', 1);
+INSERT INTO question (id, question, answer_type_id) VALUES (2, 'Pregunta 2', 1);
+INSERT INTO question (id, question, answer_type_id) VALUES (3, 'Pregunta 3', 2);
+
+
+CREATE TABLE answer_type_value (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  value varchar(300) NOT NULL,
+  answer_type_id bigint(20) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT answer_type_value_answer_type_id_fk FOREIGN KEY (answer_type_id) REFERENCES answer_type(id)
+);
+INSERT INTO answer_type_value (id, value, answer_type_id) VALUES (1, 'Si', 1);
+INSERT INTO answer_type_value (id, value, answer_type_id) VALUES (2, 'No', 1);
+
+
+CREATE TABLE questionnaire_patient (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  questionnaire_id bigint(20) NOT NULL,
+  patient_id bigint(20) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT questionnaire_id_questionnaire_patient_fk FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id),
+  CONSTRAINT patient_id_questionnaire_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id)
+);
+INSERT INTO questionnaire_patient (id, questionnaire_id, patient_id) VALUES (1, 1, 1);
+
+
+CREATE TABLE questionnaire_question (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  questionnaire_id bigint(20) NOT NULL,
+  question_id bigint(20) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT questionnaire_id_questionnaire_question_fk FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id),
+  CONSTRAINT question_id_questionnaire_question_fk FOREIGN KEY (question_id) REFERENCES question(id)
+);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (1, 1, 1);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (2, 1, 2);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (3, 2, 3);

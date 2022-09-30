@@ -35,7 +35,6 @@ public class QuestionnaireController {
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findPage", method = RequestMethod.POST)
     public Page<QuestionnaireDto> findPage(@RequestBody QuestionnaireSearchDto dto) {
-
         return this.beanMapper.mapPage(questionnaireService.findPage(dto), QuestionnaireDto.class);
     }
 

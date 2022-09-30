@@ -1,17 +1,14 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
-import com.ccsw.mentconnect.user.dto.UserDto;
 import org.springframework.data.domain.Pageable;
+
+import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireSearchDto {
 
     private Long id;
 
     private String description;
-
-    private Integer questionsNumber;
-
-    private Integer patientsNumber;
 
     private UserDto user;
 
@@ -40,23 +37,7 @@ public class QuestionnaireSearchDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Integer getQuestionsNumber() {
-        return questionsNumber;
-    }
-
-    public void setQuestionsNumber(Integer questionsNumber) {
-        this.questionsNumber = questionsNumber;
-    }
-
-    public Integer getPatientsNumber() {
-        return patientsNumber;
-    }
-
-    public void setPatientsNumber(Integer patientsNumber) {
-        this.patientsNumber = patientsNumber;
-    }
-
+    
     public UserDto getUser() {
         return user;
     }

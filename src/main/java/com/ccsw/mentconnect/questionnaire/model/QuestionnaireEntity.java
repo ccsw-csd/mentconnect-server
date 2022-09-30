@@ -1,16 +1,23 @@
 package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
@@ -31,13 +38,13 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    //TODO Modificar cuanto este listo Preguntas
-    @Column(name = "questions", nullable = false)
-    private Integer questionsNumber;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    public Set<QuestionEntity> questions;
 
-    //TODO Modificar cuanto este listo Pacientes
-    @Column(name = "patients", nullable = false)
-    private Integer patientsNumber;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    public Set<PatientEntity> patients;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -65,20 +72,20 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public Integer getQuestionsNumber() {
-        return questionsNumber;
+    public Set<QuestionEntity> getQuestions() {
+        return questions;
     }
 
-    public void setQuestionsNumber(Integer questionsNumber) {
-        this.questionsNumber = questionsNumber;
+    public void setQuestions(Set<QuestionEntity> questions) {
+        this.questions = questions;
     }
 
-    public Integer getPatientsNumber() {
-        return patientsNumber;
+    public Set<PatientEntity> getPatients() {
+        return patients;
     }
 
-    public void setPatientsNumber(Integer patientsNumber) {
-        this.patientsNumber = patientsNumber;
+    public void setPatients(Set<PatientEntity> patients) {
+        this.patients = patients;
     }
 
     public UserEntity getUser() {

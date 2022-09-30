@@ -27,6 +27,7 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
 
         if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
+
                 return criteriaBuilder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
             } else {
                 return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());

@@ -1,7 +1,12 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.question.dto.QuestionDto;
+import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireDto {
@@ -10,10 +15,9 @@ public class QuestionnaireDto {
 
     private String description;
 
-    //TODO Modificar cuanto este listo Preguntas
-    private Integer questionsNumber;
-    //TODO Modificar cuanto este listo Pacientes
-    private Integer patientsNumber;
+    private List<QuestionDto> questions;
+
+    private List<PatientDto> patients;
 
     private UserDto user;
 
@@ -37,20 +41,28 @@ public class QuestionnaireDto {
         this.description = description;
     }
 
-    public Integer getQuestionsNumber() {
-        return questionsNumber;
+    public List<QuestionDto> getQuestions() {
+        return questions;
     }
 
-    public void setQuestionsNumber(Integer questionsNumber) {
-        this.questionsNumber = questionsNumber;
+    public void setQuestions(List<QuestionDto> questions) {
+        this.questions = questions;
+    }
+
+    public List<PatientDto> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<PatientDto> patients) {
+        this.patients = patients;
+    }
+
+    public Integer getQuestionsNumber() {
+        return questions.size();
     }
 
     public Integer getPatientsNumber() {
-        return patientsNumber;
-    }
-
-    public void setPatientsNumber(Integer patientsNumber) {
-        this.patientsNumber = patientsNumber;
+        return patients.size();
     }
 
     public UserDto getUser() {

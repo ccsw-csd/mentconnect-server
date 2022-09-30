@@ -1,13 +1,26 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
+import com.ccsw.mentconnect.question.model.QuestionEntity;
+import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
+import org.hibernate.query.internal.QueryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.query.JpaQueryCreator;
+import org.springframework.data.jpa.repository.query.JpaQueryExecution;
+import org.springframework.data.jpa.repository.query.JpaQueryMethod;
+import org.springframework.stereotype.Service;
+
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
@@ -19,7 +32,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Autowired
     BeanMapper beanMapper;
-
+    
     @Autowired
     QuestionnaireRepository questionnaireRepository;
 
@@ -31,27 +44,18 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public Page<QuestionnaireEntity> findPage(QuestionnaireSearchDto dto) {
+        QuestionnaireSpecification id = new QuestionnaireSpecification(new
+                SearchCriteria(QuestionnaireEntity.ATT_ID, ":", dto.getId()));
 
-        QuestionnaireSpecification id = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_ID, ":", dto.getId()));
+        QuestionnaireSpecification description = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_DESCRIPTION, ":",
+                dto.getDescription()));
 
-        QuestionnaireSpecification description = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_DESCRIPTION, ":", dto.getDescription()));
+        QuestionnaireSpecification user = new QuestionnaireSpecification(new
+                SearchCriteria(QuestionnaireEntity.ATT_USER, ":", dto.getUser() != null &&
+                dto.getUser().getId() != null ? beanMapper.map(dto.getUser(),
+                UserEntity.class) : null));
 
-        QuestionnaireSpecification questionsNumber = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_QUESTIONS_NUMBER, ":", dto.getQuestionsNumber()));
-
-        QuestionnaireSpecification patientsNumber = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_PATIENTS_NUMBER, ":", dto.getPatientsNumber()));
-
-        QuestionnaireSpecification user = new QuestionnaireSpecification(
-                new SearchCriteria(QuestionnaireEntity.ATT_USER, ":",
-                        dto.getUser() != null && dto.getUser().getId() != null
-                                ? beanMapper.map(dto.getUser(), UserEntity.class)
-                                : null));
-
-        Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(questionsNumber)
-                .and(patientsNumber).and(user);
+        Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(user);
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
     }
