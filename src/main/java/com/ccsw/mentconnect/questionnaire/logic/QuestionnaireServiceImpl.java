@@ -1,24 +1,11 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
-import com.ccsw.mentconnect.question.model.QuestionEntity;
-import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
-import org.hibernate.query.internal.QueryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.query.JpaQueryCreator;
-import org.springframework.data.jpa.repository.query.JpaQueryExecution;
-import org.springframework.data.jpa.repository.query.JpaQueryMethod;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.mentconnect.common.mapper.BeanMapper;

@@ -4,9 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.ccsw.mentconnect.patient.dto.PatientDto;
-import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.question.dto.QuestionDto;
-import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireDto {
@@ -49,16 +47,16 @@ public class QuestionnaireDto {
         this.questions = questions;
     }
 
+    public Integer getQuestionsNumber() {
+        return questions.size();
+    }
+
     public List<PatientDto> getPatients() {
         return patients;
     }
 
     public void setPatients(List<PatientDto> patients) {
         this.patients = patients;
-    }
-
-    public Integer getQuestionsNumber() {
-        return questions.size();
     }
 
     public Integer getPatientsNumber() {

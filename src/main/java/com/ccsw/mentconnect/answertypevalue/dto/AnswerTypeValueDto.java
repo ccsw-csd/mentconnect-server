@@ -1,12 +1,12 @@
-package com.ccsw.mentconnect.question.dto;
+package com.ccsw.mentconnect.answertypevalue.dto;
 
 import com.ccsw.mentconnect.answertype.dto.AnswerTypeDto;
 
-public class QuestionDto {
+public class AnswerTypeValueDto {
 
     private Long id;
 
-    private String question;
+    private String value;
 
     private AnswerTypeDto answerType;
 
@@ -18,12 +18,12 @@ public class QuestionDto {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getValue() {
+        return value;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public AnswerTypeDto getAnswerType() {
