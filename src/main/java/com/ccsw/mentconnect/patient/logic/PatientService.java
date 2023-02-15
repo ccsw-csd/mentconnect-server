@@ -9,6 +9,8 @@ import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
+import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
 public interface PatientService {
 

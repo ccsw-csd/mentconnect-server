@@ -25,20 +25,27 @@ public class PatientSpecification implements Specification<PatientEntity> {
 
     @Override
     public Predicate toPredicate(Root<PatientEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
-        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+//    	if (criteria.getValue()==null) {
+//	        Join<UserEntity, PatientEntity> user = root.join("user");
+//	        return builder.equal(user.get("name"), criteria.getValue());
+//    	}
+    	if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
             } else {
                 return builder.equal(root.get(criteria.getKey()), criteria.getValue());
             }
         } else if(criteria.getOperation().equalsIgnoreCase(";") && criteria.getValue() != null) {
-        	        Join<UserEntity, PatientEntity> user = root.join("user");
-        	        return builder.equal(user.get("name"), criteria.getValue());
+	        Join<UserEntity, PatientEntity> user = root.join("user");
+	        return builder.like(user.get("name"),"%" + criteria.getValue()+ "%");
         	        
         } else if(criteria.getOperation().equalsIgnoreCase(",") && criteria.getValue() != null) {
 	        Join<UserEntity, PatientEntity> user = root.join("user");
-	        return builder.equal(user.get("surnames"), criteria.getValue());
+	        return builder.like(user.get("surnames"),"%" + criteria.getValue()+ "%");
+        }
+        else if(criteria.getOperation().equalsIgnoreCase("-") && criteria.getValue() != null) {
+	        Join<UserEntity, PatientEntity> user = root.join("user");
+	        return builder.like(user.get("email"),"%" + criteria.getValue()+ "%");
         }
         return null;
     }
