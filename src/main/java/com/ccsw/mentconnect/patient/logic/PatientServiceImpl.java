@@ -67,12 +67,13 @@ public class PatientServiceImpl implements PatientService {
         PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", dto.getUser().getName()));
         PatientSpecification surnames = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ",", dto.getUser().getSurnames()));
         PatientSpecification email = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, "-", dto.getUser().getEmail()));
+        PatientSpecification dateBirth = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
         PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
         PatientSpecification phone = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_PHONE, ":", dto.getPhone()));
         PatientSpecification sip = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_SIP, ":", dto.getSip()));
         PatientSpecification medical = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_MEDICAL, ":", dto.getMedicalHistory()));
 
-        Specification<PatientEntity> spec = Specification.where(id).and(nif).and(name).and(surnames).and(email).and(gender).and(phone).and(sip).and(medical);
+        Specification<PatientEntity> spec = Specification.where(id).and(nif).and(name).and(surnames).and(email).and(dateBirth).and(gender).and(phone).and(sip).and(medical);
 
         return patientRepository.findAll(spec, dto.getPageable());
     }

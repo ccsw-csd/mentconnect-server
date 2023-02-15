@@ -25,10 +25,6 @@ public class PatientSpecification implements Specification<PatientEntity> {
 
     @Override
     public Predicate toPredicate(Root<PatientEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-//    	if (criteria.getValue()==null) {
-//	        Join<UserEntity, PatientEntity> user = root.join("user");
-//	        return builder.equal(user.get("name"), criteria.getValue());
-//    	}
     	if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
