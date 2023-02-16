@@ -25,25 +25,25 @@ public class PatientSpecification implements Specification<PatientEntity> {
 
     @Override
     public Predicate toPredicate(Root<PatientEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-    	if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
-            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-                return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
-            } else {
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-            }
-        } else if(criteria.getOperation().equalsIgnoreCase(";") && criteria.getValue() != null) {
-	        Join<UserEntity, PatientEntity> user = root.join("user");
-	        return builder.like(user.get("name"),"%" + criteria.getValue()+ "%");
-        	        
-        } else if(criteria.getOperation().equalsIgnoreCase(",") && criteria.getValue() != null) {
-	        Join<UserEntity, PatientEntity> user = root.join("user");
-	        return builder.like(user.get("surnames"),"%" + criteria.getValue()+ "%");
-        }
-        else if(criteria.getOperation().equalsIgnoreCase("-") && criteria.getValue() != null) {
-	        Join<UserEntity, PatientEntity> user = root.join("user");
-	        return builder.like(user.get("email"),"%" + criteria.getValue()+ "%");
-        }
+    	if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) { 
+    		String key = criteria.getKey();
+    		String[] separator = key.split("[.]", 0);
+    		if(separator[0].equalsIgnoreCase("user")) {
+    			Join<UserEntity, PatientEntity> user = root.join("user");
+                if (user.get(separator[1]).getJavaType() == String.class ) { 
+                    return builder.like(user.<String>get(separator[1]), "%" + criteria.getValue() + "%");
+                } else {
+                    return builder.equal(root.get(separator[1]), criteria.getValue());
+                }
+    		}else {
+                if (root.get(criteria.getKey()).getJavaType() == String.class ) { 
+                    return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+                } else {
+                    return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+                }
+                
+    		}
+    	}
         return null;
     }
-
 }

@@ -14,9 +14,6 @@ import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
-import com.ccsw.mentconnect.questionnaire.logic.QuestionnaireSpecification;
-import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.user.logic.UserService;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.devonfw.module.beanmapping.common.api.BeanMapper;
@@ -64,9 +61,9 @@ public class PatientServiceImpl implements PatientService {
 
         PatientSpecification id = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_ID, ":", dto.getId()));
         PatientSpecification nif = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", dto.getNif()));
-        PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", dto.getUser().getName()));
-        PatientSpecification surnames = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ",", dto.getUser().getSurnames()));
-        PatientSpecification email = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, "-", dto.getUser().getEmail()));
+        PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_NAME), ":", dto.getUser().getName()));
+        PatientSpecification surnames = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_SURNAMES), ":", dto.getUser().getSurnames()));
+        PatientSpecification email = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_EMAIL), ":", dto.getUser().getEmail()));
         PatientSpecification dateBirth = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
         PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
         PatientSpecification phone = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_PHONE, ":", dto.getPhone()));
