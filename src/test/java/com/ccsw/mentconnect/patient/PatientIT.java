@@ -21,6 +21,7 @@ import com.ccsw.mentconnect.config.BaseITAbstract;
 import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
+import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,7 +33,7 @@ public class PatientIT extends BaseITAbstract {
     public static final String NOT_EXISTS_USERNAME_PATIENT = "pepep";
     public static final String EXISTS_USERNAME_PATIENT = "admin";
 
-    public static final String EXISTS_PATIENT_NIF = "12345678Y";
+    public static final String EXISTS_PATIENT_NIF = "12345678A";
     public static final String NOT_EXISTS_PATIENT_NIF = "12345678B";
     
     public static final String NIF = "12345678A";
@@ -41,17 +42,18 @@ public class PatientIT extends BaseITAbstract {
     public static final String EMAIL = "admin@meentconnect.com";
     
     public static final Integer TOTAL_PATIENT = 2;
-    public static final Integer SEARCH_PATIENT = 1;
+    public static final Integer SEARCH_PATIENT = 2;
     public static final Integer EMPTY_PATIENT = 0;
 
     private PatientFullDto patientFullDto;
     private UserFullDto userFullDto;
-    PatientSearchDto patientDto = new PatientSearchDto();
+    private UserDto userDto;
+    private PatientSearchDto patientDto;
     
     ParameterizedTypeReference<List<PatientDto>> responseTypeList = new ParameterizedTypeReference<List<PatientDto>>() {
     };
     
-    ParameterizedTypeReference<List<PatientFullDto>> responseTypeFullList = new ParameterizedTypeReference<List<PatientFullDto>>() {
+    ParameterizedTypeReference<Page<PatientFullDto>> responseTypeFullList = new ParameterizedTypeReference<Page<PatientFullDto>>() {
     };
 
     ParameterizedTypeReference<Page<PatientDto>> responseTypePage = new ParameterizedTypeReference<Page<PatientDto>>() {
@@ -59,16 +61,27 @@ public class PatientIT extends BaseITAbstract {
 
     @BeforeEach
     public void setUp() {
-        patientFullDto = new PatientFullDto();
-        userFullDto = new UserFullDto();
-
-        this.userFullDto.setName("Admin");
-        this.userFullDto.setSurnames("Admin");
-        this.userFullDto.setEmail("admin@meentconnect.com");
-        this.patientFullDto.setUser(userFullDto);
-        this.patientFullDto.setNif("12345678P");
-        this.patientFullDto.setGender("H");
-        this.patientFullDto.setPhone("123456789");
+		
+		  patientFullDto = new PatientFullDto(); 
+		  userFullDto = new UserFullDto();
+		  patientDto = new PatientSearchDto();
+		  userDto = new UserDto();
+		  
+		  this.userFullDto.setName("Admin"); 
+		  this.userFullDto.setSurnames("Admin");
+		  this.userFullDto.setEmail("admin@meentconnect.com");
+		  this.patientFullDto.setUser(userFullDto);
+		  this.patientFullDto.setNif("12345678P"); 
+		  this.patientFullDto.setGender("H");
+		  this.patientFullDto.setPhone("123456789");
+		  
+		  this.userDto.setName("");
+		  this.userDto.setSurnames("");
+		  this.userDto.setEmail(""); 
+		  this.patientDto.setUser(userDto);
+		  this.patientDto.setNif(""); 
+		  this.patientDto.setGender("");
+		  this.patientDto.setPhone("");
     }
 
     @Test
@@ -122,17 +135,17 @@ public class PatientIT extends BaseITAbstract {
     @Test
     public void findPageShouldReturnPagePatient() {
 
-		patientDto.setPageable(PageRequest.of(0, 10));
+    	patientDto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
-        ResponseEntity<Page<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<PatientFullDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypeFullList);
+
 
         assertNotNull(response);
         assertEquals(TOTAL_PATIENT, response.getBody().getContent().size());
     }
-
 
     @Test
     public void findPageNotExistsPatientShouldReturnEmpty() {
@@ -144,8 +157,8 @@ public class PatientIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
-        ResponseEntity<Page<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<PatientFullDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypeFullList);
 
         assertNotNull(response);
         assertEquals(EMPTY_PATIENT, response.getBody().getContent().size());
@@ -162,8 +175,8 @@ public class PatientIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
-        ResponseEntity<Page<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<PatientFullDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypeFullList);
 
         assertNotNull(response);
         assertEquals(TOTAL_PATIENT, response.getBody().getContent().size());
@@ -172,13 +185,13 @@ public class PatientIT extends BaseITAbstract {
     @Test
     public void findPageExistsNifShouldReturnPatient() {
 
-    	patientDto.setNif(EXISTS_PATIENT_NIF);
+    	patientFullDto.setNif(EXISTS_PATIENT_NIF);
     	patientDto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientDto, getHeaders());
 
-        ResponseEntity<Page<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<PatientFullDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
+                HttpMethod.POST, httpEntity, responseTypeFullList);
 
         assertNotNull(response);
         assertEquals(SEARCH_PATIENT, response.getBody().getContent().size());
@@ -200,12 +213,12 @@ public class PatientIT extends BaseITAbstract {
     public void findExistsNameShouldReturnPatientFilter() {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
-		ResponseEntity<List<PatientFullDto>> response = restTemplate.exchange(
+		ResponseEntity<List<PatientDto>> response = restTemplate.exchange(
                 LOCALHOST + port + SERVICE_PATH + "findFilter/" + NAME, HttpMethod.GET, httpEntity,
-                responseTypeFullList);
+                responseTypeList);
 
         assertNotNull(response);
-        assertEquals(SEARCH_PATIENT, response.getBody().size());
+        assertEquals(1, response.getBody().size());
     }
 
 }

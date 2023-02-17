@@ -61,9 +61,9 @@ public class PatientServiceImpl implements PatientService {
 
         PatientSpecification id = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_ID, ":", dto.getId()));
         PatientSpecification nif = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", dto.getNif()));
-        PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_NAME), ":", dto.getUser().getName()));
-        PatientSpecification surnames = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_SURNAMES), ":", dto.getUser().getSurnames()));
-        PatientSpecification email = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat("."+UserEntity.ATT_EMAIL), ":", dto.getUser().getEmail()));
+        PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_NAME)), ":", dto.getUser().getName()));
+        PatientSpecification surnames = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_SURNAMES)), ":", dto.getUser().getSurnames()));
+        PatientSpecification email = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_EMAIL)), ":", dto.getUser().getEmail()));
         PatientSpecification dateBirth = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_DATE, ":", dto.getDateBirth()));
         PatientSpecification gender = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_GENDER, ":", dto.getGender()));
         PatientSpecification phone = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_PHONE, ":", dto.getPhone()));
@@ -75,18 +75,13 @@ public class PatientServiceImpl implements PatientService {
         return patientRepository.findAll(spec, dto.getPageable());
     }
     
-    
-    
-    
-
     public List<PatientEntity> findFilter(String filter) {
 
         PatientSpecification nifSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", filter));
-        PatientSpecification nameSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ";", filter));
-        PatientSpecification surnamesSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, ",", filter));
-        PatientSpecification emailSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER, "-", filter));
+        PatientSpecification nameSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_NAME)), ":", filter));
+        PatientSpecification surnamesSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_SURNAMES)), ":", filter));
 
-        Specification<PatientEntity> spec = Specification.where(nifSpec).or(nameSpec).or(surnamesSpec).or(emailSpec);
+        Specification<PatientEntity> spec = Specification.where(nifSpec).or(nameSpec).or(surnamesSpec);
 
         return patientRepository.findAll(spec);
     }

@@ -31,6 +31,7 @@ import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.logic.PatientServiceImpl;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.patient.model.PatientRepository;
+import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.logic.UserService;
 import com.ccsw.mentconnect.user.model.UserEntity;
@@ -60,12 +61,18 @@ public class PatientTest {
     private PatientFullDto patientFullDto;
 
     private UserFullDto userFullDto;
+    
+    private UserDto userDto;
+    
+    private PatientSearchDto patientDto;
 
     @BeforeEach
     public void setUp() {
 
         patientFullDto = new PatientFullDto();
         userFullDto = new UserFullDto();
+		patientDto = new PatientSearchDto();
+		userDto = new UserDto();
 
         this.userFullDto.setName("Admin");
         this.userFullDto.setSurnames("Admin");
@@ -74,6 +81,14 @@ public class PatientTest {
         this.patientFullDto.setNif("12345678P");
         this.patientFullDto.setGender("H");
         this.patientFullDto.setPhone("123456789");
+        
+        this.userDto.setName("");
+        this.userDto.setSurnames("");
+        this.userDto.setEmail(""); 
+        this.patientDto.setUser(userDto);
+        this.patientDto.setNif(""); 
+        this.patientDto.setGender("");
+        this.patientDto.setPhone("");
     }
 
     @Test
@@ -122,21 +137,24 @@ public class PatientTest {
     
     @Test
     public void findPageShouldReturnPatientPage() {
+    	List<PatientEntity> list = new ArrayList<>();
+    	list.add(mock(PatientEntity.class));
+    	patientDto.setPageable(PageRequest.of(0, 10));
 
-        PatientSearchDto dto = new PatientSearchDto();
-        dto.setPageable(PageRequest.of(0, 10));
 
-        List<PatientEntity> list = new ArrayList<>();
-        list.add(mock(PatientEntity.class));
+        when(patientUserRepository.findAll(any(), eq(patientDto.getPageable())))
+                .thenReturn(new PageImpl<>(list, patientDto.getPageable(), list.size()));
 
-        when(patientUserRepository.findAll(any(), eq(dto.getPageable())))
-                .thenReturn(new PageImpl<>(list, dto.getPageable(), list.size()));
-
-        Page<PatientEntity> page = patientServiceImpl.findPage(dto);
+        Page<PatientEntity> page = patientServiceImpl.findPage(patientDto);
 
         assertNotNull(page);
         assertEquals(1, page.getContent().size());
     }
+
+        
+    
+    
+    
 
     @SuppressWarnings("unchecked")
     @Test
