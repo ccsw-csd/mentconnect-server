@@ -80,7 +80,6 @@ public class PatientServiceImpl implements PatientService {
         PatientSpecification nifSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_NIF, ":", filter));
         PatientSpecification nameSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_NAME)), ":", filter));
         PatientSpecification surnamesSpec = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_SURNAMES)), ":", filter));
-
         Specification<PatientEntity> spec = Specification.where(nifSpec).or(nameSpec).or(surnamesSpec);
 
         return patientRepository.findAll(spec);

@@ -42,7 +42,6 @@ public class PatientTest {
 
     public static final String EXISTS_USER_USERNAME = "admin";
     public static final String NOT_EXISTS_USER_USERNAME = "jopepe";
-
     public static final String EXISTS_USER_NIF = "12345678X";
     public static final String NOT_EXISTS_USER_NIF = "12345678P";
 
@@ -64,14 +63,13 @@ public class PatientTest {
     
     private UserDto userDto;
     
-    private PatientSearchDto patientDto;
+    private PatientSearchDto patientSearchDto;
 
     @BeforeEach
     public void setUp() {
-
         patientFullDto = new PatientFullDto();
         userFullDto = new UserFullDto();
-		patientDto = new PatientSearchDto();
+        patientSearchDto = new PatientSearchDto();
 		userDto = new UserDto();
 
         this.userFullDto.setName("Admin");
@@ -85,10 +83,10 @@ public class PatientTest {
         this.userDto.setName("");
         this.userDto.setSurnames("");
         this.userDto.setEmail(""); 
-        this.patientDto.setUser(userDto);
-        this.patientDto.setNif(""); 
-        this.patientDto.setGender("");
-        this.patientDto.setPhone("");
+        this.patientSearchDto.setUser(userDto);
+        this.patientSearchDto.setNif(""); 
+        this.patientSearchDto.setGender("");
+        this.patientSearchDto.setPhone("");
     }
 
     @Test
@@ -139,22 +137,15 @@ public class PatientTest {
     public void findPageShouldReturnPatientPage() {
     	List<PatientEntity> list = new ArrayList<>();
     	list.add(mock(PatientEntity.class));
-    	patientDto.setPageable(PageRequest.of(0, 10));
+    	patientSearchDto.setPageable(PageRequest.of(0, 10));
+        when(patientUserRepository.findAll(any(), eq(patientSearchDto.getPageable())))
+                .thenReturn(new PageImpl<>(list, patientSearchDto.getPageable(), list.size()));
 
-
-        when(patientUserRepository.findAll(any(), eq(patientDto.getPageable())))
-                .thenReturn(new PageImpl<>(list, patientDto.getPageable(), list.size()));
-
-        Page<PatientEntity> page = patientServiceImpl.findPage(patientDto);
+        Page<PatientEntity> page = patientServiceImpl.findPage(patientSearchDto);
 
         assertNotNull(page);
         assertEquals(1, page.getContent().size());
     }
-
-        
-    
-    
-    
 
     @SuppressWarnings("unchecked")
     @Test
