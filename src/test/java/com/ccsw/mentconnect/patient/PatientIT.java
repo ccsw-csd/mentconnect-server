@@ -32,7 +32,7 @@ public class PatientIT extends BaseITAbstract {
     public static final String NOT_EXISTS_USERNAME_PATIENT = "pepep";
     public static final String EXISTS_USERNAME_PATIENT = "admin";
 
-    public static final String EXISTS_PATIENT_NIF = "46666666E";
+    public static final String EXISTS_PATIENT_NIF = "12345678Y";
     public static final String NOT_EXISTS_PATIENT_NIF = "12345678B";
 
     public static final String NIF = "12345678A";
@@ -41,8 +41,7 @@ public class PatientIT extends BaseITAbstract {
     public static final String EMAIL = "admin@meentconnect.com";
 
     public static final Integer TOTAL_PATIENT = 2;
-    public static final Integer SEARCH_PATIENT = 2;
-    public static final Integer FIND_PATIENT = 1;
+    public static final Integer SEARCH_PATIENT = 1;
     public static final Integer EMPTY_PATIENT = 0;
 
     private PatientDto patientDto;
@@ -65,6 +64,7 @@ public class PatientIT extends BaseITAbstract {
         this.userDto.setSurnames("Admin");
         this.userDto.setEmail("admin@meentconnect.com");
         this.patientDto.setUser(userDto);
+        this.patientDto.setNif("12345678P");
         this.patientDto.setGender("H");
         this.patientDto.setPhone("123456789");
 
@@ -154,12 +154,12 @@ public class PatientIT extends BaseITAbstract {
         ResponseEntity<Page<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
-        assertEquals(FIND_PATIENT, response.getBody().getContent().size());
+        assertEquals(SEARCH_PATIENT, response.getBody().getContent().size());
     }
 
     @Test
     public void findPageExistsNifShouldReturnPatient() {
-        patientDto.setNif(EXISTS_PATIENT_NIF);
+        patientSearchDto.setNif(EXISTS_PATIENT_NIF);
         patientSearchDto.setPageable(PageRequest.of(0, 10));
 
         HttpEntity<?> httpEntity = new HttpEntity<>(patientSearchDto, getHeaders());
@@ -186,6 +186,6 @@ public class PatientIT extends BaseITAbstract {
         ResponseEntity<List<PatientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findFilter/" + NAME, HttpMethod.GET, httpEntity, responseTypeList);
 
         assertNotNull(response);
-        assertEquals(FIND_PATIENT, response.getBody().size());
+        assertEquals(SEARCH_PATIENT, response.getBody().size());
     }
 }
