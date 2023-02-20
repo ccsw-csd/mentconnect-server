@@ -11,6 +11,7 @@ CREATE TABLE user (
 
 INSERT INTO user (id, username, password, name, surnames, email) VALUES (1, 'admin', 'pass', 'Admin', 'MentConnect', 'admin@mentconnect.com');
 INSERT INTO user (id, username, password, name, surnames, email) VALUES (2, 'staff', 'pass', 'Staff', 'MentConnect', 'stuff@mentconnect.com');
+INSERT INTO user (id, username, password, name, surnames, email) VALUES (3, 'patient', 'pass', 'Patient', 'MentConnect', 'patient@mentconnect.com');
 
 CREATE TABLE role (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -40,6 +41,7 @@ CREATE TABLE user_role (
 
 INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'ADMIN'));
 INSERT INTO user_role (user_id, role_id) VALUES (2, (SELECT id FROM role WHERE code = 'STAFF'));
+INSERT INTO user_role (user_id, role_id) VALUES (3, (SELECT id FROM role WHERE code = 'PAT_INFO'));
 
 CREATE TABLE questionnaire (
   id BIGINT NOT NULL AUTO_INCREMENT,
@@ -70,7 +72,7 @@ CREATE TABLE questionnaire (
 
 INSERT INTO patient (id, user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES (1, (SELECT id FROM user WHERE username = 'admin'), '12345678Y', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
 INSERT INTO patient (id, user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES (2, (SELECT id FROM user WHERE username = 'staff'), '12345678X', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
-
+INSERT INTO patient (id, user_id, nif, gender, date_birth, phone, sip, medical_history) VALUES (3, (SELECT id FROM user WHERE username = 'patient'), '12345678Z', 'H', '2022-06-02', '666666666', 'P159753P', 'P159753P');
 
 CREATE TABLE answer_type (
   id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -127,3 +129,13 @@ CREATE TABLE questionnaire_question (
 INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (1, 1, 1);
 INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (2, 1, 2);
 INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (3, 2, 3);
+
+CREATE TABLE user_patient (
+    id bigint(20) NOT NULL AUTO_INCREMENT,
+    user_id bigint(20) NOT NULL,
+    patient_id bigint(20) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT user_patient_user_fk FOREIGN KEY (user_id) REFERENCES user(id),
+    CONSTRAINT user_patient_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id)
+    
+);
