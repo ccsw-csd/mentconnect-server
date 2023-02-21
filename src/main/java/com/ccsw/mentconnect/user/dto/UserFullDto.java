@@ -2,7 +2,7 @@ package com.ccsw.mentconnect.user.dto;
 
 import java.util.List;
 
-import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.role.dto.RoleDto;
 
 /**
@@ -25,7 +25,7 @@ public class UserFullDto {
 
     private List<RoleDto> roles;
 
-    private List<PatientDto> patients;
+    private List<PatientFullDto> patients;
 
     public Long getId() {
         return id;
@@ -75,11 +75,11 @@ public class UserFullDto {
         this.roles = roles;
     }
 
-    public List<PatientDto> getPatients() {
+    public List<PatientFullDto> getPatients() {
         return patients;
     }
 
-    public void setPatients(List<PatientDto> patients) {
+    public void setPatients(List<PatientFullDto> patients) {
         this.patients = patients;
     }
 
