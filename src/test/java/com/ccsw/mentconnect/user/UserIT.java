@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.ccsw.mentconnect.config.BaseITAbstract;
-import com.ccsw.mentconnect.patient.dto.PatientFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
@@ -136,9 +136,9 @@ public class UserIT extends BaseITAbstract {
     public void modifyWithExistIdPatientChangeShouldModifyUserPatientChanged() {
 
         UserFullDto existsUserFullDto = new UserFullDto();
-        PatientFullDto patientDto = new PatientFullDto();
+        PatientDto patientDto = new PatientDto();
         patientDto.setId(EXISTS_PATIENT_ID);
-        List<PatientFullDto> patients = new ArrayList<PatientFullDto>();
+        List<PatientDto> patients = new ArrayList<PatientDto>();
         patients.add(patientDto);
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
 
