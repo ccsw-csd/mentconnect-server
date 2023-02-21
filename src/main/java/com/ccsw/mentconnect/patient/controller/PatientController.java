@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.logic.PatientService;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
@@ -45,22 +46,22 @@ public class PatientController {
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findAll", method = RequestMethod.GET)
-    public List<PatientFullDto> findAll() {
+    public List<PatientDto> findAll() {
 
-        return this.beanMapper.mapList(this.patientService.findAll(), PatientFullDto.class);
+        return this.beanMapper.mapList(this.patientService.findAll(), PatientDto.class);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
     @RequestMapping(path = "/findPage", method = RequestMethod.POST)
-    public Page<PatientFullDto> findPage(@RequestBody PatientSearchDto dto) {
+    public Page<PatientDto> findPage(@RequestBody PatientSearchDto dto) {
 
-        return this.beanMapper.mapPage(patientService.findPage(dto), PatientFullDto.class);
+        return this.beanMapper.mapPage(patientService.findPage(dto), PatientDto.class);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
     @RequestMapping(path = "/findFilter/{filter}", method = RequestMethod.GET)
-    public List<PatientFullDto> findFilter(@PathVariable String filter) {
+    public List<PatientDto> findFilter(@PathVariable String filter) {
     	    	
-        return this.beanMapper.mapList(patientService.findFilter(filter), PatientFullDto.class);
+        return this.beanMapper.mapList(patientService.findFilter(filter), PatientDto.class);
     }
 }

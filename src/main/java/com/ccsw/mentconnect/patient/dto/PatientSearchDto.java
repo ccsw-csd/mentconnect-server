@@ -1,6 +1,8 @@
 package com.ccsw.mentconnect.patient.dto;
 
 import java.time.LocalDate;
+
+
 import org.springframework.data.domain.Pageable;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
@@ -31,7 +33,7 @@ public class PatientSearchDto {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public UserDto getUser() {
         return user;
     }
