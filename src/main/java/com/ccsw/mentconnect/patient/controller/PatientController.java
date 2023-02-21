@@ -17,6 +17,7 @@ import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
 import com.ccsw.mentconnect.patient.logic.PatientService;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 
 
@@ -63,5 +64,13 @@ public class PatientController {
     public List<PatientDto> findFilter(@PathVariable String filter) {
     	    	
         return this.beanMapper.mapList(patientService.findFilter(filter), PatientDto.class);
+    }
+    
+    
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(path = "", method = RequestMethod.PUT)
+    public PatientFullDto modifyPatient(@RequestBody PatientFullDto patientFullDto) throws EntityNotFoundException {
+
+        return this.beanMapper.map(patientService.modifyPatient(patientFullDto), PatientFullDto.class);
     }
 }

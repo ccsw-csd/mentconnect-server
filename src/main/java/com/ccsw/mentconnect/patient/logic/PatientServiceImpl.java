@@ -84,5 +84,29 @@ public class PatientServiceImpl implements PatientService {
 
         return patientRepository.findAll(spec);
     }
+    
+    @Override
+    public PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException {
+
+        if (patientFullDto.getId() == null) {
+            throw new EntityNotFoundException();
+        }
+        UserEntity updateUser = this.userService.get(patientFullDto.getUser().getId());
+        PatientEntity updatePatient = this.getPatient(patientFullDto.getId());
+        
+        updateUser.setName(patientFullDto.getUser().getName());
+        updateUser.setSurnames(patientFullDto.getUser().getSurnames());
+        updateUser.setEmail(patientFullDto.getUser().getEmail());
+        updatePatient.setUser(updateUser);
+        
+        updatePatient.setNif(patientFullDto.getNif());
+        updatePatient.setGender(patientFullDto.getGender());
+        updatePatient.setPhone(patientFullDto.getPhone());
+        updatePatient.setDateBirth(patientFullDto.getDateBirth());
+        updatePatient.setSip(patientFullDto.getSip());
+        updatePatient.setMedicalHistory(patientFullDto.getMedicalHistory());
+        return this.patientRepository.save(updatePatient);
+    }
+    
 
 }
