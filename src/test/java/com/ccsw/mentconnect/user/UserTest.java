@@ -172,4 +172,20 @@ public class UserTest {
         assertEquals(TOTAL_USERS, users.size());
 
     }
+
+    @Test
+    public void getFullWithIdUserShouldReturnUserFullDto() {
+
+        UserEntity userEntity = mock(UserEntity.class);
+        when(userEntity.getId()).thenReturn(EXISTS_USER_ID);
+        when(userRepository.findById(EXISTS_USER_ID)).thenReturn(Optional.of(userEntity));
+
+        try {
+            UserEntity users = userServiceImpl.get(EXISTS_USER_ID);
+            assertNotNull(users);
+            assertEquals(EXISTS_USER_ID, users.getId());
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
