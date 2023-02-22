@@ -87,17 +87,18 @@ public class PatientServiceImpl implements PatientService {
     
     @Override
     public PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException {
-
-        if (patientFullDto.getId() == null) {
-            throw new EntityNotFoundException();
-        }
-        UserEntity updateUser = this.userService.get(patientFullDto.getUser().getId());
+      //El id del paciente no llega NULO, pero salta la excepción!
+//        if (patientFullDto.getId() == null) {
+//            throw new EntityNotFoundException();
+//        }
+        //El id del usuario llega NULO!
+        //UserEntity updateUser = this.userService.get(patientFullDto.getUser().getId());
         PatientEntity updatePatient = this.getPatient(patientFullDto.getId());
         
-        updateUser.setName(patientFullDto.getUser().getName());
-        updateUser.setSurnames(patientFullDto.getUser().getSurnames());
-        updateUser.setEmail(patientFullDto.getUser().getEmail());
-        updatePatient.setUser(updateUser);
+//        updateUser.setName(patientFullDto.getUser().getName());
+//        updateUser.setSurnames(patientFullDto.getUser().getSurnames());
+//        updateUser.setEmail(patientFullDto.getUser().getEmail());
+//        updatePatient.setUser(updateUser);
         
         updatePatient.setNif(patientFullDto.getNif());
         updatePatient.setGender(patientFullDto.getGender());
