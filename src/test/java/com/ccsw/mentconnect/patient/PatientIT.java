@@ -40,7 +40,7 @@ public class PatientIT extends BaseITAbstract {
     public static final String SURNAME = "Admin";
     public static final String EMAIL = "admin@meentconnect.com";
 
-    public static final Integer TOTAL_PATIENT = 2;
+    public static final Integer TOTAL_PATIENT = 3;
     public static final Integer SEARCH_PATIENT = 1;
     public static final Integer EMPTY_PATIENT = 0;
 
