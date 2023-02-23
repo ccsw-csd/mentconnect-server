@@ -10,17 +10,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.role.model.RoleEntity;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author amirzoya
@@ -72,17 +73,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity modifyUser(UserFullDto userDto) throws EntityNotFoundException {
+    public UserEntity modifyUser(UserFullDto userFullDto) throws EntityNotFoundException {
 
-        if (userDto.getId() == null) {
+        if (userFullDto.getId() == null) {
             throw new EntityNotFoundException();
         }
 
-        UserEntity updateUser = this.get(userDto.getId());
-        updateUser.setName(userDto.getName());
-        updateUser.setSurnames(userDto.getSurnames());
-        updateUser.setEmail(userDto.getEmail());
-        updateUser.setRoles(this.beanMapper.mapList(userDto.getRoles(), RoleEntity.class));
+        UserEntity updateUser = this.get(userFullDto.getId());
+        updateUser.setName(userFullDto.getName());
+        updateUser.setSurnames(userFullDto.getSurnames());
+        updateUser.setEmail(userFullDto.getEmail());
+        updateUser.setRoles(this.beanMapper.mapList(userFullDto.getRoles(), RoleEntity.class));
+        updateUser.setPatients(this.beanMapper.mapList(userFullDto.getPatients(), PatientEntity.class));
 
         return this.userRepository.save(updateUser);
     }

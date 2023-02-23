@@ -3,6 +3,7 @@ package com.ccsw.mentconnect.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.ccsw.mentconnect.config.BaseITAbstract;
+import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 import com.ccsw.mentconnect.user.dto.UserSearchDto;
@@ -27,7 +29,7 @@ public class UserIT extends BaseITAbstract {
 
     public static final String SERVICE_PATH = "/user/";
 
-    public static final Integer TOTAL_USER = 2;
+    public static final Integer TOTAL_USER = 3;
     public static final String NOT_EXISTS_USERNAME_USER = "jopepe";
     public static final String EXISTS_USERNAME_USER = "admin";
     public static final Long EXISTS_ID_USER = 1L;
@@ -41,6 +43,9 @@ public class UserIT extends BaseITAbstract {
     public static final String SURNAMES = "MentConnect";
     public static final String EMAIL = "admin@mentconnect.com";
     public static final String NAME_NOT_EXIST = "Maria";
+
+    public static final Long EXISTS_USER_STAFF_ID = 2L;
+    public static final Long EXISTS_PATIENT_ID = 3L;
 
     UserSearchDto dto = new UserSearchDto();
 
@@ -61,8 +66,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity,
-                UserFullDto.class);
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, UserFullDto.class);
 
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
@@ -79,18 +83,15 @@ public class UserIT extends BaseITAbstract {
         dto.setSurnames("");
         dto.setEmail("");
 
-        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST,
-                new HttpEntity<>(dto, getHeaders()), UserFullDto.class);
+        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(dto, getHeaders()), UserFullDto.class);
 
         assertEquals(dto.getUsername(), response.getBody().getUsername());
 
-        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
-                HttpMethod.GET, httpEntity, responseTypeList);
+        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
 
         assertEquals(newUserSize, responseList.getBody().size());
 
-        UserDto userDto = responseList.getBody().stream()
-                .filter(item -> item.getUsername().equals(NOT_EXISTS_USERNAME_USER)).findFirst().orElse(null);
+        UserDto userDto = responseList.getBody().stream().filter(item -> item.getUsername().equals(NOT_EXISTS_USERNAME_USER)).findFirst().orElse(null);
 
         assertNotNull(userDto);
         assertEquals(userDto.getId(), response.getBody().getId());
@@ -104,8 +105,7 @@ public class UserIT extends BaseITAbstract {
         dto.setId(NOT_EXISTS_ID_USER);
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity,
-                UserFullDto.class);
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, UserFullDto.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -119,20 +119,43 @@ public class UserIT extends BaseITAbstract {
         dto.setEmail("");
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT,
-                httpEntity, UserFullDto.class);
+        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, UserFullDto.class);
         assertNotNull(response.getBody());
 
-        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
-                HttpMethod.GET, httpEntity, responseTypeList);
+        ResponseEntity<List<UserDto>> responseList = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
 
         assertEquals(TOTAL_USER, responseList.getBody().size());
 
-        UserDto userDto = responseList.getBody().stream().filter(item -> item.getId().equals(EXISTS_ID_USER))
-                .findFirst().orElse(null);
+        UserDto userDto = responseList.getBody().stream().filter(item -> item.getId().equals(EXISTS_ID_USER)).findFirst().orElse(null);
 
         assertNotNull(userDto);
         assertEquals(response.getBody().getName(), userDto.getName());
+    }
+
+    @Test
+    public void modifyWithExistIdPatientChangeShouldModifyUserPatientChanged() {
+
+        UserFullDto existsUserFullDto = new UserFullDto();
+        PatientDto patientDto = new PatientDto();
+        patientDto.setId(EXISTS_PATIENT_ID);
+        List<PatientDto> patients = new ArrayList<PatientDto>();
+        patients.add(patientDto);
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+
+        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "full/" + EXISTS_USER_STAFF_ID, HttpMethod.GET, httpEntity, UserFullDto.class);
+
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().getPatients().size());
+
+        existsUserFullDto = response.getBody();
+        existsUserFullDto.setPatients(patients);
+
+        HttpEntity<?> httpEntityModify = new HttpEntity<>(existsUserFullDto, getHeaders());
+
+        ResponseEntity<UserFullDto> responseModify = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntityModify, UserFullDto.class);
+
+        assertNotNull(responseModify.getBody());
+        assertEquals(1, responseModify.getBody().getPatients().size());
     }
 
     @Test
@@ -140,8 +163,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
 
-        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll",
-                HttpMethod.GET, httpEntity, responseTypeList);
+        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findAll", HttpMethod.GET, httpEntity, responseTypeList);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER, response.getBody().size());
@@ -155,8 +177,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER, response.getBody().getContent().size());
@@ -175,8 +196,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
@@ -191,8 +211,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER_EMPTY, response.getBody().getContent().size());
@@ -208,8 +227,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
@@ -223,8 +241,7 @@ public class UserIT extends BaseITAbstract {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(dto, getHeaders());
 
-        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage",
-                HttpMethod.POST, httpEntity, responseTypePage);
+        ResponseEntity<Page<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findPage", HttpMethod.POST, httpEntity, responseTypePage);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER_FIND, response.getBody().getContent().size());
@@ -234,12 +251,30 @@ public class UserIT extends BaseITAbstract {
     public void findExistsNameOrSurnamesShouldReturnUserFilter() {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
-        ResponseEntity<List<UserDto>> response = restTemplate.exchange(
-                LOCALHOST + port + SERVICE_PATH + "findFilter/" + SURNAMES, HttpMethod.GET, httpEntity,
-                responseTypeList);
+        ResponseEntity<List<UserDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "findFilter/" + SURNAMES, HttpMethod.GET, httpEntity, responseTypeList);
 
         assertNotNull(response);
         assertEquals(TOTAL_USER, response.getBody().size());
     }
 
+    @Test
+    public void getFullExistsShouldReturnUserFullDto() {
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+
+        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "full/" + EXISTS_USER_STAFF_ID, HttpMethod.GET, httpEntity, UserFullDto.class);
+
+        assertNotNull(response);
+        assertEquals(EXISTS_USER_STAFF_ID, response.getBody().getId());
+    }
+
+    @Test
+    public void getFullNotExistsShouldReturnThrowException() {
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(getHeaders());
+
+        ResponseEntity<UserFullDto> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "full/" + NOT_EXISTS_ID_USER, HttpMethod.GET, httpEntity, UserFullDto.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 }

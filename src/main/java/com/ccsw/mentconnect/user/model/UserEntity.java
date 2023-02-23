@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.role.model.RoleEntity;
 
 /**
@@ -54,6 +55,10 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public List<RoleEntity> roles;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_patient", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
+    public List<PatientEntity> patients;
 
     public Long getId() {
         return id;
@@ -110,4 +115,13 @@ public class UserEntity {
     public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
     }
+
+    public List<PatientEntity> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<PatientEntity> patients) {
+        this.patients = patients;
+    }
+
 }
