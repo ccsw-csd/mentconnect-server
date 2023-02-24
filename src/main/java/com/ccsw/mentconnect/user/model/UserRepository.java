@@ -23,8 +23,5 @@ public interface UserRepository
     List<UserEntity> findAll();
 
     Boolean existsByUsername(String username);
-    
-    @Query("SELECT u.id FROM UserEntity u where u.username = :username") 
-    Long findIdByUsername(@Param("username") String username);
 
 }

@@ -86,28 +86,13 @@ public class PatientServiceImpl implements PatientService {
     }
     
     @Override
-    public PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException, AlreadyExistsException {
+    public PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException {
         if (patientFullDto.getId() == null) {
             throw new EntityNotFoundException();
         }
-        if (this.patientRepository.existsByNif(patientFullDto.getNif()))
-            throw new AlreadyExistsException();
-        
-        UserEntity updateUser = this.userService.get(this.userService.getUserIdByUsername(patientFullDto.getUser().getUsername()));
-        PatientEntity updatePatient = this.getPatient(patientFullDto.getId());
-        
-        updateUser.setName(patientFullDto.getUser().getName());
-        updateUser.setSurnames(patientFullDto.getUser().getSurnames());
-        updateUser.setEmail(patientFullDto.getUser().getEmail());
-        updatePatient.setUser(updateUser);
-        
-        updatePatient.setNif(patientFullDto.getNif());
-        updatePatient.setGender(patientFullDto.getGender());
-        updatePatient.setPhone(patientFullDto.getPhone());
-        updatePatient.setDateBirth(patientFullDto.getDateBirth());
-        updatePatient.setSip(patientFullDto.getSip());
-        updatePatient.setMedicalHistory(patientFullDto.getMedicalHistory());
-        return this.patientRepository.save(updatePatient);
+        PatientEntity patientEntity = this.beanMapper.map(patientFullDto, PatientEntity.class);
+        patientEntity.setUser(this.userService.modifyUser(patientFullDto.getUser()));
+        return this.patientRepository.save(patientEntity);
     }
     
 

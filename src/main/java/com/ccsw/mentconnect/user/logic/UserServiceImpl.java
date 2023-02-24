@@ -131,8 +131,4 @@ public class UserServiceImpl implements UserService {
         return DigestUtils.sha256Hex(password);
     }
 
-    @Override
-    public Long getUserIdByUsername(String username) {
-        return userRepository.findIdByUsername(username);
-    }
 }
