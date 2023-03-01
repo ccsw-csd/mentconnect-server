@@ -68,7 +68,7 @@ public class PatientController {
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.PUT)
-    public PatientFullDto modifyPatient(@RequestBody PatientFullDto patientFullDto) throws EntityNotFoundException, AlreadyExistsException {
+    public PatientFullDto modifyPatient(@RequestBody PatientFullDto patientFullDto) throws EntityNotFoundException {
         
         return this.beanMapper.map(patientService.modifyPatient(patientFullDto), PatientFullDto.class);
     }

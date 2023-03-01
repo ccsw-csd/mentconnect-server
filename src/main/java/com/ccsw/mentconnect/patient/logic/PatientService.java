@@ -22,6 +22,6 @@ public interface PatientService {
 
     List<PatientEntity> findFilter(String filter);
     
-    PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException, AlreadyExistsException;
+    PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException;
 
 }
