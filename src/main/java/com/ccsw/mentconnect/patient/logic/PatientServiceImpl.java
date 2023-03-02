@@ -84,5 +84,17 @@ public class PatientServiceImpl implements PatientService {
 
         return patientRepository.findAll(spec);
     }
+    
+    @Override
+    public PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException {
+        if (patientFullDto.getId() == null) {
+            throw new EntityNotFoundException();
+        }
+        
+        PatientEntity patientEntity = this.beanMapper.map(patientFullDto, PatientEntity.class);
+        patientEntity.setUser(this.userService.modifyUser(patientFullDto.getUser()));
+        return this.patientRepository.save(patientEntity);
+    }
+    
 
 }

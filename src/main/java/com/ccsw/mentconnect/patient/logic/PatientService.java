@@ -21,5 +21,7 @@ public interface PatientService {
     Page<PatientEntity> findPage(PatientSearchDto dto);
 
     List<PatientEntity> findFilter(String filter);
+    
+    PatientEntity modifyPatient(PatientFullDto patientFullDto) throws EntityNotFoundException;
 
 }
