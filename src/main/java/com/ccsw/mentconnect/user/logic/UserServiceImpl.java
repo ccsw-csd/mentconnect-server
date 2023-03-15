@@ -99,11 +99,9 @@ public class UserServiceImpl implements UserService {
     public Page<UserEntity> findPage(UserSearchDto dto) {
 
         UserSpecification id = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId()));
-        UserSpecification username = new UserSpecification(
-                new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
+        UserSpecification username = new UserSpecification(new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
         UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", dto.getName()));
-        UserSpecification surnames = new UserSpecification(
-                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
+        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
         UserSpecification email = new UserSpecification(new SearchCriteria(UserEntity.ATT_EMAIL, ":", dto.getEmail()));
 
         Specification<UserEntity> spec = Specification.where(id).and(username).and(name).and(surnames).and(email);
@@ -113,21 +111,21 @@ public class UserServiceImpl implements UserService {
 
     public List<UserEntity> findFilter(String filter) {
 
-        UserSpecification nameSpec = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter));
+        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter));
+        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", filter));
 
-        UserSpecification surnamesSpec = new UserSpecification(
-                new SearchCriteria(UserEntity.ATT_SURNAMES, ":", filter));
-
-        Specification<UserEntity> spec = Specification.where(nameSpec).or(surnamesSpec);
+        Specification<UserEntity> spec = Specification.where(name).or(surnames);
 
         return userRepository.findAll(spec);
     }
 
     private String generatePassword() {
+
         return RandomStringUtils.random(length, chars);
     }
 
     private String encryptSha256(String password) {
+
         return DigestUtils.sha256Hex(password);
     }
 
