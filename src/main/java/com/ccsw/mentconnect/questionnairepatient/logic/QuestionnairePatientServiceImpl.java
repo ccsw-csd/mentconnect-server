@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
-import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientRepository;
 
@@ -32,6 +32,11 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         return questionnairePatientRepository.findAll();
     }
 
-    
+    @Transactional
+    @Override
+    public QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient) {
+        QuestionnairePatientEntity questionnairePatientEntity = this.beanMapper.map(questionnairePatient, QuestionnairePatientEntity.class);
+        return this.questionnairePatientRepository.save(questionnairePatientEntity);
+    }
 
 }

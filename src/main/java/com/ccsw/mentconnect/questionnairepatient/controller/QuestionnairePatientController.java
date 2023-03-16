@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
@@ -37,6 +39,13 @@ public class QuestionnairePatientController {
     public List<QuestionnairePatientDto> findAll() {
 
         return this.beanMapper.mapList(questionnairePatientService.findAll(), QuestionnairePatientDto.class);
+    }
+    
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public QuestionnairePatientDto saveQuestionnairePatient(@RequestBody QuestionnairePatientDto questionnairePatient){
+
+        return this.beanMapper.map(questionnairePatientService.saveQuestionnairePatient(questionnairePatient), QuestionnairePatientDto.class);
     }
 
 }
