@@ -1,10 +1,8 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
+import com.ccsw.mentconnect.patient.model.PatientEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
@@ -22,18 +20,28 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
     }
 
     @Override
-    public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query,
-            CriteriaBuilder criteriaBuilder) {
-
+    public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
-            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-
-                return criteriaBuilder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+            Path<String> path = getPath(root);
+            if (path.getJavaType() == String.class) {
+                return builder.like(path, "%" + criteria.getValue() + "%");
             } else {
-                return criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue());
+                return builder.equal(path, criteria.getValue());
             }
         }
         return null;
+    }
+
+    private Path<String> getPath(Root<QuestionnaireEntity> root) {
+        String key = criteria.getKey();
+        String[] split = key.split("[.]", 0);
+
+        Path<String> expression = root.get(split[0]);
+        for (int i = 1; i < split.length; i++) {
+            expression = expression.get(split[i]);
+        }
+
+        return expression;
     }
 
 }
