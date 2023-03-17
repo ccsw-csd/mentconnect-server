@@ -39,4 +39,9 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         return this.questionnairePatientRepository.save(questionnairePatientEntity);
     }
 
+    @Override
+    public void delete(Long id) {
+        this.questionnairePatientRepository.deleteById(id);
+    }
+
 }

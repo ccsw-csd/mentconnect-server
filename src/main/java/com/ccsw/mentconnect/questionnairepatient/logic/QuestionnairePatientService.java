@@ -10,4 +10,5 @@ public interface QuestionnairePatientService {
     List<QuestionnairePatientEntity> getQuestionnaireById(Long id) throws EntityNotFoundException;
     List<QuestionnairePatientEntity> findAll();
     QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient);
+    void delete(Long id);
 }

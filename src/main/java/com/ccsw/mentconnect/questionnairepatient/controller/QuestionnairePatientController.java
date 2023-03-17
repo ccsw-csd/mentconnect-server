@@ -47,5 +47,11 @@ public class QuestionnairePatientController {
 
         return this.beanMapper.map(questionnairePatientService.saveQuestionnairePatient(questionnairePatient), QuestionnairePatientDto.class);
     }
+    
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public void deleteQuestionnairePatient(@PathVariable Long id){
+        this.questionnairePatientService.delete(id);
+    }
 
 }
