@@ -1,5 +1,7 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
@@ -11,4 +13,5 @@ public interface QuestionnairePatientService {
     List<QuestionnairePatientEntity> findAll();
     QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient);
     void delete(Long id);
+    boolean questionnaireAssigned(Long idPatient, LocalDate startDate, LocalDate endDate);
 }

@@ -1,5 +1,7 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,11 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
     @Override
     public void delete(Long id) {
         this.questionnairePatientRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean questionnaireAssigned(Long patientId, LocalDate startDate, LocalDate endDate) {
+        return this.questionnairePatientRepository.questionnaireAssigned(patientId,startDate, endDate);
     }
 
 }

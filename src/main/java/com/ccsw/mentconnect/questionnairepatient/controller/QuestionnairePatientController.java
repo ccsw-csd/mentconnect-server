@@ -1,13 +1,17 @@
 package com.ccsw.mentconnect.questionnairepatient.controller;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
@@ -53,5 +57,14 @@ public class QuestionnairePatientController {
     public void deleteQuestionnairePatient(@PathVariable Long id){
         this.questionnairePatientService.delete(id);
     }
+    
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @RequestMapping(path = { "/questionnaire-assigned" }, method = RequestMethod.GET)
+    public boolean questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") LocalDate startDate,
+            @RequestParam(value = "endDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") LocalDate endDate){  
+
+        return this.questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate);
+    }
+    
 
 }
