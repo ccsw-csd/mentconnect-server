@@ -13,5 +13,5 @@ public interface QuestionnairePatientService {
     List<QuestionnairePatientEntity> findAll();
     QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient);
     void delete(Long id);
-    boolean questionnaireAssigned(Long idPatient, LocalDate startDate, LocalDate endDate);
+    List<QuestionnairePatientEntity> questionnaireAssigned(Long idPatient, Date startDate, Date endDate);
 }

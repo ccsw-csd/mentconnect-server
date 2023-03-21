@@ -21,12 +21,12 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
 
     @Override
     public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {
-                return builder.like(path, "%" + criteria.getValue() + "%");
+                return builder.like(path, "%" + criteria.getFirstValue() + "%");
             } else {
-                return builder.equal(path, criteria.getValue());
+                return builder.equal(path, criteria.getFirstValue());
             }
         }
         return null;

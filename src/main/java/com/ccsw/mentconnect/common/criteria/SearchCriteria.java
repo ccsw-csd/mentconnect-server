@@ -4,12 +4,14 @@ public class SearchCriteria {
 
     private String key;
     private String operation;
-    private Object value;
+    private Object firstValue;
+    private Object secondValue;
 
-    public SearchCriteria(String key, String operation, Object value) {
+    public SearchCriteria(String key, String operation, Object firstValue, Object secondValue) {
         this.key = key;
         this.operation = operation;
-        this.value = value;
+        this.firstValue = firstValue;
+        this.secondValue = secondValue;
     }
 
     public String getKey() {
@@ -28,11 +30,20 @@ public class SearchCriteria {
         this.operation = operation;
     }
 
-    public Object getValue() {
-        return value;
+    public Object getFirstValue() {
+        return firstValue;
     }
 
-    public void setValue(Object value) {
-        this.value = value;
+    public void setFirstValue(Object firstValue) {
+        this.firstValue = firstValue;
     }
+
+    public Object getSecondValue() {
+        return secondValue;
+    }
+
+    public void setSecondValue(Object secondValue) {
+        this.secondValue = secondValue;
+    }
+    
 }

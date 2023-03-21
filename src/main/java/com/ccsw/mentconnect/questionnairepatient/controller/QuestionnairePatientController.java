@@ -20,6 +20,7 @@ import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.logic.QuestionnairePatientService;
+import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 
 @RequestMapping(value = "/questionnaire_patient")
 @RestController
@@ -60,8 +61,8 @@ public class QuestionnairePatientController {
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-assigned" }, method = RequestMethod.GET)
-    public boolean questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") LocalDate startDate,
-            @RequestParam(value = "endDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") LocalDate endDate){  
+    public List<QuestionnairePatientEntity> questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
+            @RequestParam(value = "endDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate){  
 
         return this.questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate);
     }
