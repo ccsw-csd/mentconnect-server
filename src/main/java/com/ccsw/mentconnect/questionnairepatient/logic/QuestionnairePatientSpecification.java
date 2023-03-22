@@ -4,10 +4,13 @@ import java.util.Date;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
+import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
+
 import org.springframework.data.jpa.domain.Specification;
 
 public class QuestionnairePatientSpecification implements Specification<QuestionnairePatientEntity> {
@@ -29,15 +32,29 @@ public class QuestionnairePatientSpecification implements Specification<Question
         } else if (criteria.getOperation().equalsIgnoreCase("<>")) {
             return builder.between(root.get(criteria.getKey()).as(Date.class), (Date) criteria.getFirstValue(),
                     (Date) criteria.getSecondValue());
-        } else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            if (root.get(criteria.getKey()).getJavaType() == String.class) {
-                return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getFirstValue() + "%");
+        } else if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
+            Path<String> path = getPath(root);
+            if (path.getJavaType() == String.class) {
+                return builder.like(path, "%" + criteria.getFirstValue() + "%");
             } else {
-                return builder.equal(root.get(criteria.getKey()), criteria.getFirstValue());
+                return builder.equal(path, criteria.getFirstValue());
             }
         }
 
         return null;
+    }
+    
+
+    private Path<String> getPath(Root<QuestionnairePatientEntity> root) {
+        String key = criteria.getKey();
+        String[] split = key.split("[.]", 0);
+
+        Path<String> expression = root.get(split[0]);
+        for (int i = 1; i < split.length; i++) {
+            expression = expression.get(split[i]);
+        }
+
+        return expression;
     }
 
 }
