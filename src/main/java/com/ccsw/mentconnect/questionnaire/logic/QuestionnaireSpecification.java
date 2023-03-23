@@ -1,10 +1,7 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
 import javax.persistence.criteria.*;
-
-import com.ccsw.mentconnect.patient.model.PatientEntity;
 import org.springframework.data.jpa.domain.Specification;
-
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
