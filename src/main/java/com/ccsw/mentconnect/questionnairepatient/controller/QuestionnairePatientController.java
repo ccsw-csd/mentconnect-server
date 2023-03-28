@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.logic.QuestionnairePatientService;
@@ -57,16 +58,16 @@ public class QuestionnairePatientController {
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-assigned" }, method = RequestMethod.GET)
-    public List<QuestionnairePatientEntity> questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
+    public List<QuestionnairePatientDto> questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
             @RequestParam(value = "endDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate){  
+        return this.beanMapper.mapList(questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate), QuestionnairePatientDto.class);
 
-        return this.questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate);
     }
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-available/{patientId}" }, method = RequestMethod.GET)
-    public List<QuestionnaireEntity> questionnaireAvailable(@PathVariable Long patientId) throws EntityNotFoundException{  
-        return this.questionnairePatientService.questionnaireAvailable(patientId);
+    public List<QuestionnaireDto> questionnaireAvailable(@PathVariable Long patientId) throws EntityNotFoundException{  
+        return this.beanMapper.mapList(questionnairePatientService.questionnaireAvailable(patientId), QuestionnaireDto.class);
     }
     
 

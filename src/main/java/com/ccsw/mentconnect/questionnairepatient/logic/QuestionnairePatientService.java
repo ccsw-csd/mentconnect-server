@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;

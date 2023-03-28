@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
+
 public interface QuestionnairePatientRepository extends PagingAndSortingRepository<QuestionnairePatientEntity, Long>, JpaSpecificationExecutor<QuestionnairePatientEntity> {
 
     @Override
     @EntityGraph(attributePaths = {"questionnaire", "patient"})
     List<QuestionnairePatientEntity> findAll();
-
+    @EntityGraph(attributePaths = { "questionnaire", "patient"})
     List<QuestionnairePatientEntity> findQuestionnairesByPatientId(@Param("id") Long id);
 }
