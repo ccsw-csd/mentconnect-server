@@ -30,18 +30,18 @@ public class QuestionnairePatientController {
     BeanMapper beanMapper;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public List<QuestionnairePatientDto> getQuestionnaireById(@PathVariable Long id) throws EntityNotFoundException {
+    @RequestMapping(path = "/{patientId}", method = RequestMethod.GET)
+    public List<QuestionnairePatientDto> getQuestionnaireByPatientId(@PathVariable Long patientId) throws EntityNotFoundException {
 
-        return this.beanMapper.mapList(questionnairePatientService.getQuestionnaireById(id), QuestionnairePatientDto.class);
+        return this.beanMapper.mapList(questionnairePatientService.getQuestionnaireByPatientId(patientId), QuestionnairePatientDto.class);
     }
     
-    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
-    public List<QuestionnairePatientDto> findAll() {
-
-        return this.beanMapper.mapList(questionnairePatientService.findAll(), QuestionnairePatientDto.class);
-    }
+//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+//    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
+//    public List<QuestionnairePatientDto> findAll() {
+//
+//        return this.beanMapper.mapList(questionnairePatientService.findAll(), QuestionnairePatientDto.class);
+//    }
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "", method = RequestMethod.POST)

@@ -15,6 +15,7 @@ public interface RoleRepository extends CrudRepository<RoleEntity, Long> {
 
     List<RoleEntity> findAll();
 
+    
     List<RoleEntity> findByType(RoleTypeEnum type);
 
 }

@@ -11,9 +11,9 @@ import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 
 public interface QuestionnairePatientRepository extends PagingAndSortingRepository<QuestionnairePatientEntity, Long>, JpaSpecificationExecutor<QuestionnairePatientEntity> {
 
-    @Override
-    @EntityGraph(attributePaths = {"questionnaire", "patient"})
-    List<QuestionnairePatientEntity> findAll();
+//    @Override
+//    @EntityGraph(attributePaths = {"questionnaire", "patient"})
+//    List<QuestionnairePatientEntity> findAll();
     @EntityGraph(attributePaths = { "questionnaire", "patient"})
-    List<QuestionnairePatientEntity> findQuestionnairesByPatientId(@Param("id") Long id);
+    List<QuestionnairePatientEntity> findQuestionnairesByPatientId(@Param("patientId") Long patientId);
 }

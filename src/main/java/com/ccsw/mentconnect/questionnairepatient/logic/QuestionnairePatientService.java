@@ -10,9 +10,9 @@ import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 
 public interface QuestionnairePatientService {
-    List<QuestionnairePatientEntity> getQuestionnaireById(Long id) throws EntityNotFoundException;
+    List<QuestionnairePatientEntity> getQuestionnaireByPatientId(Long patientId) throws EntityNotFoundException;
     
-    List<QuestionnairePatientEntity> findAll();
+//    List<QuestionnairePatientEntity> findAll();
     
     QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient);
     

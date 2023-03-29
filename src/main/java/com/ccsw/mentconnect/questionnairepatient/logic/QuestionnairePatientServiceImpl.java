@@ -33,16 +33,16 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
     QuestionnaireService questionnaireService;
     
     @Override
-    public List<QuestionnairePatientEntity> getQuestionnaireById(Long id) throws EntityNotFoundException {
+    public List<QuestionnairePatientEntity> getQuestionnaireByPatientId(Long patientId) throws EntityNotFoundException {
 
-        return questionnairePatientRepository.findQuestionnairesByPatientId(id);
+        return questionnairePatientRepository.findQuestionnairesByPatientId(patientId);
     }
 
-    @Override
-    public List<QuestionnairePatientEntity> findAll() {
-
-        return questionnairePatientRepository.findAll();
-    }
+//    @Override
+//    public List<QuestionnairePatientEntity> findAll() {
+//
+//        return questionnairePatientRepository.findAll();
+//    }
 
     @Transactional
     @Override
@@ -83,7 +83,7 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
     @Override
     public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) throws EntityNotFoundException {
         List<QuestionnaireEntity> questionnaires = questionnaireService.findAll();
-        List<QuestionnaireEntity> quest = this.getQuestionnaireById(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
+        List<QuestionnaireEntity> quest = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
         return questionnaires.stream().filter(q -> !quest.contains(q)).collect(Collectors.toList());
     }
 
