@@ -25,8 +25,6 @@ public class QuestionnaireEntity {
 
     public static final String ATT_ID = "id";
     public static final String ATT_DESCRIPTION = "description";
-    public static final String ATT_QUESTIONS_NUMBER = "questionsNumber";
-    public static final String ATT_PATIENTS_NUMBER = "patientsNumber";
     public static final String ATT_USER = "user";
 
     @Id

@@ -37,7 +37,7 @@ public class PatientEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 

@@ -53,11 +53,13 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
 
     @Override
     public void delete(Long id) {
+
         this.questionnairePatientRepository.deleteById(id);
     }
 
     @Override
     public List<QuestionnairePatientEntity> questionnaireAssigned(Long patientId, Date startDate, Date endDate) {
+
         QuestionnairePatientSpecification patient = new QuestionnairePatientSpecification(
                 new SearchCriteria(QuestionnairePatientEntity.ATT_PATIENT.concat(".".concat(PatientEntity.ATT_ID)), ":", patientId,null));
         
@@ -77,13 +79,17 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         Specification<QuestionnairePatientEntity> firstRange = startDateGrThEq.and(endDateLsThEq);
         Specification<QuestionnairePatientEntity> secondRange = startDateLsThEq.and(endDateGrThEq);
         Specification<QuestionnairePatientEntity> dateSpecs = firstRange.or(secondRange).or(startDateBtw).or(endDateBtw);
+
         return questionnairePatientRepository.findAll(Specification.where(patient).and(dateSpecs));
     }
 
     @Override
-    public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) throws EntityNotFoundException {
+    public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) {
+
         List<QuestionnaireEntity> questionnaires = questionnaireService.findAll();
+
         List<QuestionnaireEntity> quest = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
+
         return questionnaires.stream().filter(q -> !quest.contains(q)).collect(Collectors.toList());
     }
 

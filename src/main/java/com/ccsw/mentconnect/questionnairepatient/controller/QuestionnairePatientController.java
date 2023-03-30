@@ -52,23 +52,24 @@ public class QuestionnairePatientController {
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    public void deleteQuestionnairePatient(@PathVariable Long id){
+    public void deleteQuestionnairePatient(@PathVariable Long id) {
+
         this.questionnairePatientService.delete(id);
     }
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-assigned" }, method = RequestMethod.GET)
-    public List<QuestionnairePatientDto> questionnaireAssigned(@RequestParam(value = "patientId", required = true)Long idPatient,@RequestParam(value = "startDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
-            @RequestParam(value = "endDate", required = true)@DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate){  
-        return this.beanMapper.mapList(questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate), QuestionnairePatientDto.class);
+    public List<QuestionnairePatientDto> questionnaireAssigned(@RequestParam(value = "patientId", required = true) Long idPatient, @RequestParam(value = "startDate", required = true) @DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
+            @RequestParam(value = "endDate", required = true) @DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate) {
 
+        return this.beanMapper.mapList(questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate), QuestionnairePatientDto.class);
     }
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-available/{patientId}" }, method = RequestMethod.GET)
-    public List<QuestionnaireDto> questionnaireAvailable(@PathVariable Long patientId) throws EntityNotFoundException{  
+    public List<QuestionnaireDto> questionnaireAvailable(@PathVariable Long patientId) {
+
         return this.beanMapper.mapList(questionnairePatientService.questionnaireAvailable(patientId), QuestionnaireDto.class);
     }
-    
 
 }

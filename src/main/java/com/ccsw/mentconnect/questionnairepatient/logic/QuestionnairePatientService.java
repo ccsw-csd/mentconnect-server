@@ -20,6 +20,6 @@ public interface QuestionnairePatientService {
     
     List<QuestionnairePatientEntity> questionnaireAssigned(Long idPatient, Date startDate, Date endDate);
     
-    List<QuestionnaireEntity> questionnaireAvailable(Long patientId) throws EntityNotFoundException;
+    List<QuestionnaireEntity> questionnaireAvailable(Long patientId);
     
 }
