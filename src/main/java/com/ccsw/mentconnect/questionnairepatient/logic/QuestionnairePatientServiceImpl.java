@@ -1,5 +1,6 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireAvailableDto;
 import com.ccsw.mentconnect.questionnaire.logic.QuestionnaireService;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
@@ -38,12 +40,6 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         return questionnairePatientRepository.findQuestionnairesByPatientId(patientId);
     }
 
-//    @Override
-//    public List<QuestionnairePatientEntity> findAll() {
-//
-//        return questionnairePatientRepository.findAll();
-//    }
-
     @Transactional
     @Override
     public QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient) {
@@ -56,25 +52,29 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
 
         this.questionnairePatientRepository.deleteById(id);
     }
+    
+    public Boolean checkQuestionnaireAssignable(QuestionnairePatientDto questionnairePatientDto) {
+        return !findQuestionnairesAssigned(questionnairePatientDto).isEmpty();
+    }
+
 
     @Override
-    public List<QuestionnairePatientEntity> questionnaireAssigned(Long patientId, Date startDate, Date endDate) {
-
+    public List<QuestionnairePatientEntity> findQuestionnairesAssigned(QuestionnairePatientDto questionnairePatientDto) {
         QuestionnairePatientSpecification patient = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_PATIENT.concat(".".concat(PatientEntity.ATT_ID)), ":", patientId,null));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_PATIENT.concat(".".concat(PatientEntity.ATT_ID)), ":", questionnairePatientDto.getPatient().getId(),null));
         
         QuestionnairePatientSpecification startDateGrThEq = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, ">=", startDate,null));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, ">=", questionnairePatientDto.getStartDate(),null));
         QuestionnairePatientSpecification endDateLsThEq = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, "<=", endDate, null));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, "<=", questionnairePatientDto.getEndDate(), null));
         QuestionnairePatientSpecification startDateLsThEq = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, "<=", startDate, null));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, "<=", questionnairePatientDto.getStartDate(), null));
         QuestionnairePatientSpecification endDateGrThEq = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, ">=", endDate, null));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, ">=", questionnairePatientDto.getEndDate(), null));
         QuestionnairePatientSpecification startDateBtw = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, "<>", startDate, endDate));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_START_DATE, "<>", questionnairePatientDto.getStartDate(), questionnairePatientDto.getEndDate()));
         QuestionnairePatientSpecification endDateBtw = new QuestionnairePatientSpecification(
-                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, "<>", startDate, endDate));
+                new SearchCriteria(QuestionnairePatientEntity.ATT_END_DATE, "<>", questionnairePatientDto.getStartDate(), questionnairePatientDto.getEndDate()));
 
         Specification<QuestionnairePatientEntity> firstRange = startDateGrThEq.and(endDateLsThEq);
         Specification<QuestionnairePatientEntity> secondRange = startDateLsThEq.and(endDateGrThEq);
@@ -84,13 +84,13 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
     }
 
     @Override
-    public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) {
+    public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) { 
 
-        List<QuestionnaireEntity> questionnaires = questionnaireService.findAll();
+        List<QuestionnaireEntity> questionnairesAvailables = questionnaireService.findAll();//No necesito los pacientes
 
-        List<QuestionnaireEntity> quest = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
+        List<QuestionnaireEntity> questionnairesAssigned = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
 
-        return questionnaires.stream().filter(q -> !quest.contains(q)).collect(Collectors.toList());
+        return questionnairesAvailables.stream().filter(q -> !questionnairesAssigned.contains(q)).collect(Collectors.toList());
     }
 
 }

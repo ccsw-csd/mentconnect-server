@@ -1,5 +1,6 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,14 +25,14 @@ public class QuestionnairePatientSpecification implements Specification<Question
     @Override
     public Predicate toPredicate(Root<QuestionnairePatientEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase("<=")) {
-            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()).as(Date.class),
-                    (Date) criteria.getFirstValue());
+            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()).as(LocalDate.class),
+                    (LocalDate) criteria.getFirstValue());
         } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
-            return builder.lessThanOrEqualTo(root.get(criteria.getKey()).as(Date.class),
-                    (Date) criteria.getFirstValue());
+            return builder.lessThanOrEqualTo(root.get(criteria.getKey()).as(LocalDate.class),
+                    (LocalDate) criteria.getFirstValue());
         } else if (criteria.getOperation().equalsIgnoreCase("<>")) {
-            return builder.between(root.get(criteria.getKey()).as(Date.class), (Date) criteria.getFirstValue(),
-                    (Date) criteria.getSecondValue());
+            return builder.between(root.get(criteria.getKey()).as(LocalDate.class), (LocalDate) criteria.getFirstValue(),
+                    (LocalDate) criteria.getSecondValue());
         } else if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {

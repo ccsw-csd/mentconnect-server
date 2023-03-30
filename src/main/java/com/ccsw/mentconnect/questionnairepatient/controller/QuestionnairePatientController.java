@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireAvailableDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
@@ -36,13 +37,6 @@ public class QuestionnairePatientController {
         return this.beanMapper.mapList(questionnairePatientService.getQuestionnaireByPatientId(patientId), QuestionnairePatientDto.class);
     }
     
-//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-//    @RequestMapping(path = "/findAll", method = RequestMethod.GET)
-//    public List<QuestionnairePatientDto> findAll() {
-//
-//        return this.beanMapper.mapList(questionnairePatientService.findAll(), QuestionnairePatientDto.class);
-//    }
-    
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public QuestionnairePatientDto saveQuestionnairePatient(@RequestBody QuestionnairePatientDto questionnairePatient){
@@ -56,20 +50,18 @@ public class QuestionnairePatientController {
 
         this.questionnairePatientService.delete(id);
     }
-    
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = { "/questionnaire-assigned" }, method = RequestMethod.GET)
-    public List<QuestionnairePatientDto> questionnaireAssigned(@RequestParam(value = "patientId", required = true) Long idPatient, @RequestParam(value = "startDate", required = true) @DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
-            @RequestParam(value = "endDate", required = true) @DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate) {
-
-        return this.beanMapper.mapList(questionnairePatientService.questionnaireAssigned(idPatient,startDate, endDate), QuestionnairePatientDto.class);
+    @RequestMapping(path = "/check-questionnaire-assignable/", method = RequestMethod.POST)
+    public Boolean checkQuestionnaireAssignable(@RequestBody QuestionnairePatientDto questionnairePatient) {
+        return questionnairePatientService.checkQuestionnaireAssignable(questionnairePatient);
     }
+    
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = { "/questionnaire-available/{patientId}" }, method = RequestMethod.GET)
-    public List<QuestionnaireDto> questionnaireAvailable(@PathVariable Long patientId) {
+    public List<QuestionnaireAvailableDto> questionnaireAvailable(@PathVariable Long patientId) {
 
-        return this.beanMapper.mapList(questionnairePatientService.questionnaireAvailable(patientId), QuestionnaireDto.class);
+        return this.beanMapper.mapList(questionnairePatientService.questionnaireAvailable(patientId), QuestionnaireAvailableDto.class);
     }
 
 }

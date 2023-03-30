@@ -12,7 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface QuestionnaireRepository extends PagingAndSortingRepository<QuestionnaireEntity, Long>, JpaSpecificationExecutor<QuestionnaireEntity> {
 
     @Override
-    @EntityGraph(attributePaths = {"user", "questions", "questions.answerType", "patients", "patients.user"})
+    @EntityGraph(attributePaths = {"questions", "user", "patients"})
     List<QuestionnaireEntity> findAll();
 
     @Override
