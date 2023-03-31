@@ -90,7 +90,10 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
 
         List<QuestionnaireEntity> questionnairesAssigned = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
 
-        return questionnairesAvailables.stream().filter(q -> !questionnairesAssigned.contains(q)).collect(Collectors.toList());
+        //return questionnairesAvailables.stream().filter(q -> !questionnairesAssigned.contains(q.getId())).collect(Collectors.toList());
+        return questionnairesAvailables.stream()
+                .filter(q -> !questionnairesAssigned.stream().map(QuestionnaireEntity::getId).collect(Collectors.toList()).contains(q.getId()))
+                .collect(Collectors.toList());
     }
 
 }
