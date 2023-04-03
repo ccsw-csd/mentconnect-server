@@ -16,6 +16,6 @@ public interface QuestionnairePatientRepository extends PagingAndSortingReposito
     @EntityGraph(attributePaths = {"questionnaire", "patient"})
     List<QuestionnairePatientEntity> findAll();
     
-    @EntityGraph(attributePaths = {"questionnaire", "patient"})
+    @EntityGraph(attributePaths = {"questionnaire","questionnaire.patients.user","questionnaire.questions","questionnaire.questions.answerType","questionnaire.user"})
     List<QuestionnairePatientEntity> findQuestionnairesByPatientId(@Param("patientId") Long patientId);
 }
