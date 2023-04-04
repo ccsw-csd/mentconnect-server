@@ -15,7 +15,6 @@ public interface QuestionnaireRepository extends PagingAndSortingRepository<Ques
     @EntityGraph(attributePaths = {"user", "questions", "questions.answerType"})
     List<QuestionnaireEntity> findAll();
 
-    @Override
     @EntityGraph(attributePaths = {"user", "questions", "patients"})
     Page<QuestionnaireEntity> findAll(Specification spec, Pageable pageable);
 
