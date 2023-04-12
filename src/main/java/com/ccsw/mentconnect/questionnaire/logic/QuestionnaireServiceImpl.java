@@ -9,9 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
-import com.ccsw.mentconnect.patient.logic.PatientSpecification;
-import com.ccsw.mentconnect.patient.model.PatientEntity;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireAvailableDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;

@@ -1,24 +1,18 @@
 package com.ccsw.mentconnect.questionnairepatient.controller;
 
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireAvailableDto;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
-import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
 import com.ccsw.mentconnect.questionnairepatient.logic.QuestionnairePatientService;
-import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 
 @RequestMapping(value = "/questionnaire-patient")
 @RestController

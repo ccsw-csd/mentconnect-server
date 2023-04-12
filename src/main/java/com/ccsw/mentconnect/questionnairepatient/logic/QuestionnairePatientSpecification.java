@@ -1,8 +1,6 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
 import java.time.LocalDate;
-import java.util.Date;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -10,8 +8,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
-import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
-
 import org.springframework.data.jpa.domain.Specification;
 
 public class QuestionnairePatientSpecification implements Specification<QuestionnairePatientEntity> {
@@ -41,11 +37,10 @@ public class QuestionnairePatientSpecification implements Specification<Question
                 return builder.equal(path, criteria.getFirstValue());
             }
         }
-
+        
         return null;
     }
     
-
     private Path<String> getPath(Root<QuestionnairePatientEntity> root) {
         String key = criteria.getKey();
         String[] split = key.split("[.]", 0);

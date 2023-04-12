@@ -1,21 +1,15 @@
 package com.ccsw.mentconnect.questionnairepatient.logic;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireAvailableDto;
 import com.ccsw.mentconnect.questionnaire.logic.QuestionnaireService;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
@@ -85,7 +79,7 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
     @Override
     public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) { 
 
-        List<QuestionnaireEntity> questionnairesAvailables = questionnaireService.findAll();//No necesito los pacientes
+        List<QuestionnaireEntity> questionnairesAvailables = questionnaireService.findAll();
 
         List<QuestionnaireEntity> questionnairesAssigned = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
 

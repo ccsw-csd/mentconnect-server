@@ -2,8 +2,6 @@ package com.ccsw.mentconnect.user.model;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -19,8 +17,6 @@ public interface UserRepository
 
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);
 
-
-    
     List<UserEntity> findAll();
 
     Boolean existsByUsername(String username);
