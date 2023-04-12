@@ -111,11 +111,15 @@ CREATE TABLE questionnaire_patient (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   questionnaire_id bigint(20) NOT NULL,
   patient_id bigint(20) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT questionnaire_id_questionnaire_patient_fk FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id),
   CONSTRAINT patient_id_questionnaire_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id)
 );
-INSERT INTO questionnaire_patient (id, questionnaire_id, patient_id) VALUES (1, 1, 1);
+INSERT INTO questionnaire_patient (id, questionnaire_id, patient_id, start_date, end_date) VALUES (1, 1, 1, '2023-03-02', '2023-03-05');
+INSERT INTO questionnaire_patient (id, questionnaire_id, patient_id, start_date, end_date) VALUES (2, 2, 2, '2023-03-14', '2023-03-16');
+INSERT INTO questionnaire_patient (id, questionnaire_id, patient_id, start_date, end_date) VALUES (3, 1, 1, '2023-03-17', '2023-03-31');
 
 
 CREATE TABLE questionnaire_question (
