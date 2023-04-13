@@ -98,11 +98,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserEntity> findPage(UserSearchDto dto) {
 
-        UserSpecification id = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId()));
-        UserSpecification username = new UserSpecification(new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername()));
-        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", dto.getName()));
-        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames()));
-        UserSpecification email = new UserSpecification(new SearchCriteria(UserEntity.ATT_EMAIL, ":", dto.getEmail()));
+        UserSpecification id = new UserSpecification(new SearchCriteria(UserEntity.ATT_ID, ":", dto.getId(),null));
+        UserSpecification username = new UserSpecification(new SearchCriteria(UserEntity.ATT_USERNAME, ":", dto.getUsername(),null));
+        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", dto.getName(),null));
+        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", dto.getSurnames(),null));
+        UserSpecification email = new UserSpecification(new SearchCriteria(UserEntity.ATT_EMAIL, ":", dto.getEmail(),null));
 
         Specification<UserEntity> spec = Specification.where(id).and(username).and(name).and(surnames).and(email);
 
@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
 
     public List<UserEntity> findFilter(String filter) {
 
-        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter));
-        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", filter));
+        UserSpecification name = new UserSpecification(new SearchCriteria(UserEntity.ATT_NAME, ":", filter,null));
+        UserSpecification surnames = new UserSpecification(new SearchCriteria(UserEntity.ATT_SURNAMES, ":", filter,null));
 
         Specification<UserEntity> spec = Specification.where(name).or(surnames);
 

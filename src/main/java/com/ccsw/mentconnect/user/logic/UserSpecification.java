@@ -24,11 +24,11 @@ public class UserSpecification implements Specification<UserEntity> {
     @Override
     public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
-                return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+                return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getFirstValue() + "%");
             } else {
-                return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+                return builder.equal(root.get(criteria.getKey()), criteria.getFirstValue());
             }
         }
         return null;

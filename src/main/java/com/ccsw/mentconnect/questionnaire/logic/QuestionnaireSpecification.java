@@ -1,10 +1,7 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
 import javax.persistence.criteria.*;
-
-import com.ccsw.mentconnect.patient.model.PatientEntity;
 import org.springframework.data.jpa.domain.Specification;
-
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 
@@ -21,12 +18,12 @@ public class QuestionnaireSpecification implements Specification<QuestionnaireEn
 
     @Override
     public Predicate toPredicate(Root<QuestionnaireEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getValue() != null) {
+        if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {
-                return builder.like(path, "%" + criteria.getValue() + "%");
+                return builder.like(path, "%" + criteria.getFirstValue() + "%");
             } else {
-                return builder.equal(path, criteria.getValue());
+                return builder.equal(path, criteria.getFirstValue());
             }
         }
         return null;

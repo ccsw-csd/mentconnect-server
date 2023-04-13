@@ -2,20 +2,16 @@ package com.ccsw.mentconnect.questionnaire.dto;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.question.dto.QuestionDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
-public class QuestionnaireDto {
+public class QuestionnaireAvailableDto {
 
     private Long id;
 
     private String description;
 
     private List<QuestionDto> questions;
-
-    private List<PatientDto> patients;
 
     private UserDto user;
 
@@ -49,14 +45,6 @@ public class QuestionnaireDto {
 
     public Integer getQuestionsNumber() {
         return questions.size();
-    }
-
-    public List<PatientDto> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<PatientDto> patients) {
-        this.patients = patients;
     }
 
     public UserDto getUser() {

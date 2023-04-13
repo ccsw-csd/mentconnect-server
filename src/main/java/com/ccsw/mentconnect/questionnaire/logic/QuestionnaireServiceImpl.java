@@ -25,18 +25,19 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     @Override
     public List<QuestionnaireEntity> findAll() {
-
         return questionnaireRepository.findAll();
     }
 
     @Override
     public Page<QuestionnaireEntity> findPage(QuestionnaireSearchDto dto) {
 
-        QuestionnaireSpecification id = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_ID, ":", dto.getId()));
-        QuestionnaireSpecification description = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_DESCRIPTION, ":", dto.getDescription()));
+        QuestionnaireSpecification id = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_ID, ":", dto.getId(),null));
+        QuestionnaireSpecification description = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_DESCRIPTION, ":", dto.getDescription(),null));
         QuestionnaireSpecification user = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_USER, ":", dto.getUser() != null &&
-                dto.getUser().getId() != null ? beanMapper.map(dto.getUser(), UserEntity.class) : null));
+                dto.getUser().getId() != null ? beanMapper.map(dto.getUser(), UserEntity.class) : null, null));
 
+        //PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_NAME)), ":", dto.getUser().getName(),null));
+        
         Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(user);
 
         return questionnaireRepository.findAll(spec, dto.getPageable());

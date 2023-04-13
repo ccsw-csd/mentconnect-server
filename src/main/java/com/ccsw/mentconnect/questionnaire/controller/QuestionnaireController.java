@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
@@ -37,5 +36,6 @@ public class QuestionnaireController {
     public Page<QuestionnaireDto> findPage(@RequestBody QuestionnaireSearchDto dto) {
         return this.beanMapper.mapPage(questionnaireService.findPage(dto), QuestionnaireDto.class);
     }
+    
 
 }

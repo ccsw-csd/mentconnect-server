@@ -1,7 +1,6 @@
 package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,8 +25,6 @@ public class QuestionnaireEntity {
 
     public static final String ATT_ID = "id";
     public static final String ATT_DESCRIPTION = "description";
-    public static final String ATT_QUESTIONS_NUMBER = "questionsNumber";
-    public static final String ATT_PATIENTS_NUMBER = "patientsNumber";
     public static final String ATT_USER = "user";
 
     @Id
@@ -46,7 +43,7 @@ public class QuestionnaireEntity {
     @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
     public Set<PatientEntity> patients;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
