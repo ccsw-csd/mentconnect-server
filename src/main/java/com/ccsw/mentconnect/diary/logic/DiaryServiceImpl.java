@@ -2,6 +2,7 @@ package com.ccsw.mentconnect.diary.logic;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class DiaryServiceImpl implements DiaryService {
     
     @Override
     public List<DiaryEntity> getDiaryByPatientId(Long patientId){
-
-        return diaryRepository.findDiaryByPatientId(patientId);
+        Sort sortByDate = Sort.by(Sort.Direction.DESC, DiaryEntity.ATT_CREATE_DATE); 
+        return diaryRepository.findByPatientId(patientId, sortByDate);
     }
 
     @Override
@@ -48,7 +49,8 @@ public class DiaryServiceImpl implements DiaryService {
         Specification<DiaryEntity> secondRange = startDateLsThEq.and(endDateGrThEq);
         Specification<DiaryEntity> dateSpecs = firstRange.or(secondRange).or(startDateBtw).or(endDateBtw);
 
-        return diaryRepository.findAll(Specification.where(dateSpecs));
+        Sort sortByDate = Sort.by(Sort.Direction.DESC, DiaryEntity.ATT_CREATE_DATE); 
+        return diaryRepository.findAll(Specification.where(dateSpecs), sortByDate);
     }
 
 }
