@@ -6,9 +6,5 @@ import com.ccsw.mentconnect.diary.dto.DateSearchDiaryDto;
 import com.ccsw.mentconnect.diary.model.DiaryEntity;
 
 public interface DiaryService {
-
-    List<DiaryEntity> getDiaryByPatientId(Long patientId);
-
-    List<DiaryEntity> filterDiary(DateSearchDiaryDto date);
-
+    List<DiaryEntity> getDiaryByPatientId(DateSearchDiaryDto date);
 }

@@ -3,10 +3,21 @@ package com.ccsw.mentconnect.diary.dto;
 import java.util.Date;
 
 public class DateSearchDiaryDto {
-
+    
+    private Long patientId;
+    
     private Date startDate;
 
     private Date endDate;
+    
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
 
     public Date getStartDate() {
         return startDate;

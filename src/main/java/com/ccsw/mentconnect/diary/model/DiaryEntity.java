@@ -19,7 +19,7 @@ public class DiaryEntity {
     public static final String ATT_ID = "id";
     public static final String ATT_DESCRIPTION = "description";
     public static final String ATT_CREATE_DATE = "createDate";
-    public static final String ATT_USER = "user";
+    public static final String ATT_PATIENT = "patient";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

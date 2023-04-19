@@ -26,16 +26,8 @@ public class DiaryController {
     BeanMapper beanMapper;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "/{patientId}", method = RequestMethod.GET)
-    public List<DiaryDto> getDiaryByPatientId(@PathVariable Long patientId) throws EntityNotFoundException {
-
-        return this.beanMapper.mapList(diaryService.getDiaryByPatientId(patientId), DiaryDto.class);
-    }
-   
-
-    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/filter", method = RequestMethod.POST)
-    public List<DiaryDto> findTimelineByDate(@RequestBody DateSearchDiaryDto date) {
-        return this.beanMapper.mapList(diaryService.filterDiary(date), DiaryDto.class);
+    public List<DiaryDto> getDiaryByPatientId(@RequestBody DateSearchDiaryDto date) throws EntityNotFoundException {
+        return this.beanMapper.mapList(diaryService.getDiaryByPatientId(date), DiaryDto.class);
     }
 }
