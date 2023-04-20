@@ -2,18 +2,13 @@ package com.ccsw.mentconnect.diary.dto;
 
 import java.time.LocalDate;
 
-import com.ccsw.mentconnect.patient.dto.PatientDto;
-import com.ccsw.mentconnect.patient.dto.PatientFullDto;
-
-public class DiaryDto {
+public class DiarySimpleDto {
     
     private Long id;
 
     private String description;
 
     private LocalDate createDate;
-
-    private PatientFullDto patient;
 
     public Long getId() {
         return id;
@@ -39,12 +34,5 @@ public class DiaryDto {
         this.createDate = createDate;
     }
 
-    public PatientFullDto getPatient() {
-        return patient;
-    }
-
-    public void setPatient(PatientFullDto patient) {
-        this.patient = patient;
-    }
     
 }

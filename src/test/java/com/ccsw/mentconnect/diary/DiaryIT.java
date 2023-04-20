@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,6 +20,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.ccsw.mentconnect.config.BaseITAbstract;
 import com.ccsw.mentconnect.diary.dto.DateSearchDiaryDto;
 import com.ccsw.mentconnect.diary.dto.DiaryDto;
+import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.patient.dto.PatientFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
+import com.ccsw.mentconnect.user.dto.UserDto;
+import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -43,7 +50,24 @@ public class DiaryIT extends BaseITAbstract {
 
     ParameterizedTypeReference<DiaryDto> responseType = new ParameterizedTypeReference<DiaryDto>() {
     };
+    private PatientFullDto patientDto;
+    private UserFullDto userDto;
+    private DiaryDto diaryDto;
     private DateSearchDiaryDto dateSearchDiaryDto = new DateSearchDiaryDto();
+    
+    @BeforeEach
+    public void setUp() {
+        patientDto = new PatientFullDto();
+        userDto = new UserFullDto();
+        this.userDto.setUsername("adminvjkhkjhv");
+        this.userDto.setName("Admin");
+        this.userDto.setSurnames("Admin");
+        this.userDto.setEmail("admin@meentconnect.com");
+        this.patientDto.setUser(this.userDto);
+        this.patientDto.setNif("12345678P");
+        this.patientDto.setGender("H");
+        this.patientDto.setPhone("123456789");
+    }
 
     @Test
     public void getDiaryByPatientIdWithEmptyFiltersShouldReturnAllDiarysByPatientId() {
@@ -64,11 +88,9 @@ public class DiaryIT extends BaseITAbstract {
         dateSearchDiaryDto.setPatientId(EXISTS_PATIENT_ID);
         
         LocalDate localDate = LocalDate.of(2023, 3, 10);
-        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(instant);
         
-        dateSearchDiaryDto.setStartDate(date);
-        dateSearchDiaryDto.setEndDate(date);
+        dateSearchDiaryDto.setStartDate(localDate);
+        dateSearchDiaryDto.setEndDate(localDate);
         
         HttpEntity<?> httpEntity = new HttpEntity<>(dateSearchDiaryDto,getHeaders());
 
@@ -85,15 +107,11 @@ public class DiaryIT extends BaseITAbstract {
         dateSearchDiaryDto.setPatientId(EXISTS_PATIENT_ID);
         
         LocalDate localDateStart = LocalDate.of(2023, 3, 1);
-        Instant instantStart = localDateStart.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        Date dateStart = Date.from(instantStart);
         
         LocalDate localDateEnd = LocalDate.of(2023, 3, 20);
-        Instant instantEnd = localDateEnd.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        Date dateEnd = Date.from(instantEnd);
         
-        dateSearchDiaryDto.setStartDate(dateStart);
-        dateSearchDiaryDto.setEndDate(dateEnd);
+        dateSearchDiaryDto.setStartDate(localDateStart);
+        dateSearchDiaryDto.setEndDate(localDateEnd);
         
         HttpEntity<?> httpEntity = new HttpEntity<>(dateSearchDiaryDto,getHeaders());
 
@@ -123,11 +141,9 @@ public class DiaryIT extends BaseITAbstract {
         dateSearchDiaryDto.setPatientId(EXISTS_PATIENT_ID);
         
         LocalDate localDate = LocalDate.of(2025, 10, 5);
-        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(instant);
         
-        dateSearchDiaryDto.setStartDate(date);
-        dateSearchDiaryDto.setEndDate(date);
+        dateSearchDiaryDto.setStartDate(localDate);
+        dateSearchDiaryDto.setEndDate(localDate);
         
         HttpEntity<?> httpEntity = new HttpEntity<>(dateSearchDiaryDto,getHeaders());
 
@@ -138,5 +154,23 @@ public class DiaryIT extends BaseITAbstract {
         assertEquals(EMPTY_DIARYS_FILTERED, response.getBody().size());
 
     }
+    
+    @Test
+    public void saveDiaryShouldCreateNewDiary() {
+        diaryDto = new DiaryDto();
+        diaryDto.setDescription("Hola esto es una descripcion");
+        LocalDate localDate = LocalDate.of(2025, 12, 7);
+        diaryDto.setCreateDate(localDate);
+        diaryDto.setPatient(this.patientDto);
+        
+        HttpEntity<?> httpEntity = new HttpEntity<>(diaryDto, getHeaders());
+
+        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, DiaryDto.class);
+
+        assertEquals(diaryDto.getDescription(), responseSave.getBody().getDescription());
+
+    }
+    
+    
     
 }

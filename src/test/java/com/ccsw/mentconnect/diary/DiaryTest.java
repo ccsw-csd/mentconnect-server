@@ -55,11 +55,9 @@ public class DiaryTest {
     public void getDiaryByPatientIdFilteredByDateExactShouldReturnAllDiarysByPatientIdFiltered() {
         dateSearchDiaryDto.setPatientId(1L);
         LocalDate localDate = LocalDate.of(2027, 6, 15);
-        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(instant);
         
-        dateSearchDiaryDto.setStartDate(date);
-        dateSearchDiaryDto.setEndDate(date);
+        dateSearchDiaryDto.setStartDate(localDate);
+        dateSearchDiaryDto.setEndDate(localDate);
 
         List<DiaryEntity> list = new ArrayList<>();
 

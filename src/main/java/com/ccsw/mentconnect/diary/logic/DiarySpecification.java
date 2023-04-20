@@ -1,6 +1,6 @@
 package com.ccsw.mentconnect.diary.logic;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,15 +23,15 @@ public class DiarySpecification implements Specification<DiaryEntity> {
     @Override
     public Predicate toPredicate(Root<DiaryEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase("<=")) {
-            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()).as(Date.class),
-                    (Date) criteria.getFirstValue());
+            return builder.greaterThanOrEqualTo(root.get(criteria.getKey()).as(LocalDate.class),
+                    (LocalDate) criteria.getFirstValue());
         } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
-            return builder.lessThanOrEqualTo(root.get(criteria.getKey()).as(Date.class),
-                    (Date) criteria.getFirstValue());
+            return builder.lessThanOrEqualTo(root.get(criteria.getKey()).as(LocalDate.class),
+                    (LocalDate) criteria.getFirstValue());
         } else if (criteria.getOperation().equalsIgnoreCase("<>")) {
-            return builder.between(root.get(criteria.getKey()).as(Date.class), (Date) criteria.getFirstValue(),
-                    (Date) criteria.getSecondValue());
-        }else if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
+            return builder.between(root.get(criteria.getKey()).as(LocalDate.class), (LocalDate) criteria.getFirstValue(),
+                    (LocalDate) criteria.getSecondValue());
+        } else if (criteria.getOperation().equalsIgnoreCase(":") && criteria.getFirstValue() != null) {
             Path<String> path = getPath(root);
             if (path.getJavaType() == String.class) {
                 return builder.like(path, "%" + criteria.getFirstValue() + "%");
