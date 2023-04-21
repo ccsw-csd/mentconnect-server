@@ -155,12 +155,12 @@ public class DiaryIT extends BaseITAbstract {
         diaryDto.setDescription("Hola esto es una descripcion");
         LocalDate localDate = LocalDate.of(2025, 12, 7);
         diaryDto.setCreateDate(localDate);
-        diaryDto.getPatient().setId(9L);
+        this.patientDto.setId(2L);
         diaryDto.setPatient(this.patientDto);
         
         HttpEntity<?> httpEntity = new HttpEntity<>(diaryDto, getHeaders());
 
-        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, DiaryDto.class);
+        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, DiaryDto.class);
 
         assertEquals(diaryDto.getDescription(), responseSave.getBody().getDescription());
 
