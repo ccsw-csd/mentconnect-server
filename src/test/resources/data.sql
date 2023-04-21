@@ -40,8 +40,10 @@ CREATE TABLE user_role (
 );
 
 INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'ADMIN'));
+INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'PAT_DAILY'));
 INSERT INTO user_role (user_id, role_id) VALUES (2, (SELECT id FROM role WHERE code = 'STAFF'));
-INSERT INTO user_role (user_id, role_id) VALUES (3, (SELECT id FROM role WHERE code = 'PAT_INFO'));
+INSERT INTO user_role (user_id, role_id) VALUES (3, (SELECT id FROM role WHERE code = 'PAT_DAILY'));
+
 
 CREATE TABLE questionnaire (
   id BIGINT NOT NULL AUTO_INCREMENT,
@@ -143,3 +145,17 @@ CREATE TABLE user_patient (
     CONSTRAINT user_patient_patient_fk FOREIGN KEY (patient_id) REFERENCES patient(id)
     
 );
+
+
+CREATE TABLE diary (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  description VARCHAR(4000) NOT NULL,
+  create_date date NOT NULL,
+  patient_id bigint(20) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT patient_id FOREIGN KEY (patient_id) REFERENCES patient(id)
+);
+
+INSERT INTO diary (id, description, create_date, patient_id) VALUES (1, 'primera descripcion', '2023-03-10', 1);
+INSERT INTO diary (id, description, create_date, patient_id) VALUES (2, 'segunda descripcion', '2024-04-11', 1);
+INSERT INTO diary (id, description, create_date, patient_id) VALUES (3, 'tercera descripcion', '2025-05-12', 1);
