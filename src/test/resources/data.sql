@@ -40,8 +40,10 @@ CREATE TABLE user_role (
 );
 
 INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'ADMIN'));
+INSERT INTO user_role (user_id, role_id) VALUES (1, (SELECT id FROM role WHERE code = 'PAT_DAILY'));
 INSERT INTO user_role (user_id, role_id) VALUES (2, (SELECT id FROM role WHERE code = 'STAFF'));
-INSERT INTO user_role (user_id, role_id) VALUES (3, (SELECT id FROM role WHERE code = 'PAT_INFO'));
+INSERT INTO user_role (user_id, role_id) VALUES (3, (SELECT id FROM role WHERE code = 'PAT_DAILY'));
+
 
 CREATE TABLE questionnaire (
   id BIGINT NOT NULL AUTO_INCREMENT,

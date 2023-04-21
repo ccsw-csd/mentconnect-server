@@ -73,14 +73,10 @@ public class DiaryServiceImpl implements DiaryService {
         
         return diaryRepository.save(diaryEntity);
     }
-
-
     
-
     @Override
     public void delete(Long id) {
         this.diaryRepository.deleteById(id);
         
     }
-
 }

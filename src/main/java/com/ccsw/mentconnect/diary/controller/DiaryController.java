@@ -34,13 +34,13 @@ public class DiaryController {
     }
     
     
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('PAT_DAILY')")
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public DiaryDto saveOrUpdateDiary(@RequestBody DiaryDto diaryDto) throws EntityNotFoundException {
         return this.beanMapper.map(diaryService.saveOrUpdateDiary(this.beanMapper.map(diaryDto,DiaryEntity.class)), DiaryDto.class);
     }
     
-    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyAuthority('PAT_DAILY')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void deleteDiary(@PathVariable Long id) {
         this.diaryService.delete(id);

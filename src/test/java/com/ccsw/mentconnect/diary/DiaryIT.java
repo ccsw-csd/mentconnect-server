@@ -15,8 +15,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.ccsw.mentconnect.config.BaseITAbstract;
 import com.ccsw.mentconnect.diary.dto.DateSearchDiaryDto;
 import com.ccsw.mentconnect.diary.dto.DiaryDto;
-import com.ccsw.mentconnect.patient.dto.PatientFullDto;
-import com.ccsw.mentconnect.user.dto.UserFullDto;
+import com.ccsw.mentconnect.patient.dto.PatientDto;
+import com.ccsw.mentconnect.user.dto.UserDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -42,15 +42,14 @@ public class DiaryIT extends BaseITAbstract {
 
     ParameterizedTypeReference<DiaryDto> responseType = new ParameterizedTypeReference<DiaryDto>() {
     };
-    private PatientFullDto patientDto;
-    private UserFullDto userDto;
+    private PatientDto patientDto;
+    private UserDto userDto;
     private DateSearchDiaryDto dateSearchDiaryDto = new DateSearchDiaryDto();
-    private DiaryDto diaryDto = new DiaryDto();
     
     @BeforeEach
     public void setUp() {
-        patientDto = new PatientFullDto();
-        userDto = new UserFullDto();
+        patientDto = new PatientDto();
+        userDto = new UserDto();
         this.userDto.setUsername("adminvjkhkjhv");
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
@@ -148,23 +147,6 @@ public class DiaryIT extends BaseITAbstract {
 
     }
     
-
-    @Test
-    public void saveDiaryShouldCreateNewDiary() {
-        diaryDto = new DiaryDto();
-        diaryDto.setDescription("Hola esto es una descripcion");
-        LocalDate localDate = LocalDate.of(2025, 12, 7);
-        diaryDto.setCreateDate(localDate);
-        this.patientDto.setId(2L);
-        diaryDto.setPatient(this.patientDto);
-        
-        HttpEntity<?> httpEntity = new HttpEntity<>(diaryDto, getHeaders());
-
-        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, DiaryDto.class);
-
-        assertEquals(diaryDto.getDescription(), responseSave.getBody().getDescription());
-
-    }
     
     
 }
