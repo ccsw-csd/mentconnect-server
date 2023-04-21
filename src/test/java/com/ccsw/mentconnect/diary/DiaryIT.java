@@ -45,6 +45,7 @@ public class DiaryIT extends BaseITAbstract {
     private PatientFullDto patientDto;
     private UserFullDto userDto;
     private DateSearchDiaryDto dateSearchDiaryDto = new DateSearchDiaryDto();
+    private DiaryDto diaryDto = new DiaryDto();
     
     @BeforeEach
     public void setUp() {
@@ -148,7 +149,22 @@ public class DiaryIT extends BaseITAbstract {
     }
     
 
-    
+    @Test
+    public void saveDiaryShouldCreateNewDiary() {
+        diaryDto = new DiaryDto();
+        diaryDto.setDescription("Hola esto es una descripcion");
+        LocalDate localDate = LocalDate.of(2025, 12, 7);
+        diaryDto.setCreateDate(localDate);
+        diaryDto.getPatient().setId(9L);
+        diaryDto.setPatient(this.patientDto);
+        
+        HttpEntity<?> httpEntity = new HttpEntity<>(diaryDto, getHeaders());
+
+        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, httpEntity, DiaryDto.class);
+
+        assertEquals(diaryDto.getDescription(), responseSave.getBody().getDescription());
+
+    }
     
     
 }

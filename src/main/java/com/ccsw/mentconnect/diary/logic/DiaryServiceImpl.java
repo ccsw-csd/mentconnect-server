@@ -1,22 +1,19 @@
 package com.ccsw.mentconnect.diary.logic;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
-import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.diary.dto.DateSearchDiaryDto;
-import com.ccsw.mentconnect.diary.dto.DiaryDto;
 import com.ccsw.mentconnect.diary.model.DiaryEntity;
 import com.ccsw.mentconnect.diary.model.DiaryRepository;
 import com.ccsw.mentconnect.patient.logic.PatientService;
 import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.patient.model.PatientRepository;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
@@ -32,6 +29,9 @@ public class DiaryServiceImpl implements DiaryService {
     
     @Autowired
     PatientService patientService;
+    
+    @Autowired
+    PatientRepository patientRepository;
 
     @Override
     public List<DiaryEntity> getDiaryByPatientId(DateSearchDiaryDto date) {
@@ -65,21 +65,15 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryEntity saveOrUpdateDiary(Long id, DiaryDto diaryDto) throws AlreadyExistsException, EntityNotFoundException {
-        DiaryEntity diaryEntity;
-        if (id != null) {
-            Optional<DiaryEntity> diaryOptional = diaryRepository.findById(id);
-            if (diaryOptional.isPresent()) {  
-                diaryEntity = diaryOptional.get();
-                diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
-            } else {
-                throw new EntityNotFoundException();
-            }
-        } else {
-            diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
+    public DiaryEntity saveOrUpdateDiary(DiaryEntity diaryEntity) throws EntityNotFoundException {
+        Long patientId = diaryEntity.getPatient().getId();
+        if (!patientRepository.existsById(patientId)) {
+            throw new EntityNotFoundException();
         }
+        
         return diaryRepository.save(diaryEntity);
     }
+
 
     
 

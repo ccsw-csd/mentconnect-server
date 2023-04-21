@@ -1,8 +1,6 @@
 package com.ccsw.mentconnect.diary.dto;
 
 import java.time.LocalDate;
-
-import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 
 public class DiaryDto {
