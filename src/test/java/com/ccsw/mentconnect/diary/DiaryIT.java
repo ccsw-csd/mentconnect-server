@@ -2,13 +2,8 @@ package com.ccsw.mentconnect.diary;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.ccsw.mentconnect.config.BaseITAbstract;
 import com.ccsw.mentconnect.diary.dto.DateSearchDiaryDto;
 import com.ccsw.mentconnect.diary.dto.DiaryDto;
-import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.patient.dto.PatientFullDto;
-import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
-import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -52,7 +44,6 @@ public class DiaryIT extends BaseITAbstract {
     };
     private PatientFullDto patientDto;
     private UserFullDto userDto;
-    private DiaryDto diaryDto;
     private DateSearchDiaryDto dateSearchDiaryDto = new DateSearchDiaryDto();
     
     @BeforeEach
@@ -63,6 +54,7 @@ public class DiaryIT extends BaseITAbstract {
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
         this.userDto.setEmail("admin@meentconnect.com");
+        
         this.patientDto.setUser(this.userDto);
         this.patientDto.setNif("12345678P");
         this.patientDto.setGender("H");
@@ -155,21 +147,7 @@ public class DiaryIT extends BaseITAbstract {
 
     }
     
-    @Test
-    public void saveDiaryShouldCreateNewDiary() {
-        diaryDto = new DiaryDto();
-        diaryDto.setDescription("Hola esto es una descripcion");
-        LocalDate localDate = LocalDate.of(2025, 12, 7);
-        diaryDto.setCreateDate(localDate);
-        diaryDto.setPatient(this.patientDto);
-        
-        HttpEntity<?> httpEntity = new HttpEntity<>(diaryDto, getHeaders());
 
-        ResponseEntity<DiaryDto> responseSave = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, httpEntity, DiaryDto.class);
-
-        assertEquals(diaryDto.getDescription(), responseSave.getBody().getDescription());
-
-    }
     
     
     

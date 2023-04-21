@@ -11,9 +11,7 @@ import com.ccsw.mentconnect.diary.model.DiaryEntity;
 public interface DiaryService {
     List<DiaryEntity> getDiaryByPatientId(DateSearchDiaryDto date);
 
-    DiaryEntity saveDiary(DiaryDto diaryDto) throws AlreadyExistsException;
-
-    DiaryEntity modifyDiary(DiaryDto diaryDto) throws EntityNotFoundException;
+    DiaryEntity saveOrUpdateDiary(Long id, DiaryDto diaryDto) throws AlreadyExistsException, EntityNotFoundException;
 
     void delete(Long id);
 

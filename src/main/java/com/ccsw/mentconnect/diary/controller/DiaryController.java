@@ -34,19 +34,12 @@ public class DiaryController {
         return this.beanMapper.mapList(diaryService.getDiaryByPatientId(date), DiarySimpleDto.class);
     }
     
-    //save, delete y edit con DiaryDto
-    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public DiaryDto saveDiary(@RequestBody DiaryDto diaryDto) throws AlreadyExistsException{
-
-        return this.beanMapper.map(diaryService.saveDiary(diaryDto), DiaryDto.class);
-    }
     
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(path = "", method = RequestMethod.PUT)
-    public DiaryDto modifyDiary(@RequestBody DiaryDto diaryDto) throws EntityNotFoundException {
+    @RequestMapping(path = {"", "/{id}" }, method = RequestMethod.PUT)
+    public DiaryDto saveOrUpdateDiary(@PathVariable(name = "id", required = false) Long id,@RequestBody DiaryDto diaryDto) throws EntityNotFoundException, AlreadyExistsException {
         
-        return this.beanMapper.map(diaryService.modifyDiary(diaryDto), DiaryDto.class);
+        return this.beanMapper.map(diaryService.saveOrUpdateDiary(id,diaryDto), DiaryDto.class);
     }
     
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")

@@ -1,6 +1,8 @@
 package com.ccsw.mentconnect.diary.logic;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -63,21 +65,23 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryEntity saveDiary(DiaryDto diaryDto) throws AlreadyExistsException {
-        DiaryEntity diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
-        diaryEntity.setPatient(this.patientService.savePatient(diaryDto.getPatient()));
-        return this.diaryRepository.save(diaryEntity);
+    public DiaryEntity saveOrUpdateDiary(Long id, DiaryDto diaryDto) throws AlreadyExistsException, EntityNotFoundException {
+        DiaryEntity diaryEntity;
+        if (id != null) {
+            Optional<DiaryEntity> diaryOptional = diaryRepository.findById(id);
+            if (diaryOptional.isPresent()) {  
+                diaryEntity = diaryOptional.get();
+                diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
+            } else {
+                throw new EntityNotFoundException();
+            }
+        } else {
+            diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
+        }
+        return diaryRepository.save(diaryEntity);
     }
 
-    @Override
-    public DiaryEntity modifyDiary(DiaryDto diaryDto) throws EntityNotFoundException {
-        if (diaryDto.getId() == null) {
-            throw new EntityNotFoundException();
-        }
-        DiaryEntity diaryEntity = this.beanMapper.map(diaryDto, DiaryEntity.class);
-        diaryEntity.setPatient(this.patientService.modifyPatient(diaryDto.getPatient()));
-        return this.diaryRepository.save(diaryEntity);
-    }
+    
 
     @Override
     public void delete(Long id) {
