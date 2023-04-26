@@ -36,8 +36,6 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         QuestionnaireSpecification user = new QuestionnaireSpecification(new SearchCriteria(QuestionnaireEntity.ATT_USER, ":", dto.getUser() != null &&
                 dto.getUser().getId() != null ? beanMapper.map(dto.getUser(), UserEntity.class) : null, null));
 
-        //PatientSpecification name = new PatientSpecification(new SearchCriteria(PatientEntity.ATT_USER.concat(".".concat(UserEntity.ATT_NAME)), ":", dto.getUser().getName(),null));
-        
         Specification<QuestionnaireEntity> spec = Specification.where(id).and(description).and(user);
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
