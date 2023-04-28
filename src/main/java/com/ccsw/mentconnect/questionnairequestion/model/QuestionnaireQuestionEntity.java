@@ -57,7 +57,7 @@ public class QuestionnaireQuestionEntity {
         inverseJoinColumns = @JoinColumn(name = "weekday_id")
     )**/
     @OneToMany(mappedBy = "questionnaireQuestion")
-    public List<QuestionnaireQuestionWeekDayEntity> weekDays;
+    private List<QuestionnaireQuestionWeekDayEntity> weekDays;
 
     public Long getId() {
         return id;
