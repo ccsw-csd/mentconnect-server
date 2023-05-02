@@ -16,6 +16,8 @@ public interface UserRepository
         extends PagingAndSortingRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
 
     Optional<UserEntity> findByUsernameAndPassword(String username, String password);
+    
+    Optional<UserEntity> findByUsername(String username);
 
     List<UserEntity> findAll();
 

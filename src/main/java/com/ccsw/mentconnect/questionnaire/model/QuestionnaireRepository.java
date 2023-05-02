@@ -18,4 +18,6 @@ public interface QuestionnaireRepository extends PagingAndSortingRepository<Ques
     @EntityGraph(attributePaths = {"user", "questions", "patients"})
     Page<QuestionnaireEntity> findAll(Specification spec, Pageable pageable);
 
+    Boolean existsByDescription(String description);
+
 }

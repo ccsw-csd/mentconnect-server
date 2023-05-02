@@ -1,18 +1,27 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
+import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
+import com.ccsw.mentconnect.config.security.UserUtils;
+import com.ccsw.mentconnect.patient.model.PatientEntity;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
+import com.ccsw.mentconnect.security.dto.UserDetailsJWTDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
+import com.ccsw.mentconnect.user.model.UserRepository;
 
 @Service
 public class QuestionnaireServiceImpl implements QuestionnaireService {
@@ -22,6 +31,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     
     @Autowired
     QuestionnaireRepository questionnaireRepository;
+    
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<QuestionnaireEntity> findAll() {
@@ -40,5 +52,21 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
     }
+
+    @Override
+    public QuestionnaireEntity saveQuestionnaire(QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
+        UserDetailsJWTDto currentUser = UserUtils.getUserDetails();
+        Optional<UserEntity> user = userRepository.findByUsername(currentUser.getUsername());
+        if (this.questionnaireRepository.existsByDescription(questionnaireDto.getDescription())) {
+            throw new AlreadyExistsException();
+        }
+        QuestionnaireEntity questionnaireEntity = this.beanMapper.map(questionnaireDto, QuestionnaireEntity.class);
+        questionnaireEntity.setDescription(questionnaireDto.getDescription());
+        user.ifPresent(questionnaireEntity::setUser); 
+        questionnaireEntity.setCreateDate(LocalDate.now());
+        questionnaireEntity.setLastEditDate(LocalDate.now());
+        return this.questionnaireRepository.save(questionnaireEntity);
+    }
+
 
 }
