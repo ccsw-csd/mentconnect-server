@@ -19,6 +19,7 @@ import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
+import com.ccsw.mentconnect.questionnairepatient.model.QuestionnairePatientEntity;
 import com.ccsw.mentconnect.security.dto.UserDetailsJWTDto;
 import com.ccsw.mentconnect.user.model.UserEntity;
 import com.ccsw.mentconnect.user.model.UserRepository;
@@ -52,7 +53,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
     }
-
+    
+    
     @Override
     public QuestionnaireEntity saveQuestionnaire(QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
         UserDetailsJWTDto currentUser = UserUtils.getUserDetails();
@@ -61,7 +63,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             throw new AlreadyExistsException();
         }
         QuestionnaireEntity questionnaireEntity = this.beanMapper.map(questionnaireDto, QuestionnaireEntity.class);
-        questionnaireEntity.setDescription(questionnaireDto.getDescription());
+        //questionnaireEntity.setDescription(questionnaireDto.getDescription());
+        //questionnaireEntity.setQuestions(questionnaireDto.getQuestions());
         user.ifPresent(questionnaireEntity::setUser); 
         questionnaireEntity.setCreateDate(LocalDate.now());
         questionnaireEntity.setLastEditDate(LocalDate.now());

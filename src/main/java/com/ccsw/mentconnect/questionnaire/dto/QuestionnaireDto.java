@@ -47,9 +47,9 @@ public class QuestionnaireDto {
         this.questions = questions;
     }
 
-    public Integer getQuestionsNumber() {
-        return questions.size();
-    }
+//    public Integer getQuestionsNumber() {
+//        return questions.size();
+//    }
 
     public List<PatientDto> getPatients() {
         return patients;

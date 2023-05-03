@@ -1,8 +1,10 @@
 package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +19,8 @@ import javax.persistence.Table;
 
 import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
+import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
+import com.ccsw.mentconnect.role.model.RoleEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
@@ -35,9 +39,12 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionnaire_question")
+    //@JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    //@JoinColumn(name = "questionnaire_id")
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    public Set<QuestionEntity> questions;
+    @JoinColumn(name = "question_id")
+    public Set<QuestionnaireQuestionEntity> questions;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
@@ -69,11 +76,11 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public Set<QuestionEntity> getQuestions() {
+    public Set<QuestionnaireQuestionEntity> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<QuestionEntity> questions) {
+    public void setQuestions(Set<QuestionnaireQuestionEntity> questions) {
         this.questions = questions;
     }
 

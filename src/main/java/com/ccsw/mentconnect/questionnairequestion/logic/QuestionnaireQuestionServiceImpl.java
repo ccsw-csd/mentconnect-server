@@ -1,5 +1,8 @@
 package com.ccsw.mentconnect.questionnairequestion.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +20,25 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     @Autowired
     QuestionnaireQuestionRepository questionnaireQuestionRepository;
 
-    @Transactional
+    /**@Transactional
     @Override
     public QuestionnaireQuestionEntity saveQuestionnaireQuestion(QuestionnaireQuestionDto questionnaireQuestionDto) {
         QuestionnaireQuestionEntity questionnaireQuestionEntity = this.beanMapper.map(questionnaireQuestionDto, QuestionnaireQuestionEntity.class);
         return this.questionnaireQuestionRepository.save(questionnaireQuestionEntity);
+    }*/
+
+    @Transactional
+    @Override
+    public List<QuestionnaireQuestionEntity> saveQuestionnaireQuestions(List<QuestionnaireQuestionDto> questionnaireQuestionDtos) {
+        List<QuestionnaireQuestionEntity> savedEntities = new ArrayList<>();
+
+        for (QuestionnaireQuestionDto questionnaireQuestionDto : questionnaireQuestionDtos) {
+            QuestionnaireQuestionEntity questionnaireQuestionEntity = this.beanMapper.map(questionnaireQuestionDto, QuestionnaireQuestionEntity.class);
+            savedEntities.add(this.questionnaireQuestionRepository.save(questionnaireQuestionEntity));
+        }
+
+        return savedEntities;
     }
+
 
 }

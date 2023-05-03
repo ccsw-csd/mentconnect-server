@@ -2,7 +2,11 @@ package com.ccsw.mentconnect.questionnaire.dto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import com.ccsw.mentconnect.question.dto.QuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireInfoDto {
@@ -10,6 +14,8 @@ public class QuestionnaireInfoDto {
     private Long id;
 
     private String description;
+    
+    private Set<QuestionnaireQuestionDto> questions;
 
     private UserDto user;
 
@@ -32,6 +38,15 @@ public class QuestionnaireInfoDto {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public Set<QuestionnaireQuestionDto> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<QuestionnaireQuestionDto> questions) {
+        this.questions = questions;
+    }
+
 
     public UserDto getUser() {
         return user;

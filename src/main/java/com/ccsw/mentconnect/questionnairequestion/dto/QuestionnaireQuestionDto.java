@@ -1,10 +1,11 @@
 package com.ccsw.mentconnect.questionnairequestion.dto;
 
 import java.util.List;
+
+import com.ccsw.mentconnect.question.dto.QuestionDto;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnairequestion.model.TimeSlotEnum;
-import com.ccsw.mentconnect.questionnairequestionweekday.model.QuestionnaireQuestionWeekDayEntity;
 
 public class QuestionnaireQuestionDto {
 
@@ -12,11 +13,11 @@ public class QuestionnaireQuestionDto {
 
     private QuestionnaireDto questionnaire;
 
-    private QuestionEntity question;
+    private QuestionDto question;
 
     private TimeSlotEnum timeslot;
     
-    private List<QuestionnaireQuestionWeekDayEntity> weekDays;
+    private List<Integer> weekDays;
 
     public Long getId() {
         return id;
@@ -33,12 +34,12 @@ public class QuestionnaireQuestionDto {
     public void setQuestionnaire(QuestionnaireDto questionnaire) {
         this.questionnaire = questionnaire;
     }
-
-    public QuestionEntity getQuestion() {
+    
+    public QuestionDto getQuestion() {
         return question;
     }
 
-    public void setQuestion(QuestionEntity question) {
+    public void setQuestion(QuestionDto question) {
         this.question = question;
     }
 
@@ -50,11 +51,11 @@ public class QuestionnaireQuestionDto {
         this.timeslot = timeslot;
     }
 
-    public List<QuestionnaireQuestionWeekDayEntity> getWeekDays() {
+    public List<Integer> getWeekDays() {
         return weekDays;
     }
 
-    public void setWeekDays(List<QuestionnaireQuestionWeekDayEntity> weekDays) {
+    public void setWeekDays(List<Integer> weekDays) {
         this.weekDays = weekDays;
     }
 
