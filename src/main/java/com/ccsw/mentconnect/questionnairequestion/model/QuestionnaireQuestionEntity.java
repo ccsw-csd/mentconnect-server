@@ -1,5 +1,6 @@
 package com.ccsw.mentconnect.questionnairequestion.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,10 +21,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
+import com.ccsw.mentconnect.weekday.model.WeekDayEntity;
 
 @Entity
 @Table(name = "questionnaire_question")
-public class QuestionnaireQuestionEntity {
+public class QuestionnaireQuestionEntity{
 
     public static final String ATT_ID = "id";
     public static final String ATT_QUESTIONNAIRE = "questionnaire";
@@ -48,12 +50,11 @@ public class QuestionnaireQuestionEntity {
     @Column(name = "timeslot", nullable = false)
     private TimeSlotEnum timeslot;
     
-    @ElementCollection
-    @CollectionTable(name = "questionnairequestion_weekdays",
-                     joinColumns = @JoinColumn(name = "questionnaire_question_id", referencedColumnName = "questionnaire_id"))
-    @Column(name = "week_day")
-    private List<Integer> weekDays;
-
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+    @JoinTable(name = "questionnairequestion_weekdays",
+               joinColumns = @JoinColumn(name = "questionnaire_question_id"),
+               inverseJoinColumns = @JoinColumn(name = "week_day"))
+    private List<WeekDayEntity> weekDays;
 
 
     public Long getId() {
@@ -88,11 +89,11 @@ public class QuestionnaireQuestionEntity {
         this.timeslot = timeslot;
     }
 
-    public List<Integer> getWeekDays() {
+    public List<WeekDayEntity> getWeekDays() {
         return weekDays;
     }
 
-    public void setWeekDays(List<Integer> weekDays) {
+    public void setWeekDays(List<WeekDayEntity> weekDays) {
         this.weekDays = weekDays;
     }
     

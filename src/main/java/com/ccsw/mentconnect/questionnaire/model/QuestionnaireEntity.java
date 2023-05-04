@@ -42,9 +42,13 @@ public class QuestionnaireEntity {
     //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionnaire_question")
     //@JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
     //@JoinColumn(name = "questionnaire_id")
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    public Set<QuestionnaireQuestionEntity> questions;
+    //@OneToMany(fetch = FetchType.LAZY)
+    //@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
+    
+    //@JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = QuestionnaireQuestionEntity.ATT_QUESTIONNAIRE, cascade = CascadeType.ALL)
+    private Set<QuestionnaireQuestionEntity> questions;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))

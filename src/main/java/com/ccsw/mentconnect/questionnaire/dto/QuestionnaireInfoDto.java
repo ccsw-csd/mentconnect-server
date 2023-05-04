@@ -1,5 +1,6 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +10,7 @@ import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionDto;
 import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
-public class QuestionnaireInfoDto {
+public class QuestionnaireInfoDto implements Serializable {
 
     private Long id;
 

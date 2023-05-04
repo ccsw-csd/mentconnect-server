@@ -1,13 +1,15 @@
 package com.ccsw.mentconnect.questionnairequestion.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.ccsw.mentconnect.question.dto.QuestionDto;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnairequestion.model.TimeSlotEnum;
+import com.ccsw.mentconnect.weekday.model.WeekDayEntity;
 
-public class QuestionnaireQuestionDto {
+public class QuestionnaireQuestionDto implements Serializable {
 
     private Long id;
 
@@ -17,7 +19,7 @@ public class QuestionnaireQuestionDto {
 
     private TimeSlotEnum timeslot;
     
-    private List<Integer> weekDays;
+    private List<WeekDayEntity> weekDays;
 
     public Long getId() {
         return id;
@@ -51,11 +53,11 @@ public class QuestionnaireQuestionDto {
         this.timeslot = timeslot;
     }
 
-    public List<Integer> getWeekDays() {
+    public List<WeekDayEntity> getWeekDays() {
         return weekDays;
     }
 
-    public void setWeekDays(List<Integer> weekDays) {
+    public void setWeekDays(List<WeekDayEntity> weekDays) {
         this.weekDays = weekDays;
     }
 
