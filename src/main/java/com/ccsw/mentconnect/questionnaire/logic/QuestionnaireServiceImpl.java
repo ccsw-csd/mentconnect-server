@@ -70,20 +70,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             throw new AlreadyExistsException();
         }
         QuestionnaireEntity questionnaireEntity = this.beanMapper.map(questionnaireDto, QuestionnaireEntity.class);
-        
-        
-        List<QuestionnaireQuestionEntity> questionnaireQuestionEntities = new ArrayList<>();
-        
+        List<QuestionnaireQuestionEntity> questionnaireQuestionEntities = new ArrayList<>();  
         for (QuestionnaireQuestionDto questionnaireQuestionDto : questionnaireDto.getQuestions()) {
             QuestionnaireQuestionEntity questionnaireQuestionEntity = this.beanMapper.map(questionnaireQuestionDto, QuestionnaireQuestionEntity.class);
-            questionnaireQuestionEntity.setQuestionnaire(questionnaireEntity); // Establece la relación
+            questionnaireQuestionEntity.setQuestionnaire(questionnaireEntity); 
             questionnaireQuestionEntities.add(questionnaireQuestionEntity);
         }
-
-        // Establecer la lista de entidades de relación en el cuestionario
-        
         questionnaireEntity.setQuestions(new HashSet<>(questionnaireQuestionEntities));
-
         user.ifPresent(questionnaireEntity::setUser); 
         questionnaireEntity.setCreateDate(LocalDate.now());
         questionnaireEntity.setLastEditDate(LocalDate.now());

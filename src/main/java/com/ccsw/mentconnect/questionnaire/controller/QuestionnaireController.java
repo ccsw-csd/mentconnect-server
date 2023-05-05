@@ -9,15 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.logic.QuestionnaireService;
-import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
-import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @RequestMapping(value = "/questionnaire")
 @RestController
@@ -44,9 +41,9 @@ public class QuestionnaireController {
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public QuestionnaireEntity saveQuestionnaire(@RequestBody QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
+    public QuestionnaireDto saveQuestionnaire(@RequestBody QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
 
-        return this.beanMapper.map(questionnaireService.saveQuestionnaire(questionnaireDto), QuestionnaireEntity.class);
+        return this.beanMapper.map(questionnaireService.saveQuestionnaire(questionnaireDto), QuestionnaireDto.class);
     }
 
 }

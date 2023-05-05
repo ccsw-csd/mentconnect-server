@@ -1,14 +1,14 @@
 CREATE TABLE weekday (
-  id int(1) NOT NULL AUTO_INCREMENT,
-  value int(1) not null,
+  id int(1) NOT NULL,
+  code char(3) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT uc_VALUE UNIQUE (value)
+  CONSTRAINT uc_VALUE UNIQUE (code)
 );
 
-INSERT INTO weekday (value) VALUES (1);
-INSERT INTO weekday (value) VALUES (2);
-INSERT INTO weekday (value) VALUES (3);
-INSERT INTO weekday (value) VALUES (4);
-INSERT INTO weekday (value) VALUES (5);
-INSERT INTO weekday (value) VALUES (6);
-INSERT INTO weekday (value) VALUES (0);
+INSERT INTO weekday (id, code) VALUES (0, 'SUN');
+INSERT INTO weekday (id, code) VALUES (1, 'MON');
+INSERT INTO weekday (id, code) VALUES (2, 'TUE');
+INSERT INTO weekday (id, code) VALUES (3, 'WEN');
+INSERT INTO weekday (id, code) VALUES (4, 'THU');
+INSERT INTO weekday (id, code) VALUES (5, 'FRI');
+INSERT INTO weekday (id, code) VALUES (6, 'SAT');

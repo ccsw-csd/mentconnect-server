@@ -18,14 +18,8 @@ public class WeekDayEntity {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "value", nullable = false)
-    private int value;
-    
-    public WeekDayEntity() {}
-
-    public WeekDayEntity(int value) {
-        this.value = value;
-    }
+    @Column(name = "code", nullable = false)
+    private String code;
 
     public int getId() {
         return id;
@@ -35,12 +29,12 @@ public class WeekDayEntity {
         this.id = id;
     }
 
-    public int getValue() {
-        return value;
+    public String getCode() {
+        return code;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setCode(String code) {
+        this.code = code;
     }
     
     

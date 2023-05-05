@@ -51,7 +51,7 @@ public class QuestionnaireQuestionEntity{
     private TimeSlotEnum timeslot;
     
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JoinTable(name = "questionnairequestion_weekdays",
+    @JoinTable(name = "questionnaire_question_weekday",
                joinColumns = @JoinColumn(name = "questionnaire_question_id"),
                inverseJoinColumns = @JoinColumn(name = "week_day"))
     private List<WeekDayEntity> weekDays;

@@ -6,7 +6,7 @@ public class WeekDayDto implements Serializable {
 
     private int id;
 
-    private int value;
+    private String code;
 
     public int getId() {
         return id;
@@ -16,12 +16,12 @@ public class WeekDayDto implements Serializable {
         this.id = id;
     }
 
-    public int getValue() {
-        return value;
+    public String getCode() {
+        return code;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setCode(String code) {
+        this.code = code;
     }
     
     
