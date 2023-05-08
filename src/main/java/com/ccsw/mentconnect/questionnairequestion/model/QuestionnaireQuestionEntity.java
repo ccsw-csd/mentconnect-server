@@ -19,6 +19,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.ccsw.mentconnect.answertype.model.AnswerTypeEntity;
+import com.ccsw.mentconnect.answertypevalue.model.AnswerTypeValueEntity;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.weekday.model.WeekDayEntity;
@@ -49,6 +52,13 @@ public class QuestionnaireQuestionEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "timeslot", nullable = false)
     private TimeSlotEnum timeslot;
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "alert_config_answer_type_id", nullable = true)
+    private AnswerTypeValueEntity alertConfigAnswerType;
+    
+    @Column(name = "alert_config_consecutive_answers", nullable = true)
+    private Integer alertConfigConsecutiveAnswers;
     
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinTable(name = "questionnaire_question_weekday",
@@ -95,6 +105,22 @@ public class QuestionnaireQuestionEntity{
 
     public void setWeekDays(List<WeekDayEntity> weekDays) {
         this.weekDays = weekDays;
+    }
+
+    public AnswerTypeValueEntity getAlertConfigAnswerType() {
+        return alertConfigAnswerType;
+    }
+
+    public void setAlertConfigAnswerType(AnswerTypeValueEntity alertConfigAnswerType) {
+        this.alertConfigAnswerType = alertConfigAnswerType;
+    }
+
+    public int getAlertConfigConsecutiveAnswers() {
+        return alertConfigConsecutiveAnswers;
+    }
+
+    public void setAlertConfigConsecutiveAnswers(Integer alertConfigConsecutiveAnswers) {
+        this.alertConfigConsecutiveAnswers = alertConfigConsecutiveAnswers;
     }
     
     
