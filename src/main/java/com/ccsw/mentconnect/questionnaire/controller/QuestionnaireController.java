@@ -13,6 +13,7 @@ import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireResponseDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.logic.QuestionnaireService;
 
@@ -35,15 +36,15 @@ public class QuestionnaireController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findPage", method = RequestMethod.POST)
-    public Page<QuestionnaireDto> findPage(@RequestBody QuestionnaireSearchDto dto) {
-        return this.beanMapper.mapPage(questionnaireService.findPage(dto), QuestionnaireDto.class);
+    public Page<QuestionnaireResponseDto> findPage(@RequestBody QuestionnaireSearchDto dto) {
+        return this.beanMapper.mapPage(questionnaireService.findPage(dto), QuestionnaireResponseDto.class);
     }
     
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public QuestionnaireDto saveQuestionnaire(@RequestBody QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
+    public QuestionnaireResponseDto saveQuestionnaire(@RequestBody QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException {
 
-        return this.beanMapper.map(questionnaireService.saveQuestionnaire(questionnaireDto), QuestionnaireDto.class);
+        return this.beanMapper.map(questionnaireService.saveQuestionnaire(questionnaireDto), QuestionnaireResponseDto.class);
     }
 
 }

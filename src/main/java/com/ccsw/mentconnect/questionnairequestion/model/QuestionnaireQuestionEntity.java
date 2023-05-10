@@ -53,7 +53,7 @@ public class QuestionnaireQuestionEntity{
     @Column(name = "timeslot", nullable = false)
     private TimeSlotEnum timeslot;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "alert_config_answer_type_id", nullable = true)
     private AnswerTypeValueEntity alertConfigAnswerType;
     
@@ -115,7 +115,7 @@ public class QuestionnaireQuestionEntity{
         this.alertConfigAnswerType = alertConfigAnswerType;
     }
 
-    public int getAlertConfigConsecutiveAnswers() {
+    public Integer getAlertConfigConsecutiveAnswers() {
         return alertConfigConsecutiveAnswers;
     }
 
