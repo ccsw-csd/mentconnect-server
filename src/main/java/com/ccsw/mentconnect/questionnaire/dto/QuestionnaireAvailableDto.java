@@ -3,6 +3,8 @@ package com.ccsw.mentconnect.questionnaire.dto;
 import java.time.LocalDate;
 import java.util.List;
 import com.ccsw.mentconnect.question.dto.QuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionResponseDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireAvailableDto {
@@ -11,7 +13,7 @@ public class QuestionnaireAvailableDto {
 
     private String description;
 
-    private List<QuestionDto> questions;
+    private List<QuestionnaireQuestionResponseDto> questions;
 
     private UserDto user;
 
@@ -35,11 +37,11 @@ public class QuestionnaireAvailableDto {
         this.description = description;
     }
 
-    public List<QuestionDto> getQuestions() {
+    public List<QuestionnaireQuestionResponseDto> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionDto> questions) {
+    public void setQuestions(List<QuestionnaireQuestionResponseDto> questions) {
         this.questions = questions;
     }
 

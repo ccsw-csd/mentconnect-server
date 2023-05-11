@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.ccsw.mentconnect.patient.dto.PatientDto;
 import com.ccsw.mentconnect.question.dto.QuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionResponseDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
 public class QuestionnaireDto implements Serializable {
@@ -14,7 +16,7 @@ public class QuestionnaireDto implements Serializable {
 
     private String description;
 
-    private List<QuestionDto> questions;
+    private List<QuestionnaireQuestionResponseDto> questions;
 
     private List<PatientDto> patients;
 
@@ -40,17 +42,17 @@ public class QuestionnaireDto implements Serializable {
         this.description = description;
     }
 
-    public List<QuestionDto> getQuestions() {
+    public List<QuestionnaireQuestionResponseDto> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionDto> questions) {
+    public void setQuestions(List<QuestionnaireQuestionResponseDto> questions) {
         this.questions = questions;
     }
 
-//    public Integer getQuestionsNumber() {
-//        return questions.size();
-//    }
+    public Integer getQuestionsNumber() {
+        return questions.size();
+    }
 
     public List<PatientDto> getPatients() {
         return patients;

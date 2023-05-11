@@ -76,7 +76,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
         this.questionnaireDto.setUser(userDto);
         this.questionnaireDto.setCreateDate(LocalDate.parse("2022-02-01"));
         this.questionnaireDto.setDescription("hola");
-        this.questionnaireDto.setQuestions(questionsDto);
+        //this.questionnaireDto.setQuestions(questionsDto);
         this.questionnairePatientDto.setQuestionnaire(questionnaireDto);
         this.questionnairePatientDto.setPatient(patientDto);
         this.questionnairePatientDto.setStartDate(LocalDate.parse("2022-03-02"));

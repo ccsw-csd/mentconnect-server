@@ -39,13 +39,6 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionnaire_question")
-    //@JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    //@JoinColumn(name = "questionnaire_id")
-    //@OneToMany(fetch = FetchType.LAZY)
-    //@OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, orphanRemoval = true)
-    
-    //@JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
     @OneToMany(fetch = FetchType.LAZY, mappedBy = QuestionnaireQuestionEntity.ATT_QUESTIONNAIRE, cascade = CascadeType.ALL)
     private Set<QuestionnaireQuestionEntity> questions;
 
@@ -118,6 +111,12 @@ public class QuestionnaireEntity {
 
     public void setLastEditDate(LocalDate lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+    
+    public void addQuestionnaireToQuestions() {
+        if(questions!=null && !questions.isEmpty()) {
+            questions.forEach(question -> question.setQuestionnaire(this));
+        }
     }
 
 }
