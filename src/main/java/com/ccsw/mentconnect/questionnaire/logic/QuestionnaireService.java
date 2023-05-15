@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
+import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
+import com.ccsw.mentconnect.patient.model.PatientEntity;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
@@ -15,7 +17,9 @@ public interface QuestionnaireService {
 
     Page<QuestionnaireEntity> findPage(QuestionnaireSearchDto dto);
 
-    QuestionnaireEntity saveQuestionnaire(QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException;
+    QuestionnaireEntity saveOrUpdateQuestionnaire(QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException, EntityNotFoundException;
+
+    QuestionnaireEntity getQuestionnaire(Long id) throws EntityNotFoundException;
     
 
 }
