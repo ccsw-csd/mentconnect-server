@@ -27,6 +27,7 @@ import com.ccsw.mentconnect.question.dto.QuestionDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionResponseDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 import com.ccsw.mentconnect.user.dto.UserFullDto;
 
@@ -47,7 +48,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
     private UserDto userDto;
     private PatientDto patientDto;
     private QuestionnaireDto questionnaireDto;
-    private List<QuestionDto> questionsDto;
+    private List<QuestionnaireQuestionResponseDto> questionsDto;
     private QuestionnairePatientDto questionnairePatientDto;
 
     ParameterizedTypeReference<List<QuestionnaireDto>> responseTypeList = new ParameterizedTypeReference<List<QuestionnaireDto>>() {
@@ -62,7 +63,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
         patientDto = new PatientDto();
         userDto = new UserDto();
         questionnaireDto = new QuestionnaireDto();
-        questionsDto = new ArrayList<QuestionDto>();
+        questionsDto = new ArrayList<QuestionnaireQuestionResponseDto>();
 
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");
@@ -76,7 +77,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
         this.questionnaireDto.setUser(userDto);
         this.questionnaireDto.setCreateDate(LocalDate.parse("2022-02-01"));
         this.questionnaireDto.setDescription("hola");
-        //this.questionnaireDto.setQuestions(questionsDto);
+        this.questionnaireDto.setQuestions(questionsDto);
         this.questionnairePatientDto.setQuestionnaire(questionnaireDto);
         this.questionnairePatientDto.setPatient(patientDto);
         this.questionnairePatientDto.setStartDate(LocalDate.parse("2022-03-02"));

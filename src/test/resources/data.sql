@@ -128,13 +128,17 @@ CREATE TABLE questionnaire_question (
   id bigint(20) NOT NULL AUTO_INCREMENT,
   questionnaire_id bigint(20) NOT NULL,
   question_id bigint(20) NOT NULL,
+  timeslot char(15) NOT NULL,
+  alert_config_answer_type_id bigint(20),
+  alert_config_consecutive_answers INT,
   PRIMARY KEY (id),
   CONSTRAINT questionnaire_id_questionnaire_question_fk FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id),
-  CONSTRAINT question_id_questionnaire_question_fk FOREIGN KEY (question_id) REFERENCES question(id)
+  CONSTRAINT question_id_questionnaire_question_fk FOREIGN KEY (question_id) REFERENCES question(id),
+  CONSTRAINT alert_config_answer_type_value_id_fk FOREIGN KEY (alert_config_answer_type_id) REFERENCES answer_type_value(id)
 );
-INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (1, 1, 1);
-INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (2, 1, 2);
-INSERT INTO questionnaire_question (id, questionnaire_id, question_id) VALUES (3, 2, 3);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id, timeslot, alert_config_answer_type_id, alert_config_consecutive_answers) VALUES (1, 1, 1, 'EVE', 2, 54);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id, timeslot, alert_config_answer_type_id, alert_config_consecutive_answers) VALUES (2, 1, 2, 'EVE', 2, 54);
+INSERT INTO questionnaire_question (id, questionnaire_id, question_id, timeslot, alert_config_answer_type_id, alert_config_consecutive_answers) VALUES (3, 2, 3, 'EVE', 2, 54);
 
 CREATE TABLE user_patient (
     id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -159,3 +163,30 @@ CREATE TABLE diary (
 INSERT INTO diary (id, description, create_date, patient_id) VALUES (1, 'primera descripcion', '2023-03-10', 1);
 INSERT INTO diary (id, description, create_date, patient_id) VALUES (2, 'segunda descripcion', '2024-04-11', 1);
 INSERT INTO diary (id, description, create_date, patient_id) VALUES (3, 'tercera descripcion', '2025-05-12', 1);
+
+
+CREATE TABLE questionnaire_question_weekday (
+  id bigint(20) NOT NULL AUTO_INCREMENT,
+  questionnaire_question_id bigint(20) NOT NULL,
+  week_day INT NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_questionnaire_question_weekday_questionnaire_question FOREIGN KEY (questionnaire_question_id) REFERENCES questionnaire_question(id)
+);
+
+
+CREATE TABLE weekday (
+  id int(1) NOT NULL,
+  code char(3) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT uc_VALUE UNIQUE (code)
+);
+
+
+INSERT INTO weekday (id, code) VALUES (1, 'MON');
+INSERT INTO weekday (id, code) VALUES (2, 'TUE');
+INSERT INTO weekday (id, code) VALUES (3, 'WEN');
+INSERT INTO weekday (id, code) VALUES (4, 'THU');
+INSERT INTO weekday (id, code) VALUES (5, 'FRI');
+INSERT INTO weekday (id, code) VALUES (6, 'SAT');
+INSERT INTO weekday (id, code) VALUES (7, 'SUN');
+
