@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
-import com.ccsw.mentconnect.patient.dto.PatientFullDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireResponseDto;

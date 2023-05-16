@@ -1,9 +1,7 @@
 package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,11 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.ccsw.mentconnect.patient.model.PatientEntity;
-import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
-import com.ccsw.mentconnect.role.model.RoleEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity

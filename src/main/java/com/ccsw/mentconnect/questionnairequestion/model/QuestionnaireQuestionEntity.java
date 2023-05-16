@@ -1,12 +1,8 @@
 package com.ccsw.mentconnect.questionnairequestion.model;
 
-import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,8 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.ccsw.mentconnect.answertype.model.AnswerTypeEntity;
 import com.ccsw.mentconnect.answertypevalue.model.AnswerTypeValueEntity;
 import com.ccsw.mentconnect.question.model.QuestionEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;

@@ -2,20 +2,10 @@ package com.ccsw.mentconnect.questionnairequestion.dto;
 
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.ccsw.mentconnect.answertypevalue.dto.AnswerTypeValueDto;
-import com.ccsw.mentconnect.answertypevalue.model.AnswerTypeValueEntity;
 import com.ccsw.mentconnect.question.dto.QuestionDto;
-import com.ccsw.mentconnect.question.model.QuestionEntity;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnairequestion.model.TimeSlotEnum;
 import com.ccsw.mentconnect.weekday.dto.WeekDayDto;
-import com.ccsw.mentconnect.weekday.model.WeekDayEntity;
 
 public class QuestionnaireQuestionResponseDto implements Serializable {
 
