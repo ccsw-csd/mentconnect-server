@@ -9,12 +9,12 @@ import com.ccsw.mentconnect.answertype.model.AnswerTypeRepository;
 
 @Service
 public class AnswerTypeServiceImpl implements AnswerTypeService {
+
     @Autowired
     AnswerTypeRepository answerTypeRepository;
 
     public List<AnswerTypeEntity> findByDescription(String description) {
+
         return answerTypeRepository.findByDescription(description);
     }
-
-
 }
