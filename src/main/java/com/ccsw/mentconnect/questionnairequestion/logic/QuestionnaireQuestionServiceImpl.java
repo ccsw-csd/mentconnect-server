@@ -20,16 +20,10 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     @Autowired
     QuestionnaireQuestionRepository questionnaireQuestionRepository;
 
-    /**@Transactional
-    @Override
-    public QuestionnaireQuestionEntity saveQuestionnaireQuestion(QuestionnaireQuestionDto questionnaireQuestionDto) {
-        QuestionnaireQuestionEntity questionnaireQuestionEntity = this.beanMapper.map(questionnaireQuestionDto, QuestionnaireQuestionEntity.class);
-        return this.questionnaireQuestionRepository.save(questionnaireQuestionEntity);
-    }*/
-
     @Transactional
     @Override
-    public List<QuestionnaireQuestionEntity> saveQuestionnaireQuestions(List<QuestionnaireQuestionDto> questionnaireQuestionDtos) {
+    public List<QuestionnaireQuestionEntity> saveQuestionnaireQuestions(List<QuestionnaireQuestionDto> questionnaireQuestionDtos) { //TODO refactorizar
+
         List<QuestionnaireQuestionEntity> savedEntities = new ArrayList<>();
 
         for (QuestionnaireQuestionDto questionnaireQuestionDto : questionnaireQuestionDtos) {
