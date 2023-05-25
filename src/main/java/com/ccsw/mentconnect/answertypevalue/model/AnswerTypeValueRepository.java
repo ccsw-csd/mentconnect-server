@@ -9,8 +9,11 @@ import com.ccsw.mentconnect.answertype.model.AnswerTypeEntity;
 import com.ccsw.mentconnect.role.model.RoleEntity;
 import com.ccsw.mentconnect.role.model.RoleTypeEnum;
 
-public interface AnswerTypeValueRepository extends PagingAndSortingRepository<AnswerTypeValueEntity, Long>, JpaSpecificationExecutor<AnswerTypeValueEntity> {
+public interface AnswerTypeValueRepository extends PagingAndSortingRepository<AnswerTypeValueEntity, Long> {
+
     List<AnswerTypeValueEntity> findAll();
+
     List<AnswerTypeValueEntity> findByAnswerType(AnswerTypeEntity answerTypeEntity);
+
     List<AnswerTypeValueEntity> findByAnswerTypeDescription(String description);
 }

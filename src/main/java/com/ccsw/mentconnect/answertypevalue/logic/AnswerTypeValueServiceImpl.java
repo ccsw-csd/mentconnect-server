@@ -13,23 +13,26 @@ import com.ccsw.mentconnect.answertypevalue.model.AnswerTypeValueRepository;
 
 @Service
 public class AnswerTypeValueServiceImpl implements AnswerTypeValueService {
+
     @Autowired
     AnswerTypeValueRepository answerTypeValueRepository;
 
     @Override
     public List<AnswerTypeValueEntity> findAll() {
+
         return this.answerTypeValueRepository.findAll();
     }
     
     @Override
     public List<AnswerTypeValueEntity> findByAnswerType(AnswerTypeEntity answerTypeEntity) {
+
         return this.answerTypeValueRepository.findByAnswerType(answerTypeEntity);
     }
 
     @Override
     public List<AnswerTypeValueEntity> findByAnswerTypeDescription(String description) {
+
         return answerTypeValueRepository.findByAnswerTypeDescription(description);
     }
-
 
 }

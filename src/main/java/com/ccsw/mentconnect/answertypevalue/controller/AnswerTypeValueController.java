@@ -41,6 +41,7 @@ public class AnswerTypeValueController {
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findByAnswerType", method = RequestMethod.POST)
     public List<AnswerTypeValueDto> findByAnswerType(@RequestBody AnswerTypeDto answerTypeDto) {
+
         AnswerTypeEntity answerTypeEntity = beanMapper.map(answerTypeDto, AnswerTypeEntity.class);
         return beanMapper.mapList(answerTypeValueService.findByAnswerType(answerTypeEntity), AnswerTypeValueDto.class);
     }
@@ -48,6 +49,7 @@ public class AnswerTypeValueController {
     @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     @RequestMapping(path = "/findByAnswerTypeDescription", method = RequestMethod.GET)
     public List<AnswerTypeValueDto> findByAnswerTypeDescription(@RequestParam String description) {
+
         List<AnswerTypeValueEntity> answerTypeEntities = answerTypeValueService.findByAnswerTypeDescription(description);
         return beanMapper.mapList(answerTypeEntities, AnswerTypeValueDto.class);
     }

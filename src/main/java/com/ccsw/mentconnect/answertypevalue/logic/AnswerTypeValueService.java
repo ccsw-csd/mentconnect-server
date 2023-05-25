@@ -7,6 +7,7 @@ import com.ccsw.mentconnect.answertype.model.AnswerTypeEntity;
 import com.ccsw.mentconnect.answertypevalue.model.AnswerTypeValueEntity;
 
 public interface AnswerTypeValueService {
+
     List<AnswerTypeValueEntity> findAll();
     
     List<AnswerTypeValueEntity> findByAnswerType(AnswerTypeEntity answerTypeEntity);
