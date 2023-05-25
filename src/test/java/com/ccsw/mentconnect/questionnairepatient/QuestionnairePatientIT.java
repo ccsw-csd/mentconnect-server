@@ -7,12 +7,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,14 +20,9 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import com.ccsw.mentconnect.config.BaseITAbstract;
 import com.ccsw.mentconnect.patient.dto.PatientDto;
-import com.ccsw.mentconnect.patient.dto.PatientFullDto;
-import com.ccsw.mentconnect.patient.dto.PatientSearchDto;
-import com.ccsw.mentconnect.question.dto.QuestionDto;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnairepatient.dto.QuestionnairePatientDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionSimpleDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
-import com.ccsw.mentconnect.user.dto.UserFullDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -47,7 +41,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
     private UserDto userDto;
     private PatientDto patientDto;
     private QuestionnaireDto questionnaireDto;
-    private List<QuestionDto> questionsDto;
+    private List<QuestionnaireQuestionSimpleDto> questionsDto;
     private QuestionnairePatientDto questionnairePatientDto;
 
     ParameterizedTypeReference<List<QuestionnaireDto>> responseTypeList = new ParameterizedTypeReference<List<QuestionnaireDto>>() {
@@ -62,7 +56,7 @@ public class QuestionnairePatientIT extends BaseITAbstract {
         patientDto = new PatientDto();
         userDto = new UserDto();
         questionnaireDto = new QuestionnaireDto();
-        questionsDto = new ArrayList<QuestionDto>();
+        questionsDto = new ArrayList<QuestionnaireQuestionSimpleDto>();
 
         this.userDto.setName("Admin");
         this.userDto.setSurnames("Admin");

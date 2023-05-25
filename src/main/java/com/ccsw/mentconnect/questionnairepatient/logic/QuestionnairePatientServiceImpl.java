@@ -34,25 +34,21 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         return questionnairePatientRepository.findQuestionnairesByPatientId(patientId);
     }
 
-    @Transactional
     @Override
-    public QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient) {
-        QuestionnairePatientEntity questionnairePatientEntity = this.beanMapper.map(questionnairePatient, QuestionnairePatientEntity.class);
-        return this.questionnairePatientRepository.save(questionnairePatientEntity);
-    }
+    public List<QuestionnaireEntity> getQuestionnaireAvailable(Long patientId) {
 
-    @Override
-    public void delete(Long id) {
-        this.questionnairePatientRepository.deleteById(id);
-    }
-    
-    public Boolean checkQuestionnaireAssignable(QuestionnairePatientDto questionnairePatientDto) {
-        return !findQuestionnairesAssigned(questionnairePatientDto).isEmpty();
-    }
+        List<QuestionnaireEntity> available = questionnaireService.findAll();
 
+        List<QuestionnaireEntity> assigned = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
+
+        return available.stream()
+                .filter(q -> !assigned.stream().map(QuestionnaireEntity::getId).collect(Collectors.toList()).contains(q.getId()))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<QuestionnairePatientEntity> findQuestionnairesAssigned(QuestionnairePatientDto questionnairePatientDto) {
+
         QuestionnairePatientSpecification patient = new QuestionnairePatientSpecification(
                 new SearchCriteria(QuestionnairePatientEntity.ATT_PATIENT.concat(".".concat(PatientEntity.ATT_ID)), ":", questionnairePatientDto.getPatient().getId(),null));
         
@@ -76,16 +72,23 @@ public class QuestionnairePatientServiceImpl implements QuestionnairePatientServ
         return questionnairePatientRepository.findAll(Specification.where(patient).and(dateSpecs));
     }
 
+    public Boolean checkQuestionnaireAssignable(QuestionnairePatientDto questionnairePatientDto) {
+
+        return !findQuestionnairesAssigned(questionnairePatientDto).isEmpty();
+    }
+
+    @Transactional
     @Override
-    public List<QuestionnaireEntity> questionnaireAvailable(Long patientId) { 
+    public QuestionnairePatientEntity saveQuestionnairePatient(QuestionnairePatientDto questionnairePatient) {
 
-        List<QuestionnaireEntity> questionnairesAvailables = questionnaireService.findAll();
+        QuestionnairePatientEntity questionnairePatientEntity = this.beanMapper.map(questionnairePatient, QuestionnairePatientEntity.class);
+        return this.questionnairePatientRepository.save(questionnairePatientEntity);
+    }
 
-        List<QuestionnaireEntity> questionnairesAssigned = this.questionnairePatientRepository.findQuestionnairesByPatientId(patientId).stream().map(QuestionnairePatientEntity::getQuestionnaire).collect(Collectors.toList());
+    @Override
+    public void delete(Long id) {
 
-        return questionnairesAvailables.stream()
-                .filter(q -> !questionnairesAssigned.stream().map(QuestionnaireEntity::getId).collect(Collectors.toList()).contains(q.getId()))
-                .collect(Collectors.toList());
+        this.questionnairePatientRepository.deleteById(id);
     }
 
 }

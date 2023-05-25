@@ -1,22 +1,19 @@
 package com.ccsw.mentconnect.questionnaire.dto;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
-
-import com.ccsw.mentconnect.patient.dto.PatientDto;
-import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionSimpleDto;
+import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionMinimalDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 
-public class QuestionnaireDto implements Serializable {
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Set;
+
+public class QuestionnaireMinimalSimpleDto implements Serializable {
 
     private Long id;
 
     private String description;
-
-    private List<QuestionnaireQuestionSimpleDto> questions;
-
-    private List<PatientDto> patients;
+    
+    private Set<QuestionnaireQuestionMinimalDto> questions;
 
     private UserDto user;
 
@@ -39,21 +36,13 @@ public class QuestionnaireDto implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public List<QuestionnaireQuestionSimpleDto> getQuestions() {
+    
+    public Set<QuestionnaireQuestionMinimalDto> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<QuestionnaireQuestionSimpleDto> questions) {
+    public void setQuestions(Set<QuestionnaireQuestionMinimalDto> questions) {
         this.questions = questions;
-    }
-
-    public List<PatientDto> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<PatientDto> patients) {
-        this.patients = patients;
     }
 
     public UserDto getUser() {

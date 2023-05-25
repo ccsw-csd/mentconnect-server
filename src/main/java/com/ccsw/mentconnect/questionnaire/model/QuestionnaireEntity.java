@@ -2,7 +2,7 @@ package com.ccsw.mentconnect.questionnaire.model;
 
 import java.time.LocalDate;
 import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.ccsw.mentconnect.patient.model.PatientEntity;
-import com.ccsw.mentconnect.question.model.QuestionEntity;
+import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
 import com.ccsw.mentconnect.user.model.UserEntity;
 
 @Entity
@@ -35,9 +34,9 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    public Set<QuestionEntity> questions;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
+    private Set<QuestionnaireQuestionEntity> questions;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "questionnaire_patient", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "patient_id"))
@@ -69,11 +68,11 @@ public class QuestionnaireEntity {
         this.description = description;
     }
 
-    public Set<QuestionEntity> getQuestions() {
+    public Set<QuestionnaireQuestionEntity> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<QuestionEntity> questions) {
+    public void setQuestions(Set<QuestionnaireQuestionEntity> questions) {
         this.questions = questions;
     }
 
@@ -107,6 +106,12 @@ public class QuestionnaireEntity {
 
     public void setLastEditDate(LocalDate lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+    
+    public void addQuestionnaireToQuestions() {
+        if(questions!=null && !questions.isEmpty()) {
+            questions.forEach(question -> question.setQuestionnaire(this));
+        }
     }
 
 }
