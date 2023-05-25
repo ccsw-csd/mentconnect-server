@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import com.ccsw.mentconnect.config.BaseITAbstract;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.user.dto.UserDto;
 

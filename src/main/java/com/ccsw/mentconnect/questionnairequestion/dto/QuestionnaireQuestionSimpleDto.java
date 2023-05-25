@@ -7,7 +7,7 @@ import com.ccsw.mentconnect.question.dto.QuestionDto;
 import com.ccsw.mentconnect.questionnairequestion.model.TimeSlotEnum;
 import com.ccsw.mentconnect.weekday.dto.WeekDayDto;
 
-public class QuestionnaireQuestionResponseDto implements Serializable {
+public class QuestionnaireQuestionSimpleDto implements Serializable {
 
     private Long id;
 

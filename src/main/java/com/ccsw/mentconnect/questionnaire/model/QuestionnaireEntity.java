@@ -34,7 +34,7 @@ public class QuestionnaireEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = QuestionnaireQuestionEntity.ATT_QUESTIONNAIRE, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "questionnaire", cascade = CascadeType.ALL)
     private Set<QuestionnaireQuestionEntity> questions;
 
 

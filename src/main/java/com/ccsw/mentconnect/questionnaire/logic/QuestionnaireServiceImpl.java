@@ -1,29 +1,24 @@
 package com.ccsw.mentconnect.questionnaire.logic;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+
 import com.ccsw.mentconnect.common.criteria.SearchCriteria;
 import com.ccsw.mentconnect.common.exception.AlreadyExistsException;
 import com.ccsw.mentconnect.common.exception.EntityNotFoundException;
+import com.ccsw.mentconnect.user.logic.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ccsw.mentconnect.common.mapper.BeanMapper;
 import com.ccsw.mentconnect.config.security.UserUtils;
-import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireInfoDto;
+import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSimpleDto;
 import com.ccsw.mentconnect.questionnaire.dto.QuestionnaireSearchDto;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireEntity;
 import com.ccsw.mentconnect.questionnaire.model.QuestionnaireRepository;
-import com.ccsw.mentconnect.questionnairequestion.dto.QuestionnaireQuestionDto;
-import com.ccsw.mentconnect.questionnairequestion.model.QuestionnaireQuestionEntity;
 import com.ccsw.mentconnect.security.dto.UserDetailsJWTDto;
-import com.ccsw.mentconnect.user.logic.UserService;
 import com.ccsw.mentconnect.user.model.UserEntity;
-import com.ccsw.mentconnect.user.model.UserRepository;
 
 @Service
 public class QuestionnaireServiceImpl implements QuestionnaireService {
@@ -35,13 +30,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     QuestionnaireRepository questionnaireRepository;
     
     @Autowired
-    UserRepository userRepository;
-    
-    @Autowired
     UserService userService;
 
     @Override
+    public QuestionnaireEntity getQuestionnaire(Long id) throws EntityNotFoundException {
+
+        return this.questionnaireRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public List<QuestionnaireEntity> findAll() {
+
         return questionnaireRepository.findAll();
     }
 
@@ -57,52 +56,45 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
         return questionnaireRepository.findAll(spec, dto.getPageable());
     }
-    
-    
+
     @Override
-    public QuestionnaireEntity saveOrUpdateQuestionnaire(QuestionnaireInfoDto questionnaireDto) throws AlreadyExistsException, EntityNotFoundException {
+    public QuestionnaireEntity saveOrUpdateQuestionnaire(QuestionnaireSimpleDto dto) throws AlreadyExistsException, EntityNotFoundException {
+
+        UserEntity user = getCurrentUser();
+        QuestionnaireEntity questionnaire = dto.getId() != null ? this.getQuestionnaire(dto.getId()) : null;
+
+        checkDescription(dto, questionnaire);
+
+        QuestionnaireEntity entity = this.beanMapper.map(dto, QuestionnaireEntity.class);
+        entity.addQuestionnaireToQuestions();
+        entity.setPatients(questionnaire != null ? questionnaire.getPatients() : null);
+        entity.setUser(user);
+        entity.setCreateDate(questionnaire != null ? questionnaire.getCreateDate() : LocalDate.now());
+        entity.setLastEditDate(LocalDate.now());
+
+        return this.questionnaireRepository.save(entity);
+    }
+
+    private UserEntity getCurrentUser() throws EntityNotFoundException {
+
         UserDetailsJWTDto currentUser = UserUtils.getUserDetails();
-        Optional<UserEntity> user = userRepository.findByUsername(currentUser.getUsername());
-        if (questionnaireDto.getId() != null) {
-            Optional<QuestionnaireEntity> existingQuestionnaire = questionnaireRepository.findById(questionnaireDto.getId());
-            if (existingQuestionnaire.isPresent()) {
-                QuestionnaireEntity updateQuestionnaire = this.getQuestionnaire(questionnaireDto.getId()); 
-                if (!updateQuestionnaire.getUser().equals(user.orElse(null))) {
-                    updateQuestionnaire.setUser(user.orElse(null));
-                }
-                updateQuestionnaire.setDescription(questionnaireDto.getDescription());
-                updateQuestionnaire.setLastEditDate(LocalDate.now());
-                List<QuestionnaireQuestionEntity> questionnaireQuestionEntities = new ArrayList<>();  
-                for (QuestionnaireQuestionDto questionnaireQuestionDto : questionnaireDto.getQuestions()) {
-                    QuestionnaireQuestionEntity questionnaireQuestionEntity = this.beanMapper.map(questionnaireQuestionDto, QuestionnaireQuestionEntity.class);
-                    questionnaireQuestionEntity.setQuestionnaire(updateQuestionnaire); 
-                    questionnaireQuestionEntities.add(questionnaireQuestionEntity);
-                }
-                updateQuestionnaire.setQuestions(new HashSet<>(questionnaireQuestionEntities));
-                return questionnaireRepository.save(updateQuestionnaire);
-            } else {
-                throw new EntityNotFoundException(); 
-            }
-        }
-        else { 
-            if (this.questionnaireRepository.existsByDescription(questionnaireDto.getDescription())) {
-                throw new AlreadyExistsException();
-            }
-            QuestionnaireEntity questionnaireEntity = this.beanMapper.map(questionnaireDto, QuestionnaireEntity.class);
-            questionnaireEntity.addQuestionnaireToQuestions();
-            user.ifPresent(questionnaireEntity::setUser); 
-            questionnaireEntity.setCreateDate(LocalDate.now());
-            questionnaireEntity.setLastEditDate(LocalDate.now());
-            return this.questionnaireRepository.save(questionnaireEntity);
-        }
-
+        return userService.findByUsername(currentUser.getUsername()).orElseThrow(EntityNotFoundException::new);
     }
 
-    @Override
-    public QuestionnaireEntity getQuestionnaire(Long id) throws EntityNotFoundException {
-        return this.questionnaireRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    private void checkDescription(QuestionnaireSimpleDto dto, QuestionnaireEntity questionnaire) throws AlreadyExistsException {
+
+        if(questionnaire != null && !questionnaire.getDescription().equals(dto.getDescription())) {
+            existsByDescription(dto.getDescription());
+        } else if (questionnaire == null){
+            existsByDescription(dto.getDescription());
+        }
     }
 
+    private void existsByDescription(String description) throws AlreadyExistsException {
 
+        if(this.questionnaireRepository.existsByDescription(description)) {
+            throw new AlreadyExistsException();
+        }
+    }
 
 }

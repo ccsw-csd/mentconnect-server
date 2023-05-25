@@ -119,6 +119,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(spec);
     }
 
+    @Override
+    public Optional<UserEntity> findByUsername(String username) {
+
+        return userRepository.findByUsername(username);
+    }
+
     private String generatePassword() {
 
         return RandomStringUtils.random(length, chars);

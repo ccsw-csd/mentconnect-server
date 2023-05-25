@@ -64,8 +64,7 @@ public class PatientController {
     	    	
         return this.beanMapper.mapList(patientService.findFilter(filter), PatientDto.class);
     }
-    
-    
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.PUT)
     public PatientFullDto modifyPatient(@RequestBody PatientFullDto patientFullDto) throws EntityNotFoundException {

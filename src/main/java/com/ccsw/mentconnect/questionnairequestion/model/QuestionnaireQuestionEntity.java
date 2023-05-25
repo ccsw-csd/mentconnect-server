@@ -25,10 +25,6 @@ import com.ccsw.mentconnect.weekday.model.WeekDayEntity;
 public class QuestionnaireQuestionEntity{
 
     public static final String ATT_ID = "id";
-    public static final String ATT_QUESTIONNAIRE = "questionnaire";
-    public static final String ATT_QUESTION = "question";
-    public static final String ATT_TIMESLOT = "timeslot";
-    public static final String ATT_DAYWEEK = "dayweek";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,10 +50,8 @@ public class QuestionnaireQuestionEntity{
     @Column(name = "alert_config_consecutive_answers", nullable = true)
     private Integer alertConfigConsecutiveAnswers;
     
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
-    @JoinTable(name = "questionnaire_question_weekday",
-               joinColumns = @JoinColumn(name = "questionnaire_question_id"),
-               inverseJoinColumns = @JoinColumn(name = "week_day"))
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(name = "questionnaire_question_weekday", joinColumns = @JoinColumn(name = "questionnaire_question_id"), inverseJoinColumns = @JoinColumn(name = "week_day"))
     private List<WeekDayEntity> weekDays;
 
 
